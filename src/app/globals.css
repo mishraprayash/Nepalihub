@@ -1,12 +1,15 @@
 @import "tailwindcss";
 
-/* Class-based dark mode: the Navbar toggles .dark on <html>,
-   so override Tailwind v4's default @media (prefers-color-scheme: dark) variant */
+/* Class-based dark mode: the Navbar toggles .dark on <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f9fc;
+  --foreground: #111827;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --border: rgba(0, 0, 0, 0.07);
+  --muted: #6b7280;
 }
 
 @theme inline {
@@ -14,30 +17,88 @@
   --font-mono: var(--font-geist-mono);
 }
 
-.dark,
-.dark * {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+.dark {
+  --background: #0c0e14;
+  --foreground: #f0f2f8;
+  --surface: #141720;
+  --surface-raised: #1a1e2c;
+  --border: rgba(255, 255, 255, 0.06);
+  --muted: #8b95a8;
+}
+
+/* ── Base ──────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, sans-serif;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.03) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, rgba(239, 68, 68, 0.02) 0, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.03) 0, transparent 50%);
-  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.dark body {
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.015) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, rgba(239, 68, 68, 0.01) 0, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.015) 0, transparent 50%);
+/* Subtle fixed mesh gradient — light */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(59,130,246,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 5%,  rgba(220,38,38,0.04)  0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 50% 100%, rgba(99,102,241,0.04) 0%, transparent 60%);
 }
 
+.dark body::before {
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(59,130,246,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 5%,  rgba(220,38,38,0.03)  0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 50% 100%, rgba(99,102,241,0.03) 0%, transparent 60%);
+}
+
+/* ── Custom Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 99px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.25);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+/* Hide scrollbar for pill filters */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Selection ─────────────────────────────────────────────────── */
+::selection {
+  background: rgba(59,130,246,0.2);
+  color: inherit;
+}
+
+/* ── Focus rings ───────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid rgba(59,130,246,0.6);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ── Print ─────────────────────────────────────────────────────── */
 @media print {
   @page {
     size: auto;
@@ -49,18 +110,15 @@ body {
     color: black !important;
     padding: 15mm !important;
   }
+  body::before { display: none !important; }
   main {
     padding: 0 !important;
     margin: 0 !important;
     max-width: 100% !important;
     width: 100% !important;
   }
-  thead {
-    display: table-header-group !important;
-  }
-  tfoot {
-    display: table-footer-group !important;
-  }
+  thead { display: table-header-group !important; }
+  tfoot { display: table-footer-group !important; }
   tr, td, th {
     break-inside: avoid !important;
     page-break-inside: avoid !important;

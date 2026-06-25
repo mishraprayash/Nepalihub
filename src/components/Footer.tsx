@@ -1,52 +1,100 @@
 import Link from 'next/link';
 import { Landmark } from 'lucide-react';
 
+const FOOTER_LINKS = [
+  {
+    heading: 'Finance',
+    links: [
+      { href: '/finance/income-tax',      label: 'Income Tax Calculator' },
+      { href: '/finance/emi',             label: 'Loan EMI Calculator' },
+      { href: '/finance/sip',             label: 'SIP Return Estimator' },
+      { href: '/finance/stock-calculator',label: 'NEPSE Stock P&L' },
+    ],
+  },
+  {
+    heading: 'Utilities',
+    links: [
+      { href: '/utilities/remittance',          label: 'Remittance & Forex' },
+      { href: '/utilities/gold-price',          label: 'Gold Price Estimator' },
+      { href: '/utilities/electricity-bill',    label: 'NEA Electricity Bill' },
+      { href: '/utilities/nepali-unit-converter',label: 'Nepali Unit Converter' },
+      { href: '/utilities/unicode-converter',   label: 'Preeti → Unicode' },
+    ],
+  },
+  {
+    heading: 'Daily & Docs',
+    links: [
+      { href: '/daily/date-converter',       label: 'BS ↔ AD Date Converter' },
+      { href: '/daily/age',                  label: 'Age Calculator' },
+      { href: '/daily/rashifal',             label: 'Rashifal (राशिफल)' },
+      { href: '/real-estate/land-converter', label: 'Land Unit Converter' },
+      { href: '/vehicle/road-tax',           label: 'Vehicle Road Tax' },
+      { href: '/education/gpa',              label: 'SEE & +2 GPA Calculator' },
+      { href: '/documents/passport-photo',   label: 'Passport Photo Cropper' },
+      { href: '/documents/invoice-generator',label: 'Invoice Generator' },
+    ],
+  },
+];
+
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 py-12 mt-auto transition-colors duration-200 print:hidden">
-      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="w-full border-t border-black/[0.06] dark:border-white/[0.05] bg-white dark:bg-[#0f1117] mt-auto print:hidden">
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+
+          {/* Brand column */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight text-red-600 dark:text-red-500">
-              <Landmark className="h-6 w-6" />
-              <span>Nepal<span className="text-blue-600 dark:text-blue-400">Hub</span></span>
+            <Link href="/" className="inline-flex items-center gap-2 font-black text-base tracking-tight group">
+              <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-red-500 to-red-700 text-white shadow-sm">
+                <Landmark className="h-3.5 w-3.5" />
+              </span>
+              <span className="text-gray-900 dark:text-white">
+                Nepal<span className="text-blue-600 dark:text-blue-400">Hub</span>
+              </span>
             </Link>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              The definitive platform for Nepal-specific calculators, converters, and digital utilities. Built for speed, precision, and mobile usability.
+            <p className="text-sm text-gray-400 dark:text-gray-600 leading-relaxed max-w-[220px]">
+              Free Nepal-specific calculators, converters, and digital utilities. Always current. Always private.
             </p>
+            <div className="flex gap-2">
+              <span className="inline-block px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-white/[0.05] text-[11px] font-semibold text-gray-500 dark:text-gray-500">
+                FY 2083/84
+              </span>
+              <span className="inline-block px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-white/[0.05] text-[11px] font-semibold text-gray-500 dark:text-gray-500">
+                100% Free
+              </span>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Finance & Banking</h3>
-            <ul className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
-              <li><Link href="/finance/income-tax" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Income Tax Calculator</Link></li>
-              <li><Link href="/finance/emi" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Loan EMI Calculator</Link></li>
-              <li><Link href="/finance/sip" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">SIP Return Estimator</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Utilities & Land</h3>
-            <ul className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
-              <li><Link href="/real-estate/land-converter" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Nepali Land Converter</Link></li>
-              <li><Link href="/utilities/electricity-bill" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">NEA Electricity Bill</Link></li>
-              <li><Link href="/utilities/gold-price" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Gold Price Estimator</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Daily Life & Docs</h3>
-            <ul className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
-              <li><Link href="/daily/age" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Age Calculator</Link></li>
-              <li><Link href="/documents/passport-photo" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Passport Photo Cropper</Link></li>
-              <li><Link href="/documents/invoice-generator" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Invoice Generator</Link></li>
-            </ul>
-          </div>
+
+          {/* Link columns */}
+          {FOOTER_LINKS.map(col => (
+            <div key={col.heading}>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-600 mb-4">
+                {col.heading}
+              </h3>
+              <ul className="space-y-2.5">
+                {col.links.map(l => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      className="text-sm text-gray-500 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="border-t border-gray-200 dark:border-gray-800 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-          <p>© {currentYear} NepalHub. All rights reserved. Built with love for Nepal.</p>
-          <div className="flex gap-4 mt-4 sm:mt-0">
+
+        {/* Bottom bar */}
+        <div className="border-t border-black/[0.05] dark:border-white/[0.05] mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400 dark:text-gray-600">
+          <p>© {year} NepalHub. All rights reserved.</p>
+          <div className="flex gap-5">
             <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Service</Link>
+            <Link href="/terms"   className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
