@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Star, Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
 
 const RASHIS = [
@@ -19,15 +19,67 @@ const RASHIS = [
 ];
 
 const API_BASE = '/api/horoscope';
+const CACHE_KEY = 'rashifal_cache';
+
+interface CachedSign {
+  horoscope: string;
+  date: string;
+}
+
+interface CacheEntry {
+  day: string; // 'YYYY-MM-DD'
+  signs: Record<string, CachedSign>;
+}
+
+function getTodayKey(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function loadCache(): CacheEntry | null {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const entry: CacheEntry = JSON.parse(raw);
+    // Only use cache if it's from today
+    if (entry.day === getTodayKey()) return entry;
+    localStorage.removeItem(CACHE_KEY);
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function saveCache(entry: CacheEntry): void {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(entry));
+  } catch {
+    // localStorage full or unavailable — silently ignore
+  }
+}
 
 export default function Rashifal() {
   const [selectedSign, setSelectedSign] = useState('aries');
   const [horoscope, setHoroscope] = useState<string>('');
+  const [date, setDate] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [lastUpdated, setLastUpdated] = useState('');
 
-  const fetchHoroscope = async (sign: string) => {
+  // Persisted cache across renders (not state — we mutate through ref logic in fetch)
+  const cacheRef = loadCache();
+
+  const fetchHoroscope = useCallback(async (sign: string, force = false) => {
+    // Check cache first
+    if (!force && cacheRef) {
+      const cached = cacheRef.signs[sign];
+      if (cached) {
+        setHoroscope(cached.horoscope);
+        setDate(cached.date);
+        setLoading(false);
+        setError('');
+        return;
+      }
+    }
+
     setLoading(true);
     setError('');
     try {
@@ -35,21 +87,59 @@ export default function Rashifal() {
       const data = await res.json();
       if (data?.horoscope) {
         setHoroscope(data.horoscope);
-        setLastUpdated(data.date);
+        setDate(data.date);
+
+        // Update cache
+        const cache = loadCache() || { day: getTodayKey(), signs: {} };
+        cache.signs[sign] = { horoscope: data.horoscope, date: data.date };
+        saveCache(cache);
+
+        // Pre-fetch remaining signs in background (lazy)
+        const remaining = RASHIS
+          .map(r => r.id)
+          .filter(id => id !== sign && !cache.signs[id]);
+
+        if (remaining.length > 0) {
+          // Fire-and-forget pre-fetch for next clicks
+          Promise.allSettled(
+            remaining.map(async (id) => {
+              try {
+                const r = await fetch(`${API_BASE}/${id}`);
+                const d = await r.json();
+                if (d?.horoscope) {
+                  cache.signs[id] = { horoscope: d.horoscope, date: d.date };
+                }
+              } catch { /* background fail is ok */ }
+            })
+          ).then(() => {
+            saveCache(cache);
+          });
+        }
       } else {
         throw new Error('Invalid response');
       }
-    } catch (err) {
+    } catch {
       setError('Could not load today\'s rashifal. Please try again.');
       setHoroscope('');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
+  // Load on mount
   useEffect(() => {
     fetchHoroscope(selectedSign);
-  }, [selectedSign]);
+  }, []);
+
+  // Load on sign change — uses cache if available
+  const handleSignChange = (sign: string) => {
+    setSelectedSign(sign);
+    fetchHoroscope(sign);
+  };
+
+  const handleRefresh = () => {
+    fetchHoroscope(selectedSign, true);
+  };
 
   const selectedRashi = RASHIS.find(r => r.id === selectedSign)!;
 
@@ -60,7 +150,7 @@ export default function Rashifal() {
           Nepali Rashifal (राशिफल)
         </h1>
         <p className="mt-3 text-lg text-gray-500 dark:text-gray-400">
-          Daily horoscope and personality insights for all 12 Nepali zodiac signs (Rashis). Data sourced from live astrology API.
+          Daily horoscope for all 12 Nepali zodiac signs (Rashis). Predictions are cached locally — they only change once per day.
         </p>
       </div>
 
@@ -74,7 +164,7 @@ export default function Rashifal() {
             {RASHIS.map((r) => (
               <button
                 key={r.id}
-                onClick={() => setSelectedSign(r.id)}
+                onClick={() => handleSignChange(r.id)}
                 className={`py-2.5 px-3 rounded-xl border text-sm font-semibold transition-all ${
                   selectedSign === r.id
                     ? 'bg-gradient-to-r from-red-600 to-blue-600 text-white border-transparent shadow-md'
@@ -101,7 +191,7 @@ export default function Rashifal() {
               <div className="text-right">
                 <div className="flex items-center gap-2 justify-end">
                   <button
-                    onClick={() => fetchHoroscope(selectedSign)}
+                    onClick={handleRefresh}
                     disabled={loading}
                     className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
                     title="Refresh"
@@ -110,7 +200,7 @@ export default function Rashifal() {
                   </button>
                 </div>
                 <div className="text-xs opacity-70 mt-1">
-                  {lastUpdated ? new Date(lastUpdated).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''}
+                  {date ? new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : ''}
                 </div>
               </div>
             </div>
