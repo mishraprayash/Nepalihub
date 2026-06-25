@@ -33,6 +33,14 @@ export const calculators: CalculatorInfo[] = [
     keywords: ['sip', 'mutual fund', 'investment', 'savings', 'interest', 'compound interest', 'maturity']
   },
   {
+    id: 'stock-calculator',
+    name: 'NEPSE Stock P&L Calculator',
+    description: 'Calculate exact profit/loss from NEPSE trades including brokerage (0.40–0.27%), SEBO fee (0.015%), DP charges, and Capital Gains Tax (5%, 7.5%, 10%).',
+    category: 'finance',
+    path: '/finance/stock-calculator',
+    keywords: ['nepse', 'stock', 'share', 'profit', 'loss', 'capital gains', 'brokerage', 'trading', 'investment', 'nepal stock exchange', 'cgt']
+  },
+  {
     id: 'remittance',
     name: 'Remittance & Forex Calculator',
     description: 'Convert foreign currencies to Nepalese Rupee (NPR) with live exchange rates. Supports USD, EUR, GBP, AUD, SAR, AED, QAR, JPY, KRW and more.',
