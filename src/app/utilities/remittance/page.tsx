@@ -1,32 +1,76 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { RefreshCw, ArrowRightLeft, Globe, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { RefreshCw, ArrowRightLeft, Globe, AlertCircle, CheckCircle2, Search } from 'lucide-react';
 
-const CURRENCIES = [
-  { code: 'USD', name: 'US Dollar', flag: '🇺🇸' },
-  { code: 'EUR', name: 'Euro', flag: '🇪🇺' },
-  { code: 'GBP', name: 'British Pound', flag: '🇬🇧' },
-  { code: 'AUD', name: 'Australian Dollar', flag: '🇦🇺' },
-  { code: 'CAD', name: 'Canadian Dollar', flag: '🇨🇦' },
-  { code: 'SAR', name: 'Saudi Riyal', flag: '🇸🇦' },
-  { code: 'AED', name: 'UAE Dirham', flag: '🇦🇪' },
-  { code: 'QAR', name: 'Qatari Riyal', flag: '🇶🇦' },
-  { code: 'JPY', name: 'Japanese Yen', flag: '🇯🇵' },
-  { code: 'KRW', name: 'South Korean Won', flag: '🇰🇷' },
-  { code: 'SGD', name: 'Singapore Dollar', flag: '🇸🇬' },
-  { code: 'MYR', name: 'Malaysian Ringgit', flag: '🇲🇾' },
-];
+// Top remittance sources for Nepal (prioritized at top of list)
+const TOP_CURRENCIES = ['USD', 'EUR', 'GBP', 'AUD', 'CAD', 'SAR', 'AED', 'QAR', 'JPY', 'KRW', 'SGD', 'MYR', 'INR', 'CNY', 'HKD', 'CHF', 'NZD', 'SEK', 'NOK', 'THB', 'KWD', 'OMR', 'BHD', 'ILS'];
 
-// Fallback rates (approximate) — used when API is unavailable
+// Currency → flag emoji and name mapping (for the most common ones)
+const CURRENCY_META: Record<string, { name: string; flag: string }> = {
+  USD: { name: 'US Dollar', flag: '🇺🇸' },
+  EUR: { name: 'Euro', flag: '🇪🇺' },
+  GBP: { name: 'British Pound', flag: '🇬🇧' },
+  AUD: { name: 'Australian Dollar', flag: '🇦🇺' },
+  CAD: { name: 'Canadian Dollar', flag: '🇨🇦' },
+  SAR: { name: 'Saudi Riyal', flag: '🇸🇦' },
+  AED: { name: 'UAE Dirham', flag: '🇦🇪' },
+  QAR: { name: 'Qatari Riyal', flag: '🇶🇦' },
+  JPY: { name: 'Japanese Yen', flag: '🇯🇵' },
+  KRW: { name: 'South Korean Won', flag: '🇰🇷' },
+  SGD: { name: 'Singapore Dollar', flag: '🇸🇬' },
+  MYR: { name: 'Malaysian Ringgit', flag: '🇲🇾' },
+  INR: { name: 'Indian Rupee', flag: '🇮🇳' },
+  CNY: { name: 'Chinese Yuan', flag: '🇨🇳' },
+  HKD: { name: 'Hong Kong Dollar', flag: '🇭🇰' },
+  CHF: { name: 'Swiss Franc', flag: '🇨🇭' },
+  NZD: { name: 'New Zealand Dollar', flag: '🇳🇿' },
+  SEK: { name: 'Swedish Krona', flag: '🇸🇪' },
+  NOK: { name: 'Norwegian Krone', flag: '🇳🇴' },
+  THB: { name: 'Thai Baht', flag: '🇹🇭' },
+  KWD: { name: 'Kuwaiti Dinar', flag: '🇰🇼' },
+  OMR: { name: 'Omani Rial', flag: '🇴🇲' },
+  BHD: { name: 'Bahraini Dinar', flag: '🇧🇭' },
+  ILS: { name: 'Israeli Shekel', flag: '🇮🇱' },
+  DKK: { name: 'Danish Krone', flag: '🇩🇰' },
+  PLN: { name: 'Polish Zloty', flag: '🇵🇱' },
+  TRY: { name: 'Turkish Lira', flag: '🇹🇷' },
+  ZAR: { name: 'South African Rand', flag: '🇿🇦' },
+  BRL: { name: 'Brazilian Real', flag: '🇧🇷' },
+  MXN: { name: 'Mexican Peso', flag: '🇲🇽' },
+  RUB: { name: 'Russian Ruble', flag: '🇷🇺' },
+  TWD: { name: 'Taiwan Dollar', flag: '🇹🇼' },
+  PHP: { name: 'Philippine Peso', flag: '🇵🇭' },
+  IDR: { name: 'Indonesian Rupiah', flag: '🇮🇩' },
+  VND: { name: 'Vietnamese Dong', flag: '🇻🇳' },
+  PKR: { name: 'Pakistani Rupee', flag: '🇵🇰' },
+  BDT: { name: 'Bangladeshi Taka', flag: '🇧🇩' },
+  LKR: { name: 'Sri Lankan Rupee', flag: '🇱🇰' },
+  EGP: { name: 'Egyptian Pound', flag: '🇪🇬' },
+  NGN: { name: 'Nigerian Naira', flag: '🇳🇬' },
+  KES: { name: 'Kenyan Shilling', flag: '🇰🇪' },
+};
+
+// Fallback rates for top currencies (used when API is offline)
 const FALLBACK_RATES: Record<string, number> = {
   USD: 134.5, EUR: 146.0, GBP: 171.0, AUD: 89.5, CAD: 98.0,
   SAR: 35.8, AED: 36.6, QAR: 36.9, JPY: 0.87, KRW: 0.097,
-  SGD: 100.5, MYR: 28.9,
+  SGD: 100.5, MYR: 28.9, INR: 1.61, CNY: 18.5, HKD: 17.2,
+  CHF: 150.0, NZD: 82.0, SEK: 12.5, NOK: 12.3, THB: 3.65,
+  KWD: 437.0, OMR: 349.0, BHD: 357.0, ILS: 36.0,
 };
+
+function getFlag(code: string): string {
+  return CURRENCY_META[code]?.flag || '💱';
+}
+
+function getName(code: string): string {
+  return CURRENCY_META[code]?.name || code;
+}
 
 export default function RemittanceCalculator() {
   const [rates, setRates] = useState<Record<string, number>>(FALLBACK_RATES);
+  const [availableCodes, setAvailableCodes] = useState<string[]>(['USD', ...Object.keys(FALLBACK_RATES).filter(c => c !== 'USD')]);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [foreignAmount, setForeignAmount] = useState<number>(1000);
   const [nprAmount, setNprAmount] = useState<number>(134500);
@@ -35,6 +79,7 @@ export default function RemittanceCalculator() {
   const [liveStatus, setLiveStatus] = useState<'live' | 'fallback'>('fallback');
   const [lastUpdated, setLastUpdated] = useState<string>('');
   const [amountError, setAmountError] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     async function fetchRates() {
@@ -44,16 +89,18 @@ export default function RemittanceCalculator() {
         const data = await res.json();
         if (data.rates?.NPR) {
           const usdToNpr = data.rates.NPR;
-          const newRates: Record<string, number> = { ...FALLBACK_RATES };
+          const apiCodes = Object.keys(data.rates).filter(c => c !== 'USD');
           
-          // Calculate NPR rate for each currency via USD
-          for (const currency of CURRENCIES) {
-            if (currency.code === 'USD') {
-              newRates[currency.code] = usdToNpr;
-            } else if (data.rates[currency.code]) {
-              // NPR per unit of foreign currency = USD rate / foreign currency rate * USD→NPR
-              newRates[currency.code] = usdToNpr / data.rates[currency.code];
-            }
+          // Build sorted list: top currencies first, then rest alphabetically
+          const top = TOP_CURRENCIES.filter(c => c !== 'USD' && apiCodes.includes(c));
+          const rest = apiCodes.filter(c => !TOP_CURRENCIES.includes(c)).sort();
+          setAvailableCodes(['USD', ...top, ...rest]);
+
+          // Calculate NPR rate for every currency via USD
+          const newRates: Record<string, number> = {};
+          newRates.USD = usdToNpr;
+          for (const code of apiCodes) {
+            newRates[code] = usdToNpr / data.rates[code];
           }
           
           setRates(newRates);
@@ -72,11 +119,13 @@ export default function RemittanceCalculator() {
 
   // Recalculate when inputs change
   useEffect(() => {
-    const rate = rates[selectedCurrency] || FALLBACK_RATES[selectedCurrency];
-    if (mode === 'foreign-to-npr') {
-      setNprAmount(Math.round(foreignAmount * rate * 100) / 100);
-    } else {
-      setForeignAmount(Math.round((nprAmount / rate) * 100) / 100);
+    const rate = rates[selectedCurrency] || 0;
+    if (rate > 0) {
+      if (mode === 'foreign-to-npr') {
+        setNprAmount(Math.round(foreignAmount * rate * 100) / 100);
+      } else {
+        setForeignAmount(Math.round((nprAmount / rate) * 100) / 100);
+      }
     }
   }, [foreignAmount, nprAmount, selectedCurrency, mode, rates]);
 
@@ -94,20 +143,29 @@ export default function RemittanceCalculator() {
     setNprAmount(num);
   };
 
-  const currentRate = rates[selectedCurrency] || FALLBACK_RATES[selectedCurrency];
-  const flag = CURRENCIES.find(c => c.code === selectedCurrency)?.flag || '';
-  const currencyName = CURRENCIES.find(c => c.code === selectedCurrency)?.name || selectedCurrency;
+  // Filter currencies by search
+  const filteredCodes = useMemo(() => {
+    if (!searchQuery) return availableCodes;
+    const q = searchQuery.toLowerCase();
+    return availableCodes.filter(code =>
+      code.toLowerCase().includes(q) ||
+      getName(code).toLowerCase().includes(q)
+    );
+  }, [availableCodes, searchQuery]);
+
+  const currentRate = rates[selectedCurrency] || 0;
+  const flag = getFlag(selectedCurrency);
+  const currencyName = getName(selectedCurrency);
 
   return (
     <div className="space-y-12">
-      {/* Header */}
       <div>
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
           Remittance & Forex Calculator
         </h1>
         <p className="mt-3 text-lg text-gray-500 dark:text-gray-400">
-          Convert foreign currencies to Nepalese Rupee (NPR) using live exchange rates. 
-          Perfect for remittances, overseas income, and travel planning.
+          Convert any foreign currency to Nepalese Rupee (NPR) using live exchange rates. 
+          All 166 currencies supported — sourced from open exchange rate API.
         </p>
       </div>
 
@@ -132,23 +190,33 @@ export default function RemittanceCalculator() {
             </div>
           </div>
 
-          {/* Currency Selector */}
+          {/* Currency Search & Selector */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              Select Currency
+              Select Currency ({filteredCodes.length} available)
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-              {CURRENCIES.map((c) => (
+            <div className="relative mb-3">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Search currency by name or code..."
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="max-h-32 overflow-y-auto flex flex-wrap gap-1.5 pb-1">
+              {filteredCodes.map((code) => (
                 <button
-                  key={c.code}
-                  onClick={() => setSelectedCurrency(c.code)}
-                  className={`py-2 px-3 rounded-xl border text-sm font-semibold transition-all ${
-                    selectedCurrency === c.code
+                  key={code}
+                  onClick={() => { setSelectedCurrency(code); setSearchQuery(''); }}
+                  className={`py-1.5 px-2.5 rounded-lg border text-xs font-semibold transition-all shrink-0 ${
+                    selectedCurrency === code
                       ? 'bg-blue-600 border-blue-600 text-white'
                       : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/30 text-gray-700 dark:text-gray-300'
                   }`}
                 >
-                  {c.flag} {c.code}
+                  {getFlag(code)} {code}
                 </button>
               ))}
             </div>
@@ -156,7 +224,6 @@ export default function RemittanceCalculator() {
 
           {/* Conversion Inputs */}
           <div className="space-y-4">
-            {/* Mode Toggle */}
             <button
               onClick={() => setMode(mode === 'foreign-to-npr' ? 'npr-to-foreign' : 'foreign-to-npr')}
               className="flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
@@ -166,52 +233,40 @@ export default function RemittanceCalculator() {
             </button>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {/* Foreign Amount */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                  {flag} {selectedCurrency} Amount
+                  {flag} {selectedCurrency} — {currencyName}
                 </label>
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-500 dark:text-gray-400 font-bold text-sm">
-                    {selectedCurrency === 'JPY' || selectedCurrency === 'KRW' ? '¥' : selectedCurrency === 'GBP' ? '£' : selectedCurrency === 'EUR' ? '€' : '$'}
-                  </span>
-                  <input
-                    type="number"
-                    value={mode === 'foreign-to-npr' ? (foreignAmount || '') : (foreignAmount || '')}
-                    onChange={(e) => handleForeignChange(e.target.value)}
-                    readOnly={mode === 'npr-to-foreign'}
-                    className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm font-medium bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      mode === 'foreign-to-npr' 
-                        ? 'border-blue-300 dark:border-blue-600' 
-                        : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50'
-                    }`}
-                    placeholder="Enter amount"
-                  />
-                </div>
+                <input
+                  type="number"
+                  value={mode === 'foreign-to-npr' ? (foreignAmount || '') : (foreignAmount || '')}
+                  onChange={(e) => handleForeignChange(e.target.value)}
+                  readOnly={mode === 'npr-to-foreign'}
+                  className={`w-full pl-4 pr-4 py-3 rounded-xl border text-sm font-medium bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    mode === 'foreign-to-npr' 
+                      ? 'border-blue-300 dark:border-blue-600' 
+                      : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50'
+                  }`}
+                  placeholder="Enter amount"
+                />
               </div>
 
-              {/* NPR Amount */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   🇳🇵 Nepalese Rupee (NPR)
                 </label>
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-500 dark:text-gray-400 font-bold text-sm">
-                    Rs.
-                  </span>
-                  <input
-                    type="number"
-                    value={mode === 'npr-to-foreign' ? (nprAmount || '') : (nprAmount || '')}
-                    onChange={(e) => handleNprChange(e.target.value)}
-                    readOnly={mode === 'foreign-to-npr'}
-                    className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm font-medium bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      mode === 'npr-to-foreign' 
-                        ? 'border-blue-300 dark:border-blue-600' 
-                        : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50'
-                    }`}
-                    placeholder="Amount in NPR"
-                  />
-                </div>
+                <input
+                  type="number"
+                  value={mode === 'npr-to-foreign' ? (nprAmount || '') : (nprAmount || '')}
+                  onChange={(e) => handleNprChange(e.target.value)}
+                  readOnly={mode === 'foreign-to-npr'}
+                  className={`w-full pl-4 pr-4 py-3 rounded-xl border text-sm font-medium bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    mode === 'npr-to-foreign' 
+                      ? 'border-blue-300 dark:border-blue-600' 
+                      : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50'
+                  }`}
+                  placeholder="Amount in NPR"
+                />
               </div>
             </div>
 
@@ -228,24 +283,22 @@ export default function RemittanceCalculator() {
                   1 {selectedCurrency} = 
                 </span>
                 <span className="text-lg font-extrabold text-blue-600 dark:text-blue-400 ml-2">
-                  Rs. {currentRate.toFixed(2)}
+                  Rs. {currentRate.toFixed(4)}
                 </span>
               </div>
               <button
                 onClick={() => {
                   setLoading(true);
                   setLiveStatus('fallback');
-                  // Re-fetch rates
                   fetch('https://open.er-api.com/v6/latest/USD')
                     .then(r => r.json())
                     .then(data => {
                       if (data.rates?.NPR) {
                         const usdToNpr = data.rates.NPR;
                         const newRates: Record<string, number> = {};
-                        for (const currency of CURRENCIES) {
-                          if (currency.code === 'USD') newRates[currency.code] = usdToNpr;
-                          else if (data.rates[currency.code])
-                            newRates[currency.code] = usdToNpr / data.rates[currency.code];
+                        newRates.USD = usdToNpr;
+                        for (const code of Object.keys(data.rates)) {
+                          if (code !== 'USD') newRates[code] = usdToNpr / data.rates[code];
                         }
                         setRates(newRates);
                         setLiveStatus('live');
@@ -287,28 +340,28 @@ export default function RemittanceCalculator() {
         <div className="space-y-6">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm space-y-4">
             <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
-              <Globe className="h-5 w-5 text-blue-500" /> All Exchange Rates
+              <Globe className="h-5 w-5 text-blue-500" /> Popular Rates
             </h3>
             <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
-              {CURRENCIES.map((c) => {
-                const rate = rates[c.code] || FALLBACK_RATES[c.code];
+              {TOP_CURRENCIES.filter(c => rates[c]).map((code) => {
+                const rate = rates[code] || 0;
                 return (
                   <div
-                    key={c.code}
+                    key={code}
                     className={`flex items-center justify-between p-2.5 rounded-xl text-sm transition-all ${
-                      selectedCurrency === c.code
+                      selectedCurrency === code
                         ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800'
                         : 'hover:bg-gray-50 dark:hover:bg-gray-700/20 border border-transparent'
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="text-base">{c.flag}</span>
+                      <span className="text-base">{getFlag(code)}</span>
                       <div>
-                        <span className="font-semibold text-gray-900 dark:text-white">{c.code}</span>
-                        <span className="text-xs text-gray-400 ml-1">{c.name}</span>
+                        <span className="font-semibold text-gray-900 dark:text-white">{code}</span>
+                        <span className="text-[10px] text-gray-400 ml-1">{getName(code)}</span>
                       </div>
                     </div>
-                    <span className="font-bold text-gray-700 dark:text-gray-300">
+                    <span className="font-bold text-gray-700 dark:text-gray-300 text-xs">
                       Rs. {rate.toFixed(2)}
                     </span>
                   </div>
@@ -321,21 +374,17 @@ export default function RemittanceCalculator() {
             <h3 className="font-bold text-gray-900 dark:text-white">About Remittance</h3>
             <div className="text-xs text-gray-500 dark:text-gray-400 space-y-2 leading-relaxed">
               <p>
-                <strong>Top remittance sources for Nepal:</strong> Saudi Arabia, UAE, Qatar, 
-                Malaysia, USA, UK, Australia, Japan, and South Korea.
-              </p>
-              <p>
-                <strong>Maximum remittance limits:</strong> Most banks and money transfer operators 
-                have limits per transaction. Nepal Rastra Bank (NRB) regulates inbound remittances.
+                <strong>166 currencies supported.</strong> Data sourced from open.er-api.com.
+                Top remittance sources for Nepal: Saudi Arabia, UAE, Qatar, Malaysia, USA, UK, 
+                Australia, Japan, and South Korea are prioritized at the top.
               </p>
               <p>
                 <strong>Exchange rates:</strong> This tool provides mid-market rates. Actual rates 
-                from banks, money transfer services (eSewa, Khalti, IME, Western Union, etc.) 
-                may include a markup of 1–5%.
+                from banks and money transfer operators may include a markup of 1–5%.
               </p>
               <p className="text-amber-600 dark:text-amber-400 font-medium">
                 {liveStatus === 'live' 
-                  ? '✓ Using live exchange rates from open.er-api.com'
+                  ? '✓ Using live exchange rates'
                   : '⚠ Using approximate rates. Connect to the internet for live rates.'}
               </p>
             </div>
