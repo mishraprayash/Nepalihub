@@ -39,7 +39,6 @@ export default function Home() {
     'sip': <Coins className="h-5 w-5 text-emerald-500" />,
     'stock-calculator': <BarChart3 className="h-5 w-5 text-green-500" />,
     'remittance': <RefreshCw className="h-5 w-5 text-green-500" />,
-    'nepali-calendar': <Calendar className="h-5 w-5 text-red-500" />,
     'nepali-unit-converter': <Scale className="h-5 w-5 text-indigo-500" />,
     'rashifal': <Sparkles className="h-5 w-5 text-purple-500" />,
     'land-converter': <RefreshCw className="h-5 w-5 text-indigo-500" />,

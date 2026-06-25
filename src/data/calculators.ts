@@ -49,14 +49,6 @@ export const calculators: CalculatorInfo[] = [
     keywords: ['remittance', 'forex', 'currency', 'exchange rate', 'npr', 'usd', 'dollar', 'money transfer', 'abroad income', 'foreign currency']
   },
   {
-    id: 'nepali-calendar',
-    name: 'Nepali Patro (पात्रो)',
-    description: 'Nepali calendar with Bikram Sambat dates, festivals, public holidays, tithi, and monthly view. BS to AD conversion built in.',
-    category: 'daily',
-    path: '/utilities/nepali-calendar',
-    keywords: ['nepali calendar', 'patro', 'nepali date', 'festivals', 'dashain', 'tihar', 'holi', 'public holiday', 'bikram sambat']
-  },
-  {
     id: 'nepali-unit-converter',
     name: 'Nepali Unit Converter',
     description: 'Convert between traditional Nepali units and metric: Tola, Pau, Dharni (weight), Mana, Pathi (volume), Bitta, Haat, Kosh (length), and land units.',
