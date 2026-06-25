@@ -33,6 +33,38 @@ export const calculators: CalculatorInfo[] = [
     keywords: ['sip', 'mutual fund', 'investment', 'savings', 'interest', 'compound interest', 'maturity']
   },
   {
+    id: 'remittance',
+    name: 'Remittance & Forex Calculator',
+    description: 'Convert foreign currencies to Nepalese Rupee (NPR) with live exchange rates. Supports USD, EUR, GBP, AUD, SAR, AED, QAR, JPY, KRW and more.',
+    category: 'utilities',
+    path: '/utilities/remittance',
+    keywords: ['remittance', 'forex', 'currency', 'exchange rate', 'npr', 'usd', 'dollar', 'money transfer', 'abroad income', 'foreign currency']
+  },
+  {
+    id: 'nepali-calendar',
+    name: 'Nepali Patro (पात्रो)',
+    description: 'Nepali calendar with Bikram Sambat dates, festivals, public holidays, tithi, and monthly view. BS to AD conversion built in.',
+    category: 'daily',
+    path: '/utilities/nepali-calendar',
+    keywords: ['nepali calendar', 'patro', 'nepali date', 'festivals', 'dashain', 'tihar', 'holi', 'public holiday', 'bikram sambat']
+  },
+  {
+    id: 'nepali-unit-converter',
+    name: 'Nepali Unit Converter',
+    description: 'Convert between traditional Nepali units and metric: Tola, Pau, Dharni (weight), Mana, Pathi (volume), Bitta, Haat, Kosh (length), and land units.',
+    category: 'utilities',
+    path: '/utilities/nepali-unit-converter',
+    keywords: ['unit converter', 'nepali units', 'tola', 'pau', 'dharni', 'mana', 'pathi', 'bitta', 'haat', 'kosh', 'ropani', 'bigha', 'conversion']
+  },
+  {
+    id: 'rashifal',
+    name: 'Rashifal (राशिफल)',
+    description: 'Discover your Nepali zodiac sign (Rashi), daily horoscope predictions, personality traits, gemstones, lucky numbers, and rashi matching.',
+    category: 'daily',
+    path: '/daily/rashifal',
+    keywords: ['rashifal', 'rashi', 'horoscope', 'zodiac', 'nepali astrology', 'mesha', 'vrishabha', 'mithuna', 'karka', 'simha', 'kanya', 'tula', 'vrishchika', 'dhanu', 'makara', 'kumbha', 'meena', 'kundali']
+  },
+  {
     id: 'land-converter',
     name: 'Nepal Land Converter',
     description: 'Convert between traditional Nepali land units (Ropani, Aana, Paisa, Daam, Bigha, Kattha, Dhur) and Sq. Ft/Sq. M.',

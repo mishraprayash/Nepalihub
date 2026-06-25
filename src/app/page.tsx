@@ -4,7 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { 
   Search, Calculator, Landmark, RefreshCw, GraduationCap, 
-  Lightbulb, Coins, Calendar, Camera, FileText, ArrowRight, ShieldCheck, Flame, Sparkles
+  Lightbulb, Coins, Calendar, Camera, FileText, ArrowRight, 
+  ShieldCheck, Flame, Sparkles, Scale
 } from 'lucide-react';
 import { calculators } from '@/data/calculators';
 
@@ -36,6 +37,10 @@ export default function Home() {
     'income-tax': <Landmark className="h-5 w-5 text-red-500" />,
     'emi': <Calculator className="h-5 w-5 text-blue-500" />,
     'sip': <Coins className="h-5 w-5 text-emerald-500" />,
+    'remittance': <RefreshCw className="h-5 w-5 text-green-500" />,
+    'nepali-calendar': <Calendar className="h-5 w-5 text-red-500" />,
+    'nepali-unit-converter': <Scale className="h-5 w-5 text-indigo-500" />,
+    'rashifal': <Sparkles className="h-5 w-5 text-purple-500" />,
     'land-converter': <RefreshCw className="h-5 w-5 text-indigo-500" />,
     'gpa': <GraduationCap className="h-5 w-5 text-purple-500" />,
     'electricity-bill': <Lightbulb className="h-5 w-5 text-amber-500" />,
