@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import IncomeTaxClient from './IncomeTaxClient';
 
 export const metadata: Metadata = {
-  title: 'Nepal Income Tax Calculator (FY 2080/81 & 2081/82) | NepalHub',
+  title: 'Nepal Income Tax Calculator (FY 2080/81 & 2081/82)',
   description: 'Calculate your annual & monthly income tax slab, social security contribution (SSF), CIT deductions, and net take-home salary instantly.',
   keywords: ['nepal tax calculator', 'salary tax nepal', 'income tax slab nepal', 'ssf calculator nepal', 'cit deduction nepal'],
   alternates: {

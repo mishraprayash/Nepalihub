@@ -4,11 +4,14 @@ import { calculators } from '@/data/calculators';
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://nepalihub.com';
   
+  // Higher priority for finance & daily tools (more search traffic)
+  const highPriorityTools = ['income-tax', 'emi', 'sip', 'remittance', 'rashifal', 'date-converter', 'electricity-bill', 'gold-price'];
+  
   const calculatorUrls = calculators.map((calc) => ({
     url: `${baseUrl}${calc.path}`,
     lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
+    changeFrequency: highPriorityTools.includes(calc.id) ? 'weekly' as const : 'monthly' as const,
+    priority: highPriorityTools.includes(calc.id) ? 0.9 : 0.7,
   }));
 
   return [
