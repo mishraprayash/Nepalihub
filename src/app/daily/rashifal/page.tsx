@@ -18,7 +18,7 @@ const RASHIS = [
   { id: 'pisces', name: 'Meena (मीन)', english: 'Pisces', symbol: '🐟', element: 'Water', dateRange: 'Chaitra (Mar 15 – Apr 12)' },
 ];
 
-const API_BASE = 'https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily';
+const API_BASE = '/api/horoscope';
 
 export default function Rashifal() {
   const [selectedSign, setSelectedSign] = useState('aries');
@@ -31,11 +31,11 @@ export default function Rashifal() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${API_BASE}?sign=${sign}&day=today`);
+      const res = await fetch(`${API_BASE}/${sign}`);
       const data = await res.json();
-      if (data?.data?.horoscope) {
-        setHoroscope(data.data.horoscope);
-        setLastUpdated(data.data.date);
+      if (data?.horoscope) {
+        setHoroscope(data.horoscope);
+        setLastUpdated(data.date);
       } else {
         throw new Error('Invalid response');
       }
