@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { TrendingUp, TrendingDown, Info, Calculator, BarChart3, DollarSign, Percent } from 'lucide-react';
 
+import AdBanner from '@/components/AdBanner';
 const BROKERAGE_RATES: Record<string, number> = {
   '0-50000': 0.0040,    // 0.40% for first Rs. 50,000
   '50000-500000': 0.0037, // 0.37% for Rs. 50,001 - 5,00,000

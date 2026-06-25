@@ -315,7 +315,7 @@ export default function IncomeTaxClient() {
                 <span className="font-extrabold text-2xl text-green-300">Rs. {Math.round(netTakeHomeMonthly).toLocaleString()} <span className="text-xs font-normal">/mo</span></span>
             </div>
           </div>
-          <AdBanner />
+          <AdBanner slot="0000000000" format="auto" />
         </div>
 
           <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm space-y-5">

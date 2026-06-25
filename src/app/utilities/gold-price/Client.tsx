@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Calculator, Award, Info, Coins, RefreshCw, CheckCircle2 } from 'lucide-react';
 
+import AdBanner from '@/components/AdBanner';
 export default function GoldPriceEstimator() {
   const [goldRate, setGoldRate] = useState<number>(142000); // NPR per Tola for Fine Gold (Fallback Default)
   const [purity, setPurity] = useState<'24k' | '22k'>('24k');

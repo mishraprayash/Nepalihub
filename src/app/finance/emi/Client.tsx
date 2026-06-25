@@ -222,7 +222,7 @@ export default function EMICalculator() {
             </div>
           </div>
 
-          <AdBanner />
+          <AdBanner slot="0000000000" format="auto" />
         </div>
       </div>
 

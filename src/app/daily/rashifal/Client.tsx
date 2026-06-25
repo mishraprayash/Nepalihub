@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Star, Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
+import AdBanner from '@/components/AdBanner';
 
 const RASHIS = [
   { id: 'aries', name: 'Mesha (मेष)', english: 'Aries', symbol: '🐏', element: 'Fire', dateRange: 'Baisakh (Apr 13 – May 14)' },

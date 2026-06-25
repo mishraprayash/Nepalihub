@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { RefreshCw, ArrowRightLeft, Globe, AlertCircle, CheckCircle2, Search } from 'lucide-react';
+import AdBanner from '@/components/AdBanner';
 
 // Top remittance sources for Nepal (prioritized at top of list)
 const TOP_CURRENCIES = ['USD', 'EUR', 'GBP', 'AUD', 'CAD', 'SAR', 'AED', 'QAR', 'JPY', 'KRW', 'SGD', 'MYR', 'INR', 'CNY', 'HKD', 'CHF', 'NZD', 'SEK', 'NOK', 'THB', 'KWD', 'OMR', 'BHD', 'ILS'];

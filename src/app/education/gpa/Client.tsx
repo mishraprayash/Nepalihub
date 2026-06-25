@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Calculator, Plus, Trash2, Info, GraduationCap } from 'lucide-react';
 
+import AdBanner from '@/components/AdBanner';
 interface Subject {
   id: string;
   name: string;

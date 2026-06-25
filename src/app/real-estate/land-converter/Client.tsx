@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Layers, RefreshCw, Info } from 'lucide-react';
 
+import AdBanner from '@/components/AdBanner';
 export default function LandConverter() {
   // --- Quick One-to-One State ---
   const [fromUnit, setFromUnit] = useState<string>('ropani');

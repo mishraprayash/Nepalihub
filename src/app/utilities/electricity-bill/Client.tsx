@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Calculator, Lightbulb, Info } from 'lucide-react';
 
+import AdBanner from '@/components/AdBanner';
 export default function ElectricityBillEstimator() {
   const [units, setUnits] = useState<number>(120);
   const [ampere, setAmpere] = useState<'5A' | '15A' | '30A' | '60A'>('5A');
