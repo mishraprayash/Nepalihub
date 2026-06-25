@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.03) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, rgba(239, 68, 68, 0.02) 0, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.03) 0, transparent 50%);
+  background-attachment: fixed;
+}
+
+.dark body {
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.015) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, rgba(239, 68, 68, 0.01) 0, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.015) 0, transparent 50%);
+}
+
+@media print {
+  @page {
+    size: auto;
+    margin: 0 !important;
+  }
+  body {
+    background: white !important;
+    background-image: none !important;
+    color: black !important;
+    padding: 15mm !important;
+  }
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  thead {
+    display: table-header-group !important;
+  }
+  tfoot {
+    display: table-footer-group !important;
+  }
+  tr, td, th {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
