@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Star, Sparkles, Calendar, Search, RefreshCw, AlertCircle } from 'lucide-react';
-import { NepaliDateConverter } from '@/utils/nepaliDateConverter';
+import { Star, Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
 
 const RASHIS = [
   { id: 'aries', name: 'Mesha (मेष)', english: 'Aries', symbol: '🐏', element: 'Fire', dateRange: 'Baisakh (Apr 13 – May 14)' },
@@ -19,13 +18,6 @@ const RASHIS = [
   { id: 'pisces', name: 'Meena (मीन)', english: 'Pisces', symbol: '🐟', element: 'Water', dateRange: 'Chaitra (Mar 15 – Apr 12)' },
 ];
 
-// Nepali zodiac name → English API sign mapping
-const BS_MONTH_TO_SIGN: Record<number, string> = {
-  1: 'aries', 2: 'taurus', 3: 'gemini', 4: 'cancer',
-  5: 'leo', 6: 'virgo', 7: 'libra', 8: 'scorpio',
-  9: 'sagittarius', 10: 'capricorn', 11: 'aquarius', 12: 'pisces',
-};
-
 const API_BASE = 'https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily';
 
 export default function Rashifal() {
@@ -34,12 +26,6 @@ export default function Rashifal() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [lastUpdated, setLastUpdated] = useState('');
-
-  // Find Rashi state
-  const [bsYear, setBsYear] = useState('');
-  const [bsMonth, setBsMonth] = useState('');
-  const [foundSign, setFoundSign] = useState<string | null>(null);
-  const [findError, setFindError] = useState('');
 
   const fetchHoroscope = async (sign: string) => {
     setLoading(true);
@@ -64,23 +50,6 @@ export default function Rashifal() {
   useEffect(() => {
     fetchHoroscope(selectedSign);
   }, [selectedSign]);
-
-  const handleFindRashi = () => {
-    if (!bsYear || !bsMonth) {
-      setFindError('Please enter your BS birth year and month');
-      setFoundSign(null);
-      return;
-    }
-    const m = parseInt(bsMonth);
-    if (m < 1 || m > 12) {
-      setFindError('Month must be between 1 and 12');
-      setFoundSign(null);
-      return;
-    }
-    setFindError('');
-    const signId = BS_MONTH_TO_SIGN[m] || 'aries';
-    setFoundSign(signId);
-  };
 
   const selectedRashi = RASHIS.find(r => r.id === selectedSign)!;
 
@@ -116,47 +85,6 @@ export default function Rashifal() {
                 <span className="text-[11px]">{r.english}</span>
               </button>
             ))}
-          </div>
-
-          {/* Quick Find by BS Month */}
-          <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-900/30 rounded-xl border border-gray-100 dark:border-gray-800">
-            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Find Your Rashi</h4>
-            <div className="grid grid-cols-2 gap-2 mb-2">
-              <input
-                type="number"
-                value={bsYear}
-                onChange={e => setBsYear(e.target.value)}
-                placeholder="BS Year"
-                className="py-2 px-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="number"
-                value={bsMonth}
-                onChange={e => setBsMonth(e.target.value)}
-                placeholder="Month (1-12)"
-                min="1" max="12"
-                className="py-2 px-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <button
-              onClick={handleFindRashi}
-              className="w-full py-2 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors text-xs flex items-center justify-center gap-1"
-            >
-              <Search className="h-3 w-3" /> Find
-            </button>
-            {findError && <p className="text-xs text-red-500 mt-2">{findError}</p>}
-            {foundSign && (
-              <div className="mt-2 text-center">
-                <span className="text-xs text-gray-500">Your Rashi: </span>
-                <button
-                  onClick={() => { setSelectedSign(foundSign); setFoundSign(null); }}
-                  className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline"
-                >
-                  {RASHIS.find(r => r.id === foundSign)?.symbol} {RASHIS.find(r => r.id === foundSign)?.name}
-                </button>
-              </div>
-            )}
-            <p className="text-[10px] text-gray-400 mt-2">BS Month: 1=Baisakh ... 12=Chaitra</p>
           </div>
         </div>
 
