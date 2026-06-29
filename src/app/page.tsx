@@ -6,7 +6,7 @@ import {
   Search, Calculator, Landmark, RefreshCw, GraduationCap,
   Lightbulb, Coins, Calendar, Camera, FileText, ArrowRight,
   Sparkles, Scale, BarChart3, Car, Star, Globe, TrendingUp,
-  Zap, ChevronRight
+  Zap, ChevronRight, ShoppingCart, Shield, Bike, Building2, Wifi
 } from 'lucide-react';
 import { calculators, CalculatorInfo } from '@/data/calculators';
 
@@ -27,8 +27,14 @@ const TOOL_META: Record<string, { icon: React.ReactNode; color: string; bg: stri
   'passport-photo':      { icon: <Camera className="h-5 w-5" />,      color: 'text-sky-500',    bg: 'bg-sky-50',    darkBg: 'dark:bg-sky-950/30' },
   'invoice-generator':   { icon: <FileText className="h-5 w-5" />,    color: 'text-slate-500',  bg: 'bg-slate-50',  darkBg: 'dark:bg-slate-900/50' },
   'road-tax':            { icon: <Car className="h-5 w-5" />,         color: 'text-orange-500', bg: 'bg-orange-50', darkBg: 'dark:bg-orange-950/30' },
+  'onroad-price':        { icon: <Car className="h-5 w-5" />,         color: 'text-amber-500',  bg: 'bg-amber-50',  darkBg: 'dark:bg-amber-950/30' },
   'date-converter':      { icon: <Calendar className="h-5 w-5" />,    color: 'text-rose-500',   bg: 'bg-rose-50',   darkBg: 'dark:bg-rose-950/30' },
   'unicode-converter':   { icon: <Globe className="h-5 w-5" />,       color: 'text-pink-500',   bg: 'bg-pink-50',   darkBg: 'dark:bg-pink-950/30' },
+  'import-duty':         { icon: <ShoppingCart className="h-5 w-5" />, color: 'text-indigo-500', bg: 'bg-indigo-50', darkBg: 'dark:bg-indigo-950/30' },
+  'ssf':                 { icon: <Shield className="h-5 w-5" />,     color: 'text-blue-600',   bg: 'bg-blue-50',   darkBg: 'dark:bg-blue-950/30' },
+  'fd-comparator':       { icon: <Building2 className="h-5 w-5" />,  color: 'text-sky-500',    bg: 'bg-sky-50',    darkBg: 'dark:bg-sky-950/30' },
+  'data-plans':          { icon: <Wifi className="h-5 w-5" />,       color: 'text-cyan-500',   bg: 'bg-cyan-50',   darkBg: 'dark:bg-cyan-950/30' },
+  'construction-cost':   { icon: <Building2 className="h-5 w-5" />,  color: 'text-emerald-500',bg: 'bg-emerald-50',darkBg: 'dark:bg-emerald-950/30' },
 };
 
 const FALLBACK = { icon: <Calculator className="h-5 w-5" />, color: 'text-gray-500', bg: 'bg-gray-50', darkBg: 'dark:bg-gray-800' };

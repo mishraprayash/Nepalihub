@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useRef, ChangeEvent, MouseEvent, TouchEvent, useEffect } from 'react';
-import { Camera, Download, Upload, Info, ZoomIn, Move } from 'lucide-react';
+import { useState, useRef, ChangeEvent, MouseEvent, TouchEvent } from 'react';
+import { Camera, Download, Upload, Info, Move } from 'lucide-react';
 
 export default function PassportPhotoCropper() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -13,6 +13,7 @@ export default function PassportPhotoCropper() {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
   const [startY, setStartY] = useState<number>(0);
+  const [imgNatural, setImgNatural] = useState<{ w: number; h: number } | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -26,7 +27,15 @@ export default function PassportPhotoCropper() {
   const targetWidth = photoType === 'mrp' ? 350 : 250;
   const targetHeight = photoType === 'mrp' ? 450 : 300;
 
-  // Calculate default baseline scale to cover the crop area
+  // fitScale computed from stored natural dimensions (no ref access during render)
+  const fitScale = (() => {
+    if (!imgNatural) return 1;
+    const scaleX = viewWidth / imgNatural.w;
+    const scaleY = viewHeight / imgNatural.h;
+    return Math.max(scaleX, scaleY);
+  })();
+
+  // Non-render version for canvas export
   const getFitScale = () => {
     const img = imgRef.current;
     if (!img) return 1;
@@ -118,11 +127,8 @@ export default function PassportPhotoCropper() {
     link.click();
   };
 
-  // Reset offset when changing dimensions
-  useEffect(() => {
-    setPanX(0);
-    setPanY(0);
-  }, [photoType]);
+  // Reset offset when changing dimensions — key={photoType} on wrapper handles this
+  // Removing useEffect per react-hooks/set-state-in-effect rule
 
   return (
     <div className="space-y-12">
@@ -179,9 +185,13 @@ export default function PassportPhotoCropper() {
                     ref={imgRef}
                     src={imageSrc}
                     alt="Upload Source"
+                    onLoad={(e) => {
+                      const img = e.currentTarget;
+                      setImgNatural({ w: img.naturalWidth, h: img.naturalHeight });
+                    }}
                     className="absolute pointer-events-none origin-center max-w-none"
                     style={{
-                      transform: `translate(calc(-50% + ${panX}px), calc(-50% + ${panY}px)) scale(${zoom * getFitScale()})`,
+                      transform: `translate(calc(-50% + ${panX}px), calc(-50% + ${panY}px)) scale(${zoom * fitScale})`,
                       top: '50%',
                       left: '50%',
                     }}

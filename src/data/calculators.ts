@@ -129,6 +129,14 @@ export const calculators: CalculatorInfo[] = [
     keywords: ['road tax', 'yatayat tax', 'vehicle tax', 'bike tax', 'car tax', 'ev tax', 'dotm nepal']
   },
   {
+    id: 'onroad-price',
+    name: 'Vehicle On-Road Price Calculator',
+    description: 'Calculate the total on-road price for cars, motorcycles, and EVs including all taxes and fees.',
+    category: 'utilities',
+    path: '/vehicle/onroad-price',
+    keywords: ['on road price', 'car price', 'bike price', 'ev price', 'ex showroom', 'vehicle cost nepal']
+  },
+  {
     id: 'date-converter',
     name: 'Nepali ↔ English Date Converter',
     description: 'Convert dates dynamically between Bikram Sambat (BS) and English Gregorian calendar (AD).',
@@ -143,5 +151,45 @@ export const calculators: CalculatorInfo[] = [
     category: 'utilities',
     path: '/utilities/unicode-converter',
     keywords: ['unicode converter', 'preeti to unicode', 'nepali typing', 'preeti unicode', 'nepali font conversion']
-  }
+  },
+  {
+    id: 'import-duty',
+    name: 'Gadget Import Duty Calculator',
+    description: 'Calculate total landed cost for importing phones, laptops, and electronics into Nepal including customs duty, excise, income tax, and VAT.',
+    category: 'utilities',
+    path: '/utilities/import-duty',
+    keywords: ['import duty', 'customs', 'gadget tax', 'phone import', 'laptop customs', 'hs code', 'landed cost nepal']
+  },
+  {
+    id: 'ssf',
+    name: 'SSF Contribution Calculator',
+    description: 'Calculate SSF contributions (11% employee + 21% employer) under Nepal Social Security Fund rules.',
+    category: 'finance',
+    path: '/finance/ssf',
+    keywords: ['ssf', 'social security fund', 'pension', 'contribution', 'employee', 'employer', 'benefits']
+  },
+  {
+    id: 'fd-comparator',
+    name: 'Bank FD Rate Comparator',
+    description: 'Compare fixed deposit interest rates across 23+ Nepali banks, development banks, and finance companies.',
+    category: 'finance',
+    path: '/finance/fd-comparator',
+    keywords: ['fd rate', 'fixed deposit', 'bank interest', 'fd comparator', 'nepal bank', 'saving rate']
+  },
+  {
+    id: 'data-plans',
+    name: 'Mobile Data Plan Comparator',
+    description: 'Compare mobile data plans across Nepal Telecom, Ncell, and SmartCell. Find the cheapest plan by price or best value.',
+    category: 'utilities',
+    path: '/utilities/data-plans',
+    keywords: ['data plan', 'ntc', 'ncell', 'smart cell', 'mobile data', '4g nepal', '5g nepal']
+  },
+  {
+    id: 'construction-cost',
+    name: 'House Construction Cost Estimator',
+    description: 'Estimate house construction cost per sq ft in Nepal. RCC, load-bearing, prefab costs by city and number of floors.',
+    category: 'real-estate',
+    path: '/real-estate/construction-cost',
+    keywords: ['construction cost', 'house building', 'per sq ft', 'rcc', 'nepal construction', 'building estimate']
+  },
 ];

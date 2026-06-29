@@ -257,6 +257,59 @@ export default function EMICalculator() {
           </table>
         </div>
       </div>
+
+      {/* Reference Section */}
+      <div className="bg-white dark:bg-[#141720] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl p-6 space-y-4">
+        <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400">Understanding Loans in Nepal</h3>
+        
+        <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+          <div>
+            <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-1">Current Interest Rates (FY 2081/82)</h4>
+            <ul className="list-disc pl-5 space-y-0.5">
+              <li><strong>Home Loan:</strong> 8.5% – 11% p.a. (commercial banks)</li>
+              <li><strong>Auto Loan:</strong> 10% – 13% p.a.</li>
+              <li><strong>Personal Loan:</strong> 12% – 16% p.a.</li>
+              <li><strong>Margin Loan:</strong> 12% – 14% p.a.</li>
+              <li><strong>Education Loan:</strong> 9% – 12% p.a.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-1">EMI Calculation Formula</h4>
+            <p className="font-mono text-xs bg-gray-50 dark:bg-gray-900 p-2 rounded-lg">
+              EMI = P × r × (1 + r)<sup>n</sup> / ((1 + r)<sup>n</sup> – 1)
+            </p>
+            <p className="text-xs mt-1">
+              Where P = Principal, r = Monthly interest rate (annual/12), n = Tenure in months
+            </p>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-1">Tips for Borrowers</h4>
+            <ul className="list-disc pl-5 space-y-0.5">
+              <li>Compare interest rates across at least 3 banks before choosing</li>
+              <li>Processing fees typically range from 0.5% to 1% of loan amount</li>
+              <li>Floating rates may change — factor in potential 1-2% rate increases</li>
+              <li>Prepayment penalties vary by bank (usually 1-2% of outstanding)</li>
+              <li>Consider NRB base rate + spread when comparing offers</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-1">Key Nepal-Specific Terms</h4>
+            <ul className="list-disc pl-5 space-y-0.5">
+              <li><strong>NRB Base Rate:</strong> Rate set by Nepal Rastra Bank — currently ~7%</li>
+              <li><strong>Spread:</strong> Bank margin over base rate (max 5% as per NRB directive)</li>
+              <li><strong>CCD Ratio:</strong> Banks must maintain 90% credit-to-deposit ratio for housing</li>
+              <li><strong>LTV:</strong> Loan-to-Value — max 60% for home loans, 70% for vehicles</li>
+            </ul>
+          </div>
+        </div>
+
+        <p className="text-xs text-gray-400 mt-2">
+          Source: Nepal Rastra Bank (nrb.org.np) and individual bank rates. Updated for FY 2081/82.
+        </p>
+      </div>
     </div>
   );
 }
