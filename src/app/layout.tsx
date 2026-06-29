@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +33,7 @@ export const metadata: Metadata = {
   authors: [{ name: "NepalHub" }],
   creator: "NepalHub",
   publisher: "NepalHub",
-  metadataBase: new URL("https://nepalihub.com"),
+  metadataBase: new URL("https://nepalihub-omega.vercel.app/"),
   alternates: {
     canonical: "/",
   },
@@ -45,7 +44,7 @@ export const metadata: Metadata = {
     title: "NepalHub — Nepal's #1 Utility & Calculator Platform",
     description:
       "Free Nepal-specific calculators and utilities: Income Tax, Loan EMI, Land Converter, GPA, Electricity Bill, Gold Price, Stock P&L, and more.",
-    url: "https://nepalihub.com",
+    url: "https://nepalihub-omega.vercel.app/",
     images: [
       {
         url: "/og-image.png",
@@ -112,8 +111,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "NepalHub",
-              url: "https://nepalihub.com",
-              logo: "https://nepalihub.com/favicon.ico",
+              url: "https://nepalihub-omega.vercel.app/",
+              logo: "https://nepalihub-omega.vercel.app//favicon.ico",
               description:
                 "Free Nepal-specific calculators and digital utilities platform.",
               areaServed: "NP",
@@ -128,12 +127,12 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "NepalHub",
-              url: "https://nepalihub.com",
+              url: "https://nepalihub-omega.vercel.app/",
               potentialAction: {
                 "@type": "SearchAction",
                 target: {
                   "@type": "EntryPoint",
-                  urlTemplate: "https://nepalihub.com/?search={search_term_string}",
+                  urlTemplate: "https://nepalihub-omega.vercel.app//?search={search_term_string}",
                 },
                 "query-input": "required name=search_term_string",
               },

@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin/',
     },
-    sitemap: 'https://nepalihub.com/sitemap.xml',
+    sitemap: 'https://nepalihub-omega.vercel.app//sitemap.xml',
   };
 }

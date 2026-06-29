@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { calculators } from '@/data/calculators';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://nepalihub.com';
+  const baseUrl = 'https://nepalihub-omega.vercel.app/';
   
   // Higher priority for finance & daily tools (more search traffic)
   const highPriorityTools = ['income-tax', 'emi', 'sip', 'remittance', 'rashifal', 'date-converter', 'electricity-bill', 'gold-price'];
@@ -20,6 +20,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/privacy`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.4,
+    },
+    {
+      url: `${baseUrl}/terms`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.4,
     },
     ...calculatorUrls,
   ];

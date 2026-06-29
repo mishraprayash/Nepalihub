@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'Calculate your annual & monthly income tax slab, social security contribution (SSF), CIT deductions, and net take-home salary instantly.',
   keywords: ['nepal tax calculator', 'salary tax nepal', 'income tax slab nepal', 'ssf calculator nepal', 'cit deduction nepal'],
   alternates: {
-    canonical: 'https://nepalihub.com/finance/income-tax'
+    canonical: 'https://nepalihub-omega.vercel.app//finance/income-tax'
   }
 };
 
@@ -16,7 +16,7 @@ export default function IncomeTaxPage() {
     '@type': 'FinancialCalculator',
     'name': 'Nepal Income Tax Calculator',
     'description': 'Calculate annual & monthly income tax slab, social security contributions, CIT deductions, and net take-home salary under current Nepal IRD rules.',
-    'url': 'https://nepalihub.com/finance/income-tax',
+    'url': 'https://nepalihub-omega.vercel.app//finance/income-tax',
     'category': 'Finance'
   };
 
