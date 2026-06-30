@@ -149,25 +149,21 @@ export default function RootLayout({
         <Navbar />
         
         {/* Top Horizontal Ad Banner */}
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 mt-6">
-          <AdBanner slot="top-horizontal-slot" format="horizontal" />
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 pt-6">
+          <div className="max-w-7xl mx-auto">
+            <AdBanner slot="top-horizontal-slot" format="horizontal" />
+          </div>
         </div>
 
-        <div className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex flex-col lg:flex-row gap-8 py-8">
-          {/* Main Content Area */}
-          <main className="flex-1 min-w-0">
-            {children}
-          </main>
-          
-          {/* Sidebar Ad Slot (Desktop Only) */}
-          <aside className="hidden lg:block w-full lg:w-[300px] shrink-0 space-y-8">
-            <div className="sticky top-24">
-              <AdBanner slot="sidebar-vertical-slot" format="vertical" />
-              <div className="mt-8">
-                <AdBanner slot="sidebar-rectangle-slot" format="rectangle" />
-              </div>
-            </div>
-          </aside>
+        <main className="flex-1 w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-4 sm:py-8">
+          {children}
+        </main>
+
+        {/* Bottom Horizontal Ad Banner */}
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 pb-8">
+          <div className="max-w-7xl mx-auto">
+            <AdBanner slot="bottom-horizontal-slot" format="horizontal" />
+          </div>
         </div>
 
         <Footer />

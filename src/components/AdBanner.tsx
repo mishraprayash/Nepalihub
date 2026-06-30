@@ -41,14 +41,14 @@ export default function AdBanner({ slot, format = 'auto', className = '' }: AdBa
     !window.location.hostname.includes('127.0.0.1') &&
     process.env.NEXT_PUBLIC_ADSENSE_PUB_ID;
 
-  const containerStyles = format === 'horizontal' ? 'min-h-[90px] w-full' :
+  const containerStyles = format === 'horizontal' ? 'min-h-[90px] w-full max-w-full' :
                           format === 'rectangle' ? 'min-h-[250px] w-full max-w-[300px]' :
                           format === 'vertical' ? 'min-h-[600px] w-[160px]' :
-                          'min-h-[100px] w-full';
+                          'min-h-[100px] w-full max-w-full';
 
   if (!isProd) {
     return (
-      <div className={`my-6 bg-gray-50 dark:bg-gray-800/40 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl flex flex-col items-center justify-center text-center transition-colors ${containerStyles} ${className}`}>
+      <div className={`my-4 bg-gray-50 dark:bg-gray-800/40 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl flex flex-col items-center justify-center text-center transition-colors ${containerStyles} ${className}`}>
         <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">
           Advertisement
         </span>
@@ -60,7 +60,7 @@ export default function AdBanner({ slot, format = 'auto', className = '' }: AdBa
   }
 
   return (
-    <div className={`my-6 flex justify-center overflow-hidden ${containerStyles} ${className}`} ref={adRef}>
+    <div className={`my-4 flex justify-center overflow-hidden ${containerStyles} ${className}`} ref={adRef}>
       <ins
         className="adsbygoogle w-full h-full block"
         data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUB_ID || "ca-pub-9613933136929298"}
