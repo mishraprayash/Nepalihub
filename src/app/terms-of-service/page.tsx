@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Terms of Service',
   description: 'Terms of Service for NepalHub. Rules for using our free calculators, converters, and tools. Disclaimer of liability and intellectual property terms.',
-  alternates: { canonical: 'https://nepalihub-omega.vercel.app//terms' },
+  alternates: { canonical: 'https://nepalihub-omega.vercel.app/terms-of-service' },
   openGraph: {
     title: 'Terms of Service | NepalHub',
     description: 'Terms governing the use of NepalHub tools, disclaimers, and intellectual property.',
@@ -21,7 +21,7 @@ export default function TermsPage() {
             '@type': 'WebPage',
             name: 'Terms of Service',
             description: 'Terms of Service for NepalHub.',
-            url: 'https://nepalihub-omega.vercel.app//terms',
+            url: 'https://nepalihub-omega.vercel.app/terms-of-service',
             isPartOf: { '@id': 'https://nepalihub-omega.vercel.app//#website' },
           }),
         }}

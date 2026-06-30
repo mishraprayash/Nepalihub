@@ -38,27 +38,32 @@ export default function AdBanner({ slot, format = 'auto', className = '' }: AdBa
   // Show placeholder when no AdSense yet (development / before approval)
   const isProd = typeof window !== 'undefined' && 
     window.location.hostname !== 'localhost' && 
-    !window.location.hostname.includes('127.0.0.1');
+    !window.location.hostname.includes('127.0.0.1') &&
+    process.env.NEXT_PUBLIC_ADSENSE_PUB_ID;
+
+  const containerStyles = format === 'horizontal' ? 'min-h-[90px] w-full' :
+                          format === 'rectangle' ? 'min-h-[250px] w-full max-w-[300px]' :
+                          format === 'vertical' ? 'min-h-[600px] w-[160px]' :
+                          'min-h-[100px] w-full';
 
   if (!isProd) {
     return (
-      <div className={`w-full my-6 p-4 bg-gray-50 dark:bg-gray-800/40 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl flex flex-col items-center justify-center text-center min-h-[90px] transition-colors ${className}`}>
+      <div className={`my-6 bg-gray-50 dark:bg-gray-800/40 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl flex flex-col items-center justify-center text-center transition-colors ${containerStyles} ${className}`}>
         <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">
           Advertisement
         </span>
         <div className="text-xs text-gray-400 dark:text-gray-500">
-          AdSense Slot ({format}) — Replace with your ad code
+          AdSense Slot ({format})
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`w-full my-6 flex justify-center overflow-hidden ${className}`} ref={adRef}>
+    <div className={`my-6 flex justify-center overflow-hidden ${containerStyles} ${className}`} ref={adRef}>
       <ins
-        className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-client="ca-pub-YOUR_PUBLISHER_ID" // Replace with actual ID
+        className="adsbygoogle w-full h-full block"
+        data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_PUB_ID || "ca-pub-9613933136929298"}
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive="true"

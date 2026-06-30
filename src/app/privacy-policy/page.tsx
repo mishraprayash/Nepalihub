@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'Privacy Policy for NepalHub. Learn how we handle your data, cookies, third-party services, and your rights under GDPR and local laws.',
-  alternates: { canonical: 'https://nepalihub-omega.vercel.app//privacy' },
+  alternates: { canonical: 'https://nepalihub-omega.vercel.app/privacy-policy' },
   openGraph: {
     title: 'Privacy Policy | NepalHub',
     description: 'How NepalHub handles your data, cookies, and third-party services.',
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
             '@type': 'WebPage',
             name: 'Privacy Policy',
             description: 'Privacy Policy for NepalHub — data handling, cookies, and your rights.',
-            url: 'https://nepalihub-omega.vercel.app//privacy',
+            url: 'https://nepalihub-omega.vercel.app/privacy-policy',
             isPartOf: { '@id': 'https://nepalihub-omega.vercel.app//#website' },
           }),
         }}
@@ -86,8 +86,7 @@ export default function PrivacyPage() {
             <strong>Analytics cookies:</strong> Google Analytics helps us understand how visitors use the Site
           </li>
           <li>
-            <strong>Advertising cookies:</strong> Google AdSense may use cookies to serve personalized ads
-            based on your browsing history
+            <strong>Advertising cookies:</strong> Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to our website or other websites. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our site and/or other sites on the Internet. Users may opt out of personalized advertising by visiting Ads Settings.
           </li>
         </ul>
         <p className="mt-2">

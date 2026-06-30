@@ -10,6 +10,8 @@ import {
 } from 'lucide-react';
 import { calculators, CalculatorInfo } from '@/data/calculators';
 
+import AdBanner from '@/components/AdBanner';
+
 /* ── Per-tool config (icon + colour) ──────────────────────────── */
 const TOOL_META: Record<string, { icon: React.ReactNode; color: string; bg: string; darkBg: string }> = {
   'income-tax':          { icon: <Landmark className="h-5 w-5" />,    color: 'text-red-500',    bg: 'bg-red-50',    darkBg: 'dark:bg-red-950/30' },
@@ -204,6 +206,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Mid-page In-feed Ad Slot */}
+      <div className="w-full">
+        <AdBanner slot="mid-page-feed-slot" format="horizontal" />
+      </div>
 
       {/* ── Category filter + Tool grid ───────────────────────── */}
       <section className="space-y-6">

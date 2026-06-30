@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AdBanner from "@/components/AdBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -75,6 +77,9 @@ export const metadata: Metadata = {
   verification: {
     google: "YOUR_GOOGLE_VERIFICATION_CODE", // Replace with actual code
   },
+  other: {
+    "google-adsense-account": "ca-pub-9613933136929298",
+  },
   category: "technology",
 };
 
@@ -95,13 +100,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://ohmanda.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://ohmanda.com" />
         
-        {/* Google AdSense Script — uncomment and add your publisher ID after approval */}
-        {/* <Script
+        {/* Google AdSense Script - Requires AdSense publisher ID */}
+        <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_PUB_ID || 'ca-pub-9613933136929298'}`}
           crossOrigin="anonymous"
           strategy="afterInteractive"
-        /> */}
+        />
         
         {/* Structured Data: Organization */}
         <script
@@ -142,9 +147,29 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
         <Navbar />
-        <main className="flex-1 w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-8">
-          {children}
-        </main>
+        
+        {/* Top Horizontal Ad Banner */}
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 mt-6">
+          <AdBanner slot="top-horizontal-slot" format="horizontal" />
+        </div>
+
+        <div className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex flex-col lg:flex-row gap-8 py-8">
+          {/* Main Content Area */}
+          <main className="flex-1 min-w-0">
+            {children}
+          </main>
+          
+          {/* Sidebar Ad Slot (Desktop Only) */}
+          <aside className="hidden lg:block w-full lg:w-[300px] shrink-0 space-y-8">
+            <div className="sticky top-24">
+              <AdBanner slot="sidebar-vertical-slot" format="vertical" />
+              <div className="mt-8">
+                <AdBanner slot="sidebar-rectangle-slot" format="rectangle" />
+              </div>
+            </div>
+          </aside>
+        </div>
+
         <Footer />
       </body>
     </html>

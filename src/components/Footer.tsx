@@ -103,9 +103,11 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-black/[0.05] dark:border-white/[0.05] mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400 dark:text-gray-600">
           <p>© {year} NepalHub. All rights reserved.</p>
-          <div className="flex gap-5">
-            <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</Link>
-            <Link href="/terms"   className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Service</Link>
+          <div className="flex gap-4 sm:gap-5 flex-wrap justify-center">
+            <Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</Link>
+            <Link href="/contact" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</Link>
+            <Link href="/privacy-policy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
