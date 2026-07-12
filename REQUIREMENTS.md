@@ -375,3 +375,23 @@ Potential future additions:
 # Final Objective
 
 Build NepalHub as the most comprehensive Nepal-focused utility platform, delivering exceptional user experience, strong search-engine visibility, scalable architecture, and sustainable monetization through high-quality informational content and practical tools that users return to regularly.
+
+---
+
+# Implemented Features & Updates (Changelog)
+
+## 1. Finance & Tax
+* **Income Tax Calculator:** Upgraded with strict adherence to Nepal's latest IRD tax slabs and regulations. Differentiates between Basic and Gross salary. Implemented accurate retirement deduction capping (Rule of 1/3rd, up to 3L/5L/6L depending on SSF enrollment). Fixed the algorithm to accurately isolate regular monthly take-home pay from one-time bonuses.
+* **SSF Calculator:** Fixed employer contribution breakdown to precisely match the Nepal SSF Act's 31% mandate (Employee: 11%, Employer: 20% [17.33% Pension + 1% Medical + 1.4% Accident + 0.27% Dependent]). Resolved floating-point UI bugs.
+
+## 2. Utilities & Tools
+* **Gold Price Estimator:** Replaced international spot price fallback with an active Next.js API proxy (`cheerio` scraper) that securely fetches the *actual* daily market rate directly from FENEGOSIDA. Added skeleton loaders to prevent layout shifts and display of inaccurate default data during fetch.
+* **Invoice Generator:** Completely modularized into tailored IRD-compliant formats:
+  * **Tax Invoice:** Supports VAT separation, dual signatures, and mandatory PAN fields.
+  * **Sales Receipt:** Streamlined for non-VAT transactions.
+  * **Estimate / Quote:** Tailored for pre-sales with validity dates and no strict bank demands.
+  * **Print Optimization:** Injected advanced `@media print` CSS rules to strip AdSense banners, navigation, and web clutter, ensuring the generated PDF perfectly fits an A4 page.
+
+## 3. Codebase & Architecture
+* **Refactoring:** Modularized monolithic files, implemented Next.js server-side API routes for cross-origin scraping, and applied strict TypeScript typings.
+* **Cleanup:** Removed redundant test scripts, pruned unused variables/imports, resolved React `useEffect` cascading render warnings, and ensured a completely clean linter output.
