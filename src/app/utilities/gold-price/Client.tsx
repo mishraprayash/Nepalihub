@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calculator, Award, Info, Coins, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { Info, Coins, RefreshCw, CheckCircle2 } from 'lucide-react';
 
-import AdBanner from '@/components/AdBanner';
 export default function GoldPriceEstimator() {
-  const [goldRate, setGoldRate] = useState<number>(142000); // NPR per Tola for Fine Gold (Fallback Default)
+  const [goldRate, setGoldRate] = useState<number>(0); // Starts at 0, waits for live or fallback
   const [purity, setPurity] = useState<'24k' | '22k'>('24k');
   const [weightTola, setWeightTola] = useState<number>(1);
   const [weightLal, setWeightLal] = useState<number>(0);
@@ -17,24 +16,19 @@ export default function GoldPriceEstimator() {
     async function fetchLiveGoldPrice() {
       try {
         setLoading(true);
-        // Fetch Pax Gold price (representing 1 Troy Ounce of Gold in USD)
-        const paxgRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=pax-gold&vs_currencies=usd');
-        const paxgData = await paxgRes.json();
-        const goldUsdPerOz = paxgData['pax-gold']?.usd;
-
-        // Fetch USD to NPR exchange rate
-        const forexRes = await fetch('https://open.er-api.com/v6/latest/USD');
-        const forexData = await forexRes.json();
-        const usdToNpr = forexData.rates?.NPR;
-
-        if (goldUsdPerOz && usdToNpr) {
-          // 1 Tola = 11.664g. 1 Troy Ounce = 31.1034768g. Ratio is 11.664/31.1034768 = 0.375
-          const calculatedGoldRate = Math.round(goldUsdPerOz * usdToNpr * 0.375);
-          setGoldRate(calculatedGoldRate);
+        // Fetch official rate from FENEGOSIDA via our internal API proxy
+        const res = await fetch('/api/gold-price');
+        const data = await res.json();
+        
+        if (data.rate && data.rate > 100000) {
+          setGoldRate(data.rate);
           setLiveStatus('live');
+        } else {
+          throw new Error('Invalid rate received from proxy');
         }
       } catch (err) {
         console.error('Error fetching live gold price:', err);
+        setGoldRate(150000); // Set a realistic fallback if API fails
         setLiveStatus('fallback');
       } finally {
         setLoading(false);
@@ -90,15 +84,21 @@ export default function GoldPriceEstimator() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Base Gold Rate (NPR per Tola)</label>
-              <input
-                type="number"
-                value={goldRate || ''}
-                onChange={(e) => {
-                  setGoldRate(Number(e.target.value));
-                  setLiveStatus('fallback'); // Override to fallback status if manually edited
-                }}
-                className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium"
-              />
+              {loading ? (
+                <div className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700 animate-pulse h-[38px] sm:h-[42px] flex items-center">
+                  <div className="h-2.5 bg-gray-200 dark:bg-gray-600 rounded w-1/3"></div>
+                </div>
+              ) : (
+                <input
+                  type="number"
+                  value={goldRate || ''}
+                  onChange={(e) => {
+                    setGoldRate(Number(e.target.value));
+                    setLiveStatus('fallback'); // Override to fallback status if manually edited
+                  }}
+                  className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium"
+                />
+              )}
             </div>
 
             <div>
@@ -156,22 +156,28 @@ export default function GoldPriceEstimator() {
           <div className="bg-gradient-to-br from-amber-500 to-yellow-600 text-white p-6 rounded-2xl shadow-xl space-y-6">
             <h2 className="text-xl font-bold border-b border-white/20 pb-4">Valuation Estimate</h2>
             <div className="space-y-4">
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-sm items-center">
                 <span className="opacity-90">Total Weight:</span>
                 <span className="font-semibold">{totalTolaWeight.toFixed(2)} Tola ({(totalTolaWeight * 11.664).toFixed(3)}g)</span>
               </div>
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-sm items-center">
                 <span className="opacity-90">Gold Base Price:</span>
-                <span className="font-semibold">Rs. {Math.round(goldValue).toLocaleString()}</span>
+                <span className="font-semibold">
+                  {loading ? <div className="h-4 w-24 bg-white/30 rounded animate-pulse"></div> : `Rs. ${Math.round(goldValue).toLocaleString()}`}
+                </span>
               </div>
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-sm items-center">
                 <span className="opacity-90">Making Charges:</span>
-                <span className="font-semibold">Rs. {Math.round(makingCharges).toLocaleString()}</span>
+                <span className="font-semibold">
+                  {loading ? <div className="h-4 w-20 bg-white/30 rounded animate-pulse"></div> : `Rs. ${Math.round(makingCharges).toLocaleString()}`}
+                </span>
               </div>
               <hr className="border-white/20" />
-              <div className="flex justify-between text-lg">
+              <div className="flex justify-between text-lg items-center">
                 <span className="font-bold">Total Estimated Value:</span>
-                <span className="font-extrabold text-2xl text-yellow-100">Rs. {Math.round(totalValuation).toLocaleString()}</span>
+                <span className="font-extrabold text-2xl text-yellow-100">
+                  {loading ? <div className="h-8 w-32 bg-white/30 rounded animate-pulse"></div> : `Rs. ${Math.round(totalValuation).toLocaleString()}`}
+                </span>
               </div>
             </div>
           </div>
