@@ -9,14 +9,18 @@ export default function IncomeTaxClient() {
   const [status, setStatus] = useState<'single' | 'married'>('single');
   const [assessmentYear, setAssessmentYear] = useState('2083/84');
   const [infoYear, setInfoYear] = useState<'2083/84' | '2080/81'>('2083/84');
-  const [monthlySalary, setMonthlySalary] = useState<number>(80000);
+  const [basicSalary, setBasicSalary] = useState<number>(50000); // Basic Salary
+  const [monthlySalary, setMonthlySalary] = useState<number>(80000); // Gross Monthly Salary
   const [otherIncome, setOtherIncome] = useState<number>(0);
   const [bonus, setBonus] = useState<number>(0);
   
   // Deductions
-  const [ssfContribution, setSsfContribution] = useState<number>(0); // SSF contribution
-  const [pfContribution, setPfContribution] = useState<number>(0); // PF
-  const [citContribution, setCitContribution] = useState<number>(0); // CIT
+  const [ssfContribution, setSsfContribution] = useState<number>(0);
+  const [ssfPeriod, setSsfPeriod] = useState<'monthly' | 'annual'>('annual');
+  const [pfContribution, setPfContribution] = useState<number>(0);
+  const [pfPeriod, setPfPeriod] = useState<'monthly' | 'annual'>('annual');
+  const [citContribution, setCitContribution] = useState<number>(0);
+  const [citPeriod, setCitPeriod] = useState<'monthly' | 'annual'>('annual');
   const [lifeInsurance, setLifeInsurance] = useState<number>(0); // Life insurance
   const [healthInsurance, setHealthInsurance] = useState<number>(0); // Health insurance
 
@@ -26,8 +30,13 @@ export default function IncomeTaxClient() {
 
   // Deductions calculation
   // Limit CIT/PF/SSF: Max 1/3 of gross or Rs 3,00,000 (or Rs 5,00,000 if SSF, Rs 6,00,000 in 2083)
-  const maxRetirementDeduction = ssfContribution > 0 ? (assessmentYear === '2083/84' ? 600000 : 500000) : 300000;
-  const actualRetirementContribution = ssfContribution + pfContribution + citContribution;
+  const annualSsf = ssfPeriod === 'monthly' ? ssfContribution * 12 : ssfContribution;
+  const annualPf = pfPeriod === 'monthly' ? pfContribution * 12 : pfContribution;
+  const annualCit = citPeriod === 'monthly' ? citContribution * 12 : citContribution;
+  
+  const maxRetirementDeduction = annualSsf > 0 ? (assessmentYear === '2083/84' ? 600000 : 500000) : 300000;
+  
+  const actualRetirementContribution = annualSsf + annualPf + annualCit;
   const retirementDeduction = Math.min(
     actualRetirementContribution,
     maxRetirementDeduction,
@@ -87,7 +96,7 @@ export default function IncomeTaxClient() {
 
     // If enrolled in SSF, the first slab (1%) is 0% (free social security tax)
     let rate = slab.rate;
-    if (i === 0 && ssfContribution > 0) {
+    if (i === 0 && annualSsf > 0) {
       rate = 0; // Exempted if enrolled in SSF
     }
 
@@ -124,7 +133,8 @@ export default function IncomeTaxClient() {
   }
 
   const netTakeHomeAnnual = grossAnnualIncome - totalTax - actualRetirementContribution;
-  const netTakeHomeMonthly = netTakeHomeAnnual / 12;
+  // Calculate regular monthly take-home by excluding one-time bonus and other income
+  const netTakeHomeMonthly = monthlySalary - (actualRetirementContribution / 12) - (totalTax / 12);
 
   return (
     <div className="space-y-12">
@@ -182,11 +192,22 @@ export default function IncomeTaxClient() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Monthly Basic Salary (NPR)</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Monthly Gross Salary (NPR)</label>
               <input
                 type="number"
                 value={monthlySalary || ''}
                 onChange={(e) => setMonthlySalary(Number(e.target.value))}
+                className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Monthly Basic Salary (NPR)</label>
+              <span className="text-xs text-gray-400 block mb-2">Base for 31% SSF deduction</span>
+              <input
+                type="number"
+                value={basicSalary || ''}
+                onChange={(e) => setBasicSalary(Number(e.target.value))}
                 className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -221,39 +242,81 @@ export default function IncomeTaxClient() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">SSF (Social Security Fund)</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">SSF (Social Security Fund)</label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSsfContribution(Math.round(basicSalary * 0.31));
+                    setSsfPeriod('monthly');
+                  }}
+                  className="text-[10px] bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded"
+                >
+                  31% of Basic
+                </button>
+              </div>
               <span className="text-xs text-gray-400 block mb-2">Reduces tax-free slab rate to 0%</span>
-              <input
-                type="number"
-                value={ssfContribution || ''}
-                onChange={(e) => setSsfContribution(Number(e.target.value))}
-                placeholder="e.g. 100000"
-                className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  value={ssfContribution || ''}
+                  onChange={(e) => setSsfContribution(Number(e.target.value))}
+                  placeholder="e.g. 100000"
+                  className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <select
+                  value={ssfPeriod}
+                  onChange={(e) => setSsfPeriod(e.target.value as 'monthly' | 'annual')}
+                  className="w-1/3 py-2 px-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
+                >
+                  <option value="annual">/yr</option>
+                  <option value="monthly">/mo</option>
+                </select>
+              </div>
             </div>
 
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">CIT Contribution</label>
               <span className="text-xs text-gray-400 block mb-2">Citizen Investment Trust</span>
-              <input
-                type="number"
-                value={citContribution || ''}
-                onChange={(e) => setCitContribution(Number(e.target.value))}
-                placeholder="e.g. 120000"
-                className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  value={citContribution || ''}
+                  onChange={(e) => setCitContribution(Number(e.target.value))}
+                  placeholder="e.g. 120000"
+                  className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <select
+                  value={citPeriod}
+                  onChange={(e) => setCitPeriod(e.target.value as 'monthly' | 'annual')}
+                  className="w-1/3 py-2 px-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
+                >
+                  <option value="annual">/yr</option>
+                  <option value="monthly">/mo</option>
+                </select>
+              </div>
             </div>
 
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Provident Fund (EPF)</label>
               <span className="text-xs text-gray-400 block mb-2">Employees Provident Fund</span>
-              <input
-                type="number"
-                value={pfContribution || ''}
-                onChange={(e) => setPfContribution(Number(e.target.value))}
-                placeholder="e.g. 50000"
-                className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  value={pfContribution || ''}
+                  onChange={(e) => setPfContribution(Number(e.target.value))}
+                  placeholder="e.g. 50000"
+                  className="w-full py-2 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <select
+                  value={pfPeriod}
+                  onChange={(e) => setPfPeriod(e.target.value as 'monthly' | 'annual')}
+                  className="w-1/3 py-2 px-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
+                >
+                  <option value="annual">/yr</option>
+                  <option value="monthly">/mo</option>
+                </select>
+              </div>
             </div>
 
             <div>
@@ -412,18 +475,56 @@ export default function IncomeTaxClient() {
 
       {/* SEO Dynamic Informational Content */}
       <section className="bg-white dark:bg-gray-800 p-8 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm space-y-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Understanding Nepal Income Tax (FAQs & Calculations)</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Understanding Retirement Funds and Income Tax in Nepal</h2>
         
         <div className="space-y-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
           <p>
-            Nepal follows a progressive taxation system where tax rates increase as your income increases. In the latest budget, tax slabs are divided based on whether you file as <strong>Single</strong> or <strong>Married</strong>.
+            Nepal operates on a progressive taxation system under the Income Tax Act. Tax liabilities can be significantly reduced by legally participating in approved retirement and investment funds.
           </p>
 
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mt-6">Deductions and Allowances in Nepal</h3>
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mt-6">Retirement Funds: SSF, EPF/PF, and CIT Explained</h3>
+          
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-200">1. Social Security Fund (SSF)</h4>
+              <p>
+                The SSF is a comprehensive government-mandated welfare scheme. It requires a combined contribution of <strong>31% of your basic salary</strong> (11% deducted from the employee's salary and 20% contributed by the employer).
+              </p>
+              <ul className="list-disc pl-5 mt-1 space-y-1">
+                <li><strong>Tax Benefit:</strong> If you are enrolled in SSF, the mandatory 1% Social Security Tax on the first income slab is fully waived.</li>
+                <li><strong>Deduction Limit:</strong> The combined statutory maximum deduction limit is raised to Rs. 500,000 (or Rs. 600,000 for FY 2083/84) for SSF contributors.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-200">2. Employees Provident Fund (EPF/PF)</h4>
+              <p>
+                A traditional retirement savings scheme typically involving a <strong>20% total contribution</strong> (10% from the employee and 10% from the employer). It functions as an approved retirement fund but lacks the 1% SSST waiver advantage of the SSF.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-200">3. Citizen Investment Trust (CIT)</h4>
+              <p>
+                CIT allows for voluntary salary deductions designed to encourage savings while offering immediate tax deductions. You can choose the monthly contribution amount to maximize tax efficiency up to the legal thresholds.
+              </p>
+            </div>
+          </div>
+
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mt-6">Combined Tax Deduction Limits</h3>
+          <p>
+            Under the Nepal Income Tax Act, you cannot deduct unlimited amounts through retirement funds. For high-income earners, the allowable tax deduction for combined retirement contributions (SSF + CIT + PF) is strictly calculated as the <strong>lowest of the following three values</strong>:
+          </p>
+          <ul className="list-decimal pl-5 space-y-1 font-medium text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+            <li>The actual combined contribution amount.</li>
+            <li>33.33% (One-third) of your Assessable Gross Income.</li>
+            <li>The statutory maximum limit: Rs. 300,000 for standard EPF/CIT users, or Rs. 500,000 for SSF contributors (Rs. 600,000 for the current FY 2083/84 unified slab).</li>
+          </ul>
+
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mt-6">Additional Insurance Deductions</h3>
           <ul className="list-disc pl-5 space-y-2">
-            <li><strong>Social Security Fund (SSF):</strong> Contributions are tax-exempt, and the first 1% social security tax on the first slab is waived if you are enrolled in SSF.</li>
-            <li><strong>Citizen Investment Trust (CIT) & EPF:</strong> Total contribution to EPF, CIT, or SSF can be claimed as deduction up to 1/3 of your income or Rs. 3,00,000 (limit is extended to Rs. 5,00,000 for SSF contributors).</li>
-            <li><strong>Insurance Deductions:</strong> Deduct up to Rs. 40,000 on Life Insurance premiums and up to Rs. 20,000 on Health Insurance premiums.</li>
+            <li><strong>Life Insurance:</strong> Taxpayers can deduct up to Rs. 40,000 annually for life insurance premiums paid.</li>
+            <li><strong>Health Insurance:</strong> An additional deduction of up to Rs. 20,000 annually is allowed for health insurance premiums paid to registered insurance companies in Nepal.</li>
           </ul>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-6 border-b border-gray-100 dark:border-gray-700 pb-3">
