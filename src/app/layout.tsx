@@ -117,7 +117,7 @@ export default function RootLayout({
               "@type": "Organization",
               name: "NepalHub",
               url: "https://nepalihub-omega.vercel.app/",
-              logo: "https://nepalihub-omega.vercel.app//favicon.ico",
+              logo: "https://nepalihub-omega.vercel.app/favicon.ico",
               description:
                 "Free Nepal-specific calculators and digital utilities platform.",
               areaServed: "NP",
@@ -137,7 +137,7 @@ export default function RootLayout({
                 "@type": "SearchAction",
                 target: {
                   "@type": "EntryPoint",
-                  urlTemplate: "https://nepalihub-omega.vercel.app//?search={search_term_string}",
+                  urlTemplate: "https://nepalihub-omega.vercel.app/?search={search_term_string}",
                 },
                 "query-input": "required name=search_term_string",
               },

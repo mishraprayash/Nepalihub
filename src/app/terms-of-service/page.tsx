@@ -22,7 +22,7 @@ export default function TermsPage() {
             name: 'Terms of Service',
             description: 'Terms of Service for NepalHub.',
             url: 'https://nepalihub-omega.vercel.app/terms-of-service',
-            isPartOf: { '@id': 'https://nepalihub-omega.vercel.app//#website' },
+            isPartOf: { '@id': 'https://nepalihub-omega.vercel.app/#website' },
           }),
         }}
       />

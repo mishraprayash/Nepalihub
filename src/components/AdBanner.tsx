@@ -27,8 +27,8 @@ export default function AdBanner({ slot, format = 'auto', className = '' }: AdBa
     initialized.current = true;
 
     try {
-      if (typeof window !== 'undefined' && (window as any).adsbygoogle) {
-        (window as any).adsbygoogle.push({});
+      if (typeof window !== 'undefined' && (window as unknown as { adsbygoogle: unknown[] }).adsbygoogle) {
+        (window as unknown as { adsbygoogle: unknown[] }).adsbygoogle.push({});
       }
     } catch {
       // Silently fail if AdBlock or ad script not loaded
