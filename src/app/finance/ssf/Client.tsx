@@ -12,11 +12,10 @@ interface Contribution {
 }
 
 const CONTRIBUTION_TYPES: Omit<Contribution, 'amount'>[] = [
-  { label: 'Social Security (Pension)', rate: 20, by: 'employer', icon: <Shield className="h-4 w-4" /> },
-  { label: 'Medical Insurance',        rate: 1,  by: 'employer', icon: <HeartPulse className="h-4 w-4" /> },
-  { label: 'Accident Insurance',       rate: 1,  by: 'employer', icon: <Umbrella className="h-4 w-4" /> },
-  { label: 'Maternity',                rate: 0.5,by: 'employer', icon: <Baby className="h-4 w-4" /> },
-  { label: 'Dependent Family Medical', rate: 0.5,by: 'employer', icon: <Users className="h-4 w-4" /> },
+  { label: 'Old Age Protection (Pension/PF/Gratuity)', rate: 17.33, by: 'employer', icon: <Shield className="h-4 w-4" /> },
+  { label: 'Medical & Maternity Protection',           rate: 1.00,  by: 'employer', icon: <HeartPulse className="h-4 w-4" /> },
+  { label: 'Accident & Disability Protection',         rate: 1.40,  by: 'employer', icon: <Umbrella className="h-4 w-4" /> },
+  { label: 'Dependent Family Protection',              rate: 0.27,  by: 'employer', icon: <Users className="h-4 w-4" /> },
 ];
 
 export default function SSFClient() {
@@ -26,7 +25,7 @@ export default function SSFClient() {
 
   const salary = parseFloat(basicSalary) || 0;
   const employeeRate = 11;
-  const employerRate = CONTRIBUTION_TYPES.reduce((s, c) => s + c.rate, 0);
+  const employerRate = Math.round(CONTRIBUTION_TYPES.reduce((s, c) => s + c.rate, 0) * 100) / 100;
 
   const employeeMonth = salary * employeeRate / 100;
   const employerMonth = salary * employerRate / 100;
@@ -183,7 +182,7 @@ export default function SSFClient() {
         <p>The Social Security Fund (SSF) was established under the SSF Act 2074 to provide social security to all formally employed workers in Nepal.</p>
         <ul className="list-disc pl-5 space-y-1">
           <li><strong>Mandatory:</strong> All employers with 10+ employees must register</li>
-          <li><strong>Contribution:</strong> 11% employee + variable employer (total ~22%) of basic salary</li>
+          <li><strong>Contribution:</strong> 11% employee + 20% employer (total 31%) of basic salary</li>
           <li><strong>Coverage:</strong> Medical, accident, maternity, dependent family, old age pension</li>
           <li><strong>Withdrawal:</strong> Partial lump sum allowed after 5+ years; full pension at 65</li>
         </ul>
