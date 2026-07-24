@@ -5,7 +5,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://nepalihub-omega.vercel.app/';
   
   // Higher priority for finance & daily tools (more search traffic)
-  const highPriorityTools = ['income-tax', 'emi', 'sip', 'remittance', 'rashifal', 'date-converter', 'electricity-bill', 'gold-price'];
+  const highPriorityTools = ['income-tax', 'emi', 'sip', 'remittance', 'date-converter', 'electricity-bill'];
   
   const calculatorUrls = calculators.map((calc) => ({
     url: `${baseUrl}${calc.path}`,

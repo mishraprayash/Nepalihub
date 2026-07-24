@@ -57,44 +57,12 @@ export const calculators: CalculatorInfo[] = [
     keywords: ['unit converter', 'nepali units', 'tola', 'pau', 'dharni', 'mana', 'pathi', 'bitta', 'haat', 'kosh', 'ropani', 'bigha', 'conversion']
   },
   {
-    id: 'rashifal',
-    name: 'Rashifal (राशिफल)',
-    description: 'Discover your Nepali zodiac sign (Rashi), daily horoscope predictions, personality traits, gemstones, lucky numbers, and rashi matching.',
-    category: 'daily',
-    path: '/daily/rashifal',
-    keywords: ['rashifal', 'rashi', 'horoscope', 'zodiac', 'nepali astrology', 'mesha', 'vrishabha', 'mithuna', 'karka', 'simha', 'kanya', 'tula', 'vrishchika', 'dhanu', 'makara', 'kumbha', 'meena', 'kundali']
-  },
-  {
-    id: 'land-converter',
-    name: 'Nepal Land Converter',
-    description: 'Convert between traditional Nepali land units (Ropani, Aana, Paisa, Daam, Bigha, Kattha, Dhur) and Sq. Ft/Sq. M.',
-    category: 'real-estate',
-    path: '/real-estate/land-converter',
-    keywords: ['land', 'ropani', 'aana', 'bigha', 'kattha', 'dhur', 'square feet', 'paisa', 'daam', 'conversion', 'area']
-  },
-  {
-    id: 'gpa',
-    name: 'SEE & +2 GPA Calculator',
-    description: 'Calculate GPA and grade percentages for SEE, NEB (+2), and university grading systems in Nepal.',
-    category: 'education',
-    path: '/education/gpa',
-    keywords: ['gpa', 'see', 'neb', 'plus two', 'marks', 'percentage', 'grade', 'gpa converter']
-  },
-  {
     id: 'electricity-bill',
     name: 'NEA Electricity Bill Estimator',
     description: 'Estimate your monthly electricity bill based on current Nepal Electricity Authority (NEA) tariff rates.',
     category: 'utilities',
     path: '/utilities/electricity-bill',
     keywords: ['electricity', 'nea', 'bill', 'tariff', 'light bill', 'electricity charges']
-  },
-  {
-    id: 'gold-price',
-    name: 'Gold & Jewelry Value Estimator',
-    description: 'Estimate the value of gold/silver jewelry based on current weight, purity, and making charges.',
-    category: 'utilities',
-    path: '/utilities/gold-price',
-    keywords: ['gold', 'silver', 'price', 'jewelry', 'purity', 'tola', 'lals', 'carat', 'fenya']
   },
   {
     id: 'age-calculator',
@@ -119,22 +87,6 @@ export const calculators: CalculatorInfo[] = [
     category: 'documents',
     path: '/documents/invoice-generator',
     keywords: ['invoice', 'receipt', 'vat', 'pan', 'bill generator', 'pdf invoice', 'business bill']
-  },
-  {
-    id: 'road-tax',
-    name: 'Vehicle Road Tax Estimator',
-    description: 'Estimate the annual road tax and registration renewal fees for your motorcycle, car, or electric vehicle (EV).',
-    category: 'utilities',
-    path: '/vehicle/road-tax',
-    keywords: ['road tax', 'yatayat tax', 'vehicle tax', 'bike tax', 'car tax', 'ev tax', 'dotm nepal']
-  },
-  {
-    id: 'onroad-price',
-    name: 'Vehicle On-Road Price Calculator',
-    description: 'Calculate the total on-road price for cars, motorcycles, and EVs including all taxes and fees.',
-    category: 'utilities',
-    path: '/vehicle/onroad-price',
-    keywords: ['on road price', 'car price', 'bike price', 'ev price', 'ex showroom', 'vehicle cost nepal']
   },
   {
     id: 'date-converter',
@@ -167,29 +119,5 @@ export const calculators: CalculatorInfo[] = [
     category: 'finance',
     path: '/finance/ssf',
     keywords: ['ssf', 'social security fund', 'pension', 'contribution', 'employee', 'employer', 'benefits']
-  },
-  {
-    id: 'fd-comparator',
-    name: 'Bank FD Rate Comparator',
-    description: 'Compare fixed deposit interest rates across 23+ Nepali banks, development banks, and finance companies.',
-    category: 'finance',
-    path: '/finance/fd-comparator',
-    keywords: ['fd rate', 'fixed deposit', 'bank interest', 'fd comparator', 'nepal bank', 'saving rate']
-  },
-  {
-    id: 'data-plans',
-    name: 'Mobile Data Plan Comparator',
-    description: 'Compare mobile data plans across Nepal Telecom, Ncell, and SmartCell. Find the cheapest plan by price or best value.',
-    category: 'utilities',
-    path: '/utilities/data-plans',
-    keywords: ['data plan', 'ntc', 'ncell', 'smart cell', 'mobile data', '4g nepal', '5g nepal']
-  },
-  {
-    id: 'construction-cost',
-    name: 'House Construction Cost Estimator',
-    description: 'Estimate house construction cost per sq ft in Nepal. RCC, load-bearing, prefab costs by city and number of floors.',
-    category: 'real-estate',
-    path: '/real-estate/construction-cost',
-    keywords: ['construction cost', 'house building', 'per sq ft', 'rcc', 'nepal construction', 'building estimate']
   },
 ];

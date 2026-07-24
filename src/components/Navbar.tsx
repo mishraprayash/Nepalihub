@@ -9,8 +9,6 @@ import { calculators } from '@/data/calculators';
 const NAV_LINKS = [
   { href: '/finance/income-tax', label: 'Tax' },
   { href: '/finance/emi', label: 'EMI' },
-  { href: '/utilities/gold-price', label: 'Gold' },
-  { href: '/real-estate/land-converter', label: 'Land' },
   { href: '/daily/date-converter', label: 'Dates' },
 ];
 
@@ -164,10 +162,7 @@ export default function Navbar() {
                 { href: '/finance/sip', label: 'SIP Calculator' },
                 { href: '/finance/stock-calculator', label: 'NEPSE Stock Calculator' },
                 { href: '/utilities/remittance', label: 'Remittance & Forex' },
-                { href: '/real-estate/land-converter', label: 'Land Converter' },
-                { href: '/utilities/gold-price', label: 'Gold Price' },
                 { href: '/daily/date-converter', label: 'Date Converter' },
-                { href: '/daily/rashifal', label: 'Rashifal' },
               ].map(item => (
                 <Link
                   key={item.href}

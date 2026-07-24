@@ -15,7 +15,6 @@ const FOOTER_LINKS = [
     heading: 'Utilities',
     links: [
       { href: '/utilities/remittance',          label: 'Remittance & Forex' },
-      { href: '/utilities/gold-price',          label: 'Gold Price Estimator' },
       { href: '/utilities/electricity-bill',    label: 'NEA Electricity Bill' },
       { href: '/utilities/nepali-unit-converter',label: 'Nepali Unit Converter' },
       { href: '/utilities/unicode-converter',   label: 'Preeti → Unicode' },
@@ -26,10 +25,6 @@ const FOOTER_LINKS = [
     links: [
       { href: '/daily/date-converter',       label: 'BS ↔ AD Date Converter' },
       { href: '/daily/age',                  label: 'Age Calculator' },
-      { href: '/daily/rashifal',             label: 'Rashifal (राशिफल)' },
-      { href: '/real-estate/land-converter', label: 'Land Unit Converter' },
-      { href: '/vehicle/road-tax',           label: 'Vehicle Road Tax' },
-      { href: '/education/gpa',              label: 'SEE & +2 GPA Calculator' },
       { href: '/documents/passport-photo',   label: 'Passport Photo Cropper' },
       { href: '/documents/invoice-generator',label: 'Invoice Generator' },
     ],

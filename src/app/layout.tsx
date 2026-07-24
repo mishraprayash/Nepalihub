@@ -24,12 +24,12 @@ export const metadata: Metadata = {
     template: "%s | NepalHub",
   },
   description:
-    "Free Nepal-specific calculators and utilities: Income Tax (FY 2083/84), Loan EMI, Land Unit Converter, SEE/NEB GPA, NEA Electricity Bill, Gold Price, Stock P&L, Rashifal, and more. 100% client-side, no data leaves your browser.",
+    "Free Nepal-specific calculators and utilities: Income Tax (FY 2083/84), Loan EMI, NEA Electricity Bill, Stock P&L, and more. 100% client-side, no data leaves your browser.",
   keywords: [
-    "nepal calculator", "nepali utility", "income tax nepal", "nepal land converter",
-    "nepse calculator", "remittance nepal", "nepali rashifal", "nepali date converter",
-    "electricity bill nepal", "gold price nepal", "see gpa calculator", "neb gpa",
-    "passport photo nepal", "invoice generator nepal", "vehicle tax nepal",
+    "nepal calculator", "nepali utility", "income tax nepal",
+    "nepse calculator", "remittance nepal", "nepali date converter",
+    "electricity bill nepal",
+    "passport photo nepal", "invoice generator nepal",
     "nepali unit converter", "nepalhub",
   ],
   authors: [{ name: "NepalHub" }],
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     siteName: "NepalHub",
     title: "NepalHub — Nepal's #1 Utility & Calculator Platform",
     description:
-      "Free Nepal-specific calculators and utilities: Income Tax, Loan EMI, Land Converter, GPA, Electricity Bill, Gold Price, Stock P&L, and more.",
+      "Free Nepal-specific calculators and utilities: Income Tax, Loan EMI, Electricity Bill, Stock P&L, and more.",
     url: "https://nepalihub-omega.vercel.app/",
     images: [
       {
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "NepalHub — Nepal's #1 Utility & Calculator Platform",
     description:
-      "Free Nepal-specific calculators and utilities: Income Tax, Loan EMI, Land Converter, GPA, Electricity Bill, Gold Price, and more.",
+      "Free Nepal-specific calculators and utilities: Income Tax, Loan EMI, Electricity Bill, and more.",
     images: ["/og-image.png"],
   },
   robots: {

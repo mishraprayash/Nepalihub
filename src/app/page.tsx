@@ -20,23 +20,14 @@ const TOOL_META: Record<string, { icon: React.ReactNode; color: string; bg: stri
   'stock-calculator':    { icon: <BarChart3 className="h-5 w-5" />,   color: 'text-green-600',  bg: 'bg-green-50',  darkBg: 'dark:bg-green-950/30' },
   'remittance':          { icon: <Globe className="h-5 w-5" />,       color: 'text-cyan-500',   bg: 'bg-cyan-50',   darkBg: 'dark:bg-cyan-950/30' },
   'nepali-unit-converter':{ icon: <Scale className="h-5 w-5" />,      color: 'text-indigo-500', bg: 'bg-indigo-50', darkBg: 'dark:bg-indigo-950/30' },
-  'rashifal':            { icon: <Star className="h-5 w-5" />,        color: 'text-purple-500', bg: 'bg-purple-50', darkBg: 'dark:bg-purple-950/30' },
-  'land-converter':      { icon: <RefreshCw className="h-5 w-5" />,   color: 'text-violet-500', bg: 'bg-violet-50', darkBg: 'dark:bg-violet-950/30' },
-  'gpa':                 { icon: <GraduationCap className="h-5 w-5" />,color: 'text-fuchsia-500',bg: 'bg-fuchsia-50',darkBg: 'dark:bg-fuchsia-950/30' },
   'electricity-bill':    { icon: <Zap className="h-5 w-5" />,         color: 'text-amber-500',  bg: 'bg-amber-50',  darkBg: 'dark:bg-amber-950/30' },
-  'gold-price':          { icon: <Coins className="h-5 w-5" />,       color: 'text-yellow-600', bg: 'bg-yellow-50', darkBg: 'dark:bg-yellow-950/30' },
   'age-calculator':      { icon: <Calendar className="h-5 w-5" />,    color: 'text-teal-500',   bg: 'bg-teal-50',   darkBg: 'dark:bg-teal-950/30' },
   'passport-photo':      { icon: <Camera className="h-5 w-5" />,      color: 'text-sky-500',    bg: 'bg-sky-50',    darkBg: 'dark:bg-sky-950/30' },
   'invoice-generator':   { icon: <FileText className="h-5 w-5" />,    color: 'text-slate-500',  bg: 'bg-slate-50',  darkBg: 'dark:bg-slate-900/50' },
-  'road-tax':            { icon: <Car className="h-5 w-5" />,         color: 'text-orange-500', bg: 'bg-orange-50', darkBg: 'dark:bg-orange-950/30' },
-  'onroad-price':        { icon: <Car className="h-5 w-5" />,         color: 'text-amber-500',  bg: 'bg-amber-50',  darkBg: 'dark:bg-amber-950/30' },
   'date-converter':      { icon: <Calendar className="h-5 w-5" />,    color: 'text-rose-500',   bg: 'bg-rose-50',   darkBg: 'dark:bg-rose-950/30' },
   'unicode-converter':   { icon: <Globe className="h-5 w-5" />,       color: 'text-pink-500',   bg: 'bg-pink-50',   darkBg: 'dark:bg-pink-950/30' },
   'import-duty':         { icon: <ShoppingCart className="h-5 w-5" />, color: 'text-indigo-500', bg: 'bg-indigo-50', darkBg: 'dark:bg-indigo-950/30' },
   'ssf':                 { icon: <Shield className="h-5 w-5" />,     color: 'text-blue-600',   bg: 'bg-blue-50',   darkBg: 'dark:bg-blue-950/30' },
-  'fd-comparator':       { icon: <Building2 className="h-5 w-5" />,  color: 'text-sky-500',    bg: 'bg-sky-50',    darkBg: 'dark:bg-sky-950/30' },
-  'data-plans':          { icon: <Wifi className="h-5 w-5" />,       color: 'text-cyan-500',   bg: 'bg-cyan-50',   darkBg: 'dark:bg-cyan-950/30' },
-  'construction-cost':   { icon: <Building2 className="h-5 w-5" />,  color: 'text-emerald-500',bg: 'bg-emerald-50',darkBg: 'dark:bg-emerald-950/30' },
 };
 
 const FALLBACK = { icon: <Calculator className="h-5 w-5" />, color: 'text-gray-500', bg: 'bg-gray-50', darkBg: 'dark:bg-gray-800' };
@@ -144,7 +135,7 @@ export default function Home() {
             </h1>
 
             <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-md">
-              Income tax, land conversion, NEPSE P&L, gold prices, electricity bills — all free, instant, and accurate. No signup required.
+              Income tax, land conversion, NEPSE P&L, electricity bills — all free, instant, and accurate. No signup required.
             </p>
 
             {/* Stats row */}
@@ -162,7 +153,6 @@ export default function Home() {
               {[
                 { href: '/finance/income-tax', label: 'Tax Calculator', color: 'bg-red-600 hover:bg-red-700 text-white' },
                 { href: '/finance/stock-calculator', label: 'NEPSE Stock', color: 'bg-blue-600 hover:bg-blue-700 text-white' },
-                { href: '/utilities/gold-price', label: 'Gold Price', color: 'bg-amber-500 hover:bg-amber-600 text-white' },
               ].map(b => (
                 <Link
                   key={b.href}
