@@ -1,24 +1,26 @@
 'use client';
 
 import { useState } from 'react';
-import { Calculator, Table, Landmark, HelpCircle, ArrowUpRight } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import AdBanner from '@/components/AdBanner';
+import ToolShell from '@/components/ui/ToolShell';
+import { Panel, SliderField, Segmented, ResultStat } from '@/components/ui/fields';
+
+const fmt = (n: number) => `Rs. ${Math.round(n).toLocaleString()}`;
 
 export default function EMICalculator() {
   const [loanAmount, setLoanAmount] = useState<number>(3000000); // 30 Lakhs
-  const [interestRate, setInterestRate] = useState<number>(12); // 12%
-  const [loanTenure, setLoanTenure] = useState<number>(15); // 15 years
+  const [interestRate, setInterestRate] = useState<number>(12);
+  const [loanTenure, setLoanTenure] = useState<number>(15);
   const [tenureType, setTenureType] = useState<'years' | 'months'>('years');
 
-  // EMI Calculation Formula
   const principal = loanAmount;
   const monthlyRate = interestRate / 12 / 100;
   const numberOfMonths = tenureType === 'years' ? loanTenure * 12 : loanTenure;
 
   let emi = 0;
   if (monthlyRate > 0) {
-    emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfMonths)) / 
+    emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfMonths)) /
           (Math.pow(1 + monthlyRate, numberOfMonths) - 1);
   } else {
     emi = principal / numberOfMonths;
@@ -27,17 +29,15 @@ export default function EMICalculator() {
   const totalPayment = emi * numberOfMonths;
   const totalInterest = totalPayment - principal;
 
-  // Pie chart data
   const data = [
-    { name: 'Principal Amount', value: principal },
-    { name: 'Total Interest', value: totalInterest }
+    { name: 'Principal', value: principal },
+    { name: 'Interest', value: totalInterest }
   ];
-  const COLORS = ['#3b82f6', '#f43f5e'];
+  const COLORS = ['#b91c2e', '#a16207'];
 
-  // Amortization Schedule Generation
   const amortizationSchedule = [];
   let remainingBalance = principal;
-  for (let i = 1; i <= Math.min(numberOfMonths, 12); i++) { // Render first 12 months for review
+  for (let i = 1; i <= Math.min(numberOfMonths, 12); i++) {
     const interestPaid = remainingBalance * monthlyRate;
     const principalPaid = emi - interestPaid;
     remainingBalance = Math.max(0, remainingBalance - principalPaid);
@@ -51,265 +51,174 @@ export default function EMICalculator() {
   }
 
   return (
-    <div className="space-y-12 max-w-6xl mx-auto">
-      {/* Header */}
-      <div className="space-y-2">
-        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider">
-          <Landmark className="h-3 w-3" /> Banking Utilities
-        </div>
-        <h1 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-          Loan EMI & Amortization Calculator
-        </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 max-w-2xl">
-          Calculate monthly loan repayments, total payable interest, and view a complete amortization schedule. Optimized for home, car, and gold loans in Nepal.
-        </p>
-      </div>
+    <ToolShell
+      category="Finance"
+      title="Loan EMI Calculator"
+      badge="Banking"
+      description="Monthly repayment, total interest and a full amortization schedule — tuned for home, auto and gold loans in Nepal."
+      aside={
+        <>
+          <Panel>
+            <ResultStat label="Monthly EMI" value={fmt(emi)} emphasis />
+            <ResultStat label="Principal" value={fmt(principal)} />
+            <ResultStat label="Total interest" value={fmt(totalInterest)} tone="negative" />
+            <ResultStat label="Total payable" value={fmt(totalPayment)} />
+          </Panel>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Input Panel */}
-        <div className="lg:col-span-7 space-y-8 bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-3xl border border-gray-150/60 dark:border-gray-700/50 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500" />
-          
-          <h2 className="text-lg font-extrabold flex items-center gap-2 text-gray-900 dark:text-white">
-            <Calculator className="h-5 w-5 text-blue-500" />
-            Loan Parameters
-          </h2>
-
-          <div className="space-y-8">
-            {/* Amount Slider & Input */}
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <label className="text-xs font-bold uppercase tracking-wider text-gray-400">Loan Amount</label>
-                <span className="text-sm font-extrabold text-blue-600 dark:text-blue-400 font-mono">
-                  Rs. {loanAmount.toLocaleString()}
-                </span>
-              </div>
-              <input
-                type="range"
-                min="100000"
-                max="50000000"
-                step="50000"
-                value={loanAmount}
-                onChange={(e) => setLoanAmount(Number(e.target.value))}
-                className="w-full h-1.5 bg-gray-150 dark:bg-gray-750 rounded-lg appearance-none cursor-pointer accent-blue-600"
-              />
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-400 font-bold text-xs">Rs.</span>
-                <input
-                  type="number"
-                  value={loanAmount || ''}
-                  onChange={(e) => setLoanAmount(Number(e.target.value))}
-                  className="w-full pl-9 pr-4 py-2 text-sm font-bold border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-
-            {/* Interest Slider & Input */}
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <label className="text-xs font-bold uppercase tracking-wider text-gray-400">Interest Rate (% p.a.)</label>
-                <span className="text-sm font-extrabold text-blue-600 dark:text-blue-400 font-mono">
-                  {interestRate}%
-                </span>
-              </div>
-              <input
-                type="range"
-                min="1"
-                max="25"
-                step="0.1"
-                value={interestRate}
-                onChange={(e) => setInterestRate(Number(e.target.value))}
-                className="w-full h-1.5 bg-gray-150 dark:bg-gray-750 rounded-lg appearance-none cursor-pointer accent-blue-600"
-              />
-              <div className="relative">
-                <span className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 font-bold text-xs">%</span>
-                <input
-                  type="number"
-                  value={interestRate || ''}
-                  onChange={(e) => setInterestRate(Number(e.target.value))}
-                  className="w-full pr-9 pl-4 py-2 text-sm font-bold border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-
-            {/* Tenure Selects */}
-            <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-gray-400 block">Loan Tenure</label>
-              <div className="flex gap-4">
-                <input
-                  type="number"
-                  value={loanTenure || ''}
-                  onChange={(e) => setLoanTenure(Number(e.target.value))}
-                  className="w-full px-4 py-2 text-sm font-bold border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <select
-                  value={tenureType}
-                  onChange={(e) => setTenureType(e.target.value as 'years' | 'months')}
-                  className="py-2 px-4 text-xs font-bold uppercase tracking-wider border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="years">Years</option>
-                  <option value="months">Months</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Results Panel */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-indigo-700 text-white p-6 sm:p-8 rounded-3xl shadow-xl space-y-6 relative overflow-hidden">
-            {/* Subtle light background reflection */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -mr-10 -mt-10" />
-
-            <h2 className="text-lg font-bold border-b border-white/20 pb-4">Repayment Estimate</h2>
-            
-            <div className="space-y-5">
-              <div className="flex flex-col items-center py-6 bg-white/10 rounded-2xl">
-                <span className="text-xs opacity-90 uppercase tracking-widest font-bold">Monthly EMI</span>
-                <span className="text-3xl sm:text-4xl font-black mt-1 font-mono">Rs. {Math.round(emi).toLocaleString()}</span>
-              </div>
-              
-              <div className="space-y-3 text-xs">
-                <div className="flex justify-between items-center">
-                  <span className="opacity-90 font-medium">Principal Amount:</span>
-                  <span className="font-bold font-mono">Rs. {principal.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="opacity-90 font-medium">Interest Amount:</span>
-                  <span className="font-bold font-mono">Rs. {Math.round(totalInterest).toLocaleString()}</span>
-                </div>
-                <hr className="border-white/20" />
-                <div className="flex justify-between items-center text-sm">
-                  <span className="font-bold">Total Amount Payable:</span>
-                  <span className="font-extrabold font-mono text-yellow-200">Rs. {Math.round(totalPayment).toLocaleString()}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Recharts Block */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl border border-gray-150/60 dark:border-gray-700/50 shadow-sm flex flex-col items-center">
-            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Payment Breakdown</h3>
-            <div className="w-full h-[140px] flex items-center justify-center">
+          <Panel title="Payment breakdown">
+            <div className="w-full h-[140px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie
-                    data={data}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={38}
-                    outerRadius={55}
-                    paddingAngle={4}
-                    dataKey="value"
-                  >
+                  <Pie data={data} cx="50%" cy="50%" innerRadius={38} outerRadius={55} paddingAngle={4} dataKey="value">
                     {data.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value) => `Rs. ${Number(value).toLocaleString()}`} />
+                  <Tooltip formatter={(value) => fmt(Number(value))} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex justify-center gap-6 mt-4 text-[10px] font-bold uppercase tracking-wider">
-              <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                <span className="text-gray-500 dark:text-gray-400">Principal</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                <span className="text-gray-500 dark:text-gray-400">Interest</span>
-              </div>
+            <div className="flex justify-center gap-6 mt-3 text-xs text-ink-soft">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full" style={{ background: COLORS[0] }} /> Principal
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full" style={{ background: COLORS[1] }} /> Interest
+              </span>
             </div>
-          </div>
+          </Panel>
 
           <AdBanner slot="0000000000" format="auto" />
-        </div>
-      </div>
+        </>
+      }
+      below={
+        <>
+          {/* Amortization table */}
+          <section className="bg-surface border border-line rounded-2xl p-5 sm:p-7 mb-6">
+            <h2 className="font-display text-lg font-semibold text-ink mb-5">
+              Amortization schedule · first 12 months
+            </h2>
+            <div className="overflow-x-auto -mx-2 px-2">
+              <table className="min-w-full text-left text-[13px]">
+                <thead>
+                  <tr className="text-[11px] uppercase tracking-wider text-ink-faint border-b border-line">
+                    <th className="py-3 pr-4 font-semibold">Month</th>
+                    <th className="py-3 pr-4 font-semibold">EMI</th>
+                    <th className="py-3 pr-4 font-semibold">Principal</th>
+                    <th className="py-3 pr-4 font-semibold">Interest</th>
+                    <th className="py-3 font-semibold">Balance</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line/60 text-ink-soft tabular-nums">
+                  {amortizationSchedule.map((row) => (
+                    <tr key={row.month} className="hover:bg-paper-deep/60 transition-colors">
+                      <td className="py-2.5 pr-4 font-semibold text-ink">{row.month}</td>
+                      <td className="py-2.5 pr-4 font-mono">{fmt(row.emi)}</td>
+                      <td className="py-2.5 pr-4 font-mono text-pine">{fmt(row.principal)}</td>
+                      <td className="py-2.5 pr-4 font-mono text-simrik">{fmt(row.interest)}</td>
+                      <td className="py-2.5 font-mono font-semibold text-ink">{fmt(row.balance)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
 
-      {/* Amortization Table */}
-      <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-3xl border border-gray-150/60 dark:border-gray-700/50 shadow-sm space-y-4">
-        <h2 className="text-lg font-extrabold flex items-center gap-2 text-gray-900 dark:text-white">
-          <Table className="h-5 w-5 text-indigo-500" />
-          Amortization Schedule (First 12 Months)
-        </h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-left text-xs font-semibold">
-            <thead>
-              <tr className="text-gray-400 uppercase text-[10px] tracking-wider">
-                <th className="py-3 pb-4">Month</th>
-                <th className="py-3 pb-4">Monthly EMI</th>
-                <th className="py-3 pb-4">Principal Paid</th>
-                <th className="py-3 pb-4">Interest Paid</th>
-                <th className="py-3 pb-4">Remaining Balance</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-700/30 text-gray-850 dark:text-gray-200">
-              {amortizationSchedule.map((row) => (
-                <tr key={row.month} className="hover:bg-gray-50/50 dark:hover:bg-gray-700/30 font-medium">
-                  <td className="py-3 font-bold text-gray-900 dark:text-white">Month {row.month}</td>
-                  <td className="py-3 font-mono">Rs. {Math.round(row.emi).toLocaleString()}</td>
-                  <td className="py-3 text-green-600 dark:text-green-400 font-mono">Rs. {Math.round(row.principal).toLocaleString()}</td>
-                  <td className="py-3 text-rose-500 font-mono">Rs. {Math.round(row.interest).toLocaleString()}</td>
-                  <td className="py-3 font-bold font-mono text-gray-900 dark:text-white">Rs. {Math.round(row.balance).toLocaleString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+          {/* Reference */}
+          <section className="border-t border-line pt-8 pb-10 space-y-6 max-w-none">
+            <h2 className="font-display text-xl font-semibold text-ink">Understanding loans in Nepal</h2>
 
-      {/* Reference Section */}
-      <div className="bg-white dark:bg-[#141720] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl p-6 space-y-4">
-        <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400">Understanding Loans in Nepal</h3>
-        
-        <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-          <div>
-            <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-1">Current Interest Rates (FY 2081/82)</h4>
-            <ul className="list-disc pl-5 space-y-0.5">
-              <li><strong>Home Loan:</strong> 8.5% – 11% p.a. (commercial banks)</li>
-              <li><strong>Auto Loan:</strong> 10% – 13% p.a.</li>
-              <li><strong>Personal Loan:</strong> 12% – 16% p.a.</li>
-              <li><strong>Margin Loan:</strong> 12% – 14% p.a.</li>
-              <li><strong>Education Loan:</strong> 9% – 12% p.a.</li>
-            </ul>
-          </div>
+            <div className="grid md:grid-cols-2 gap-x-10 gap-y-6 text-sm text-ink-soft leading-relaxed">
+              <div>
+                <h3 className="font-semibold text-ink mb-2">Typical rates (FY 2081/82)</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Home loan: 8.5–11% p.a.</li>
+                  <li>Auto loan: 10–13% p.a.</li>
+                  <li>Personal loan: 12–16% p.a.</li>
+                  <li>Margin loan: 12–14% p.a.</li>
+                  <li>Education loan: 9–12% p.a.</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold text-ink mb-2">Borrower tips</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Compare at least 3 banks before choosing</li>
+                  <li>Processing fees: typically 0.5–1% of the loan</li>
+                  <li>Floating rates can rise 1–2% — plan a buffer</li>
+                  <li>Prepayment penalties vary (usually 1–2%)</li>
+                  <li>Check NRB base rate + spread when comparing</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold text-ink mb-2">The formula</h3>
+                <p className="font-mono text-xs bg-paper-deep px-3 py-2 rounded-lg inline-block">
+                  EMI = P·r·(1+r)<sup>n</sup> / ((1+r)<sup>n</sup> − 1)
+                </p>
+                <p className="text-xs mt-2 text-ink-faint">
+                  P = principal · r = monthly rate (annual ÷ 12) · n = tenure in months
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-ink mb-2">Key terms</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li><strong className="text-ink">NRB base rate</strong> — set by Nepal Rastra Bank (~7%)</li>
+                  <li><strong className="text-ink">Spread</strong> — bank margin over base (max 5%)</li>
+                  <li><strong className="text-ink">LTV</strong> — max 60% home, 70% vehicle loans</li>
+                </ul>
+              </div>
+            </div>
 
-          <div>
-            <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-1">EMI Calculation Formula</h4>
-            <p className="font-mono text-xs bg-gray-50 dark:bg-gray-900 p-2 rounded-lg">
-              EMI = P × r × (1 + r)<sup>n</sup> / ((1 + r)<sup>n</sup> – 1)
+            <p className="text-xs text-ink-faint pt-2 border-t border-line">
+              Source: Nepal Rastra Bank (nrb.org.np) and published bank rates.
             </p>
-            <p className="text-xs mt-1">
-              Where P = Principal, r = Monthly interest rate (annual/12), n = Tenure in months
-            </p>
-          </div>
+          </section>
+        </>
+      }
+    >
+      {/* Inputs */}
+      <Panel title="Loan details">
+        <div className="space-y-7">
+          <SliderField
+            label="Loan amount"
+            value={loanAmount}
+            onChange={setLoanAmount}
+            min={100000}
+            max={50000000}
+            step={50000}
+            format={fmt}
+          />
 
-          <div>
-            <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-1">Tips for Borrowers</h4>
-            <ul className="list-disc pl-5 space-y-0.5">
-              <li>Compare interest rates across at least 3 banks before choosing</li>
-              <li>Processing fees typically range from 0.5% to 1% of loan amount</li>
-              <li>Floating rates may change — factor in potential 1-2% rate increases</li>
-              <li>Prepayment penalties vary by bank (usually 1-2% of outstanding)</li>
-              <li>Consider NRB base rate + spread when comparing offers</li>
-            </ul>
-          </div>
+          <SliderField
+            label="Interest rate (% p.a.)"
+            value={interestRate}
+            onChange={setInterestRate}
+            min={1}
+            max={25}
+            step={0.1}
+            format={(v) => `${v}%`}
+          />
 
-          <div>
-            <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-1">Key Nepal-Specific Terms</h4>
-            <ul className="list-disc pl-5 space-y-0.5">
-              <li><strong>NRB Base Rate:</strong> Rate set by Nepal Rastra Bank — currently ~7%</li>
-              <li><strong>Spread:</strong> Bank margin over base rate (max 5% as per NRB directive)</li>
-              <li><strong>CCD Ratio:</strong> Banks must maintain 90% credit-to-deposit ratio for housing</li>
-              <li><strong>LTV:</strong> Loan-to-Value — max 60% for home loans, 70% for vehicles</li>
-            </ul>
+          <div className="space-y-2.5">
+            <span className="text-[13px] font-medium text-ink-soft">Loan tenure</span>
+            <div className="flex flex-wrap items-center gap-3">
+              <input
+                type="number"
+                value={loanTenure || ''}
+                onChange={(e) => setLoanTenure(Number(e.target.value))}
+                className="w-24 py-2 px-3.5 text-sm font-semibold bg-surface-raised border border-line rounded-xl text-ink focus:outline-none focus:border-simrik/60 focus:ring-3 focus:ring-simrik/10 transition-all"
+              />
+              <Segmented
+                options={[
+                  { value: 'years', label: 'Years' },
+                  { value: 'months', label: 'Months' },
+                ]}
+                value={tenureType}
+                onChange={setTenureType}
+              />
+            </div>
           </div>
         </div>
-
-        <p className="text-xs text-gray-400 mt-2">
-          Source: Nepal Rastra Bank (nrb.org.np) and individual bank rates. Updated for FY 2081/82.
-        </p>
-      </div>
-    </div>
+      </Panel>
+    </ToolShell>
   );
 }

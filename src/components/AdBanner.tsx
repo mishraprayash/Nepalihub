@@ -11,12 +11,26 @@ interface AdBannerProps {
 /**
  * Google AdSense responsive banner.
  * Usage: <AdBanner slot="1234567890" format="auto" />
- * 
+ *
+ * ⛔ Ads are globally disabled via ADS_ENABLED below. Every existing
+ * <AdBanner /> usage across the app stays in place and renders nothing
+ * until this flag is flipped back to true.
+ *
  * To enable ads:
- * 1. Add your AdSense publisher ID to layout.tsx (data-ad-client)
- * 2. Replace the slot prop with your actual AdSense ad slot IDs
- * 3. Deploy to production (AdSense only serves on live domains)
+ * 1. Set ADS_ENABLED = true
+ * 2. Add your AdSense publisher ID to layout.tsx (data-ad-client)
+ *    (+ re-add the top/bottom banner wrappers in layout.tsx if removed)
+ * 3. Replace the slot prop with your actual AdSense ad slot IDs
+ * 4. Deploy to production (AdSense only serves on live domains)
  */
+export const ADS_ENABLED = false;
+
+interface AdBannerProps {
+  slot: string;
+  format?: 'auto' | 'rectangle' | 'horizontal' | 'vertical';
+  className?: string;
+}
+
 export default function AdBanner({ slot, format = 'auto', className = '' }: AdBannerProps) {
   const adRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
@@ -30,10 +44,14 @@ export default function AdBanner({ slot, format = 'auto', className = '' }: AdBa
       if (typeof window !== 'undefined' && (window as unknown as { adsbygoogle: unknown[] }).adsbygoogle) {
         (window as unknown as { adsbygoogle: unknown[] }).adsbygoogle.push({});
       }
-    } catch {
+      } catch {
       // Silently fail if AdBlock or ad script not loaded
     }
   }, []);
+
+  // Global off-switch — component kept intact for future use.
+  // Placed after hooks so hook order stays stable if the flag ever flips.
+  if (!ADS_ENABLED) return null;
 
   // Show placeholder when no AdSense yet (development / before approval)
   const isProd = typeof window !== 'undefined' && 

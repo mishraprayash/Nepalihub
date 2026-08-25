@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AdBanner from "@/components/AdBanner";
+// AdBanner import removed while ads are disabled — see ADS_ENABLED in components/AdBanner.tsx
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
+  variable: "--font-body",
   subsets: ["latin"],
   display: "swap",
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const fraunces = Fraunces({
+  variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
 });
@@ -91,7 +96,7 @@ export default function RootLayout({
   return (
     <html
       lang="ne"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <head>
         {/* Preconnect to external origins for performance */}
@@ -100,13 +105,14 @@ export default function RootLayout({
         <link rel="preconnect" href="https://ohmanda.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://ohmanda.com" />
         
-        {/* Google AdSense Script - Requires AdSense publisher ID */}
+        {/* Google AdSense Script — disabled while ads are off (see ADS_ENABLED in components/AdBanner.tsx)
         <Script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_PUB_ID || 'ca-pub-9613933136929298'}`}
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        */}
         
         {/* Structured Data: Organization */}
         <script
@@ -145,26 +151,31 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+      <body className="min-h-full flex flex-col bg-paper text-ink transition-colors duration-200">
         <Navbar />
-        
-        {/* Top Horizontal Ad Banner */}
-        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 pt-6">
-          <div className="max-w-7xl mx-auto">
-            <AdBanner slot="top-horizontal-slot" format="horizontal" />
-          </div>
-        </div>
 
-        <main className="flex-1 w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-4 sm:py-8">
+        {/*
+          Ad slots — disabled for now (see ADS_ENABLED in components/AdBanner.tsx).
+          Restore these wrappers when re-enabling:
+
+          <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 pt-6">
+            <div className="max-w-7xl mx-auto">
+              <AdBanner slot="top-horizontal-slot" format="horizontal" />
+            </div>
+          </div>
+        */}
+
+        <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
           {children}
         </main>
 
-        {/* Bottom Horizontal Ad Banner */}
-        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 pb-8">
-          <div className="max-w-7xl mx-auto">
-            <AdBanner slot="bottom-horizontal-slot" format="horizontal" />
+        {/*
+          <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 pb-8">
+            <div className="max-w-7xl mx-auto">
+              <AdBanner slot="bottom-horizontal-slot" format="horizontal" />
+            </div>
           </div>
-        </div>
+        */}
 
         <Footer />
       </body>
