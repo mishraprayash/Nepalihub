@@ -186,7 +186,7 @@ export class NepaliDateConverter {
     const epochDate = new Date(START_ENGLISH_DATE);
     
     const timeDiff = targetDate.getTime() - epochDate.getTime();
-    let daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 
     if (daysDiff < 0) {
       throw new Error(`English date is older than supported range (Start epoch: ${START_ENGLISH_DATE})`);
