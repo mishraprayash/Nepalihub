@@ -197,7 +197,7 @@ export default function Home() {
               {query && (
                 <button
                   onClick={() => setQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-ink-faint hover:text-simrik px-1.5"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-ink-faint hover:text-simrik px-1.5" aria-label="Clear search"
                 >
                   Clear
                 </button>
