@@ -53,8 +53,8 @@ export function Field({
   return (
     <div className="space-y-1.5">
       <label className="flex items-baseline justify-between gap-2">
-        <span className="text-[13px] font-medium text-ink-soft">{label}</span>
-        {hint && <span className="text-[11px] text-ink-faint">{hint}</span>}
+        <span className="text-sm font-medium text-ink-soft">{label}</span>
+        {hint && <span className="text-xs text-ink-faint">{hint}</span>}
       </label>
       <div className="relative">
         {prefix && (
@@ -110,7 +110,7 @@ export function SliderField({
   return (
     <div className="space-y-2.5">
       <div className="flex items-baseline justify-between gap-2">
-        <span className="text-[13px] font-medium text-ink-soft">{label}</span>
+        <span className="text-sm font-medium text-ink-soft">{label}</span>
         <span className="font-mono text-sm font-bold text-simrik tabular-nums">{display}</span>
       </div>
       <input
@@ -173,7 +173,7 @@ export function ResultStat({
     return (
       <div className="pb-4 mb-4 border-b border-line last:border-0 last:mb-0 last:pb-0">
         <p className="text-xs font-medium text-ink-faint mb-1">{label}</p>
-        <p className={`font-display text-[2rem] leading-none font-semibold tracking-tight ${toneClass} tabular-nums`}>
+        <p className={`font-display text-4xl leading-none font-semibold tracking-tight ${toneClass} tabular-nums`}>
           {value}
         </p>
       </div>
@@ -181,7 +181,7 @@ export function ResultStat({
   }
   return (
     <div className="flex items-baseline justify-between gap-3 py-2.5 border-b border-line/60 last:border-0">
-      <p className="text-[13px] text-ink-soft">{label}</p>
+      <p className="text-sm text-ink-soft">{label}</p>
       <p className={`text-sm font-bold ${toneClass} tabular-nums`}>{value}</p>
     </div>
   );
