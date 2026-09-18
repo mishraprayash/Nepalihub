@@ -2,6 +2,7 @@
 const MIN_YEAR_BS = 1978;
 const MAX_YEAR_BS = 2099;
 const START_ENGLISH_DATE = '1921-04-13'; // Corresponds to 1978-01-01 BS
+const START_ENGLISH_TIMESTAMP = new Date(START_ENGLISH_DATE).getTime();
 
 // Days-in-month mapping table for Nepali BS years 1978 through 2099.
 const BS_MONTH_DAYS: { [key: number]: number[] } = {
@@ -129,6 +130,27 @@ const BS_MONTH_DAYS: { [key: number]: number[] } = {
   2099: [2099, 31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 31],
 };
 
+// Pre-calculated cumulative lookup tables for O(1) and O(log Y) date conversions
+const CUMULATIVE_YEAR_START_DAYS: number[] = new Array(MAX_YEAR_BS - MIN_YEAR_BS + 2);
+const CUMULATIVE_MONTH_START_DAYS: number[][] = [];
+
+let runningTotalDays = 0;
+for (let currentYear = MIN_YEAR_BS; currentYear <= MAX_YEAR_BS; currentYear++) {
+  const yearIndex = currentYear - MIN_YEAR_BS;
+  CUMULATIVE_YEAR_START_DAYS[yearIndex] = runningTotalDays;
+
+  const monthDays = BS_MONTH_DAYS[currentYear];
+  const monthStartDays: number[] = new Array(12);
+
+  for (let m = 1; m <= 12; m++) {
+    monthStartDays[m - 1] = runningTotalDays;
+    runningTotalDays += monthDays[m];
+  }
+
+  CUMULATIVE_MONTH_START_DAYS[yearIndex] = monthStartDays;
+}
+CUMULATIVE_YEAR_START_DAYS[MAX_YEAR_BS - MIN_YEAR_BS + 1] = runningTotalDays;
+
 export class NepaliDateConverter {
   private static format(year: number, month: number, day: number): string {
     const mm = month < 10 ? `0${month}` : `${month}`;
@@ -155,21 +177,9 @@ export class NepaliDateConverter {
       throw new Error(`Nepali year out of supported range: ${MIN_YEAR_BS} - ${MAX_YEAR_BS}`);
     }
 
-    let daysDiff = 0;
-
-    for (let currentYear = MIN_YEAR_BS; currentYear <= year; currentYear++) {
-      const monthDays = BS_MONTH_DAYS[currentYear];
-      if (currentYear === year) {
-        for (let m = 1; m < month; m++) {
-          daysDiff += monthDays[m];
-        }
-        daysDiff += day - 1;
-      } else {
-        for (let m = 1; m <= 12; m++) {
-          daysDiff += monthDays[m];
-        }
-      }
-    }
+    const yearIndex = year - MIN_YEAR_BS;
+    const monthIndex = month - 1;
+    const daysDiff = CUMULATIVE_MONTH_START_DAYS[yearIndex][monthIndex] + (day - 1);
 
     const targetDate = new Date(START_ENGLISH_DATE);
     targetDate.setDate(targetDate.getDate() + daysDiff);
@@ -183,41 +193,45 @@ export class NepaliDateConverter {
 
   public static adToBs(adDateString: string): string {
     const targetDate = new Date(adDateString);
-    const epochDate = new Date(START_ENGLISH_DATE);
-    
-    const timeDiff = targetDate.getTime() - epochDate.getTime();
-    let daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const timeDiff = targetDate.getTime() - START_ENGLISH_TIMESTAMP;
+    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 
     if (daysDiff < 0) {
       throw new Error(`English date is older than supported range (Start epoch: ${START_ENGLISH_DATE})`);
     }
 
-    let bsYear = 0;
-    let bsMonth = 0;
-    let bsDay = 0;
-    let accumulatedDays = 0;
-    let isFound = false;
+    if (daysDiff >= CUMULATIVE_YEAR_START_DAYS[MAX_YEAR_BS - MIN_YEAR_BS + 1]) {
+      throw new Error(`English date is ahead of the supported range (Max year: 2099 BS)`);
+    }
 
-    for (let currentYear = MIN_YEAR_BS; currentYear <= MAX_YEAR_BS; currentYear++) {
-      if (isFound) break;
+    let low = 0;
+    let high = MAX_YEAR_BS - MIN_YEAR_BS;
+    let yearIndex = 0;
 
-      const monthDays = BS_MONTH_DAYS[currentYear];
-      for (let m = 1; m <= 12; m++) {
-        accumulatedDays += monthDays[m];
-        
-        if (daysDiff - accumulatedDays < 0) {
-          bsDay = daysDiff - accumulatedDays + monthDays[m] + 1;
-          bsYear = currentYear;
-          bsMonth = m;
-          isFound = true;
-          break;
-        }
+    while (low <= high) {
+      const mid = (low + high) >> 1;
+      if (CUMULATIVE_YEAR_START_DAYS[mid] <= daysDiff) {
+        yearIndex = mid;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
       }
     }
 
-    if (!isFound) {
-      throw new Error(`English date is ahead of the supported range (Max year: 2099 BS)`);
+    const bsYear = MIN_YEAR_BS + yearIndex;
+    let remainingDays = daysDiff - CUMULATIVE_YEAR_START_DAYS[yearIndex];
+    const monthDays = BS_MONTH_DAYS[bsYear];
+
+    let bsMonth = 1;
+    for (let m = 1; m <= 12; m++) {
+      if (remainingDays < monthDays[m]) {
+        bsMonth = m;
+        break;
+      }
+      remainingDays -= monthDays[m];
     }
+
+    const bsDay = remainingDays + 1;
 
     return this.format(bsYear, bsMonth, bsDay);
   }
