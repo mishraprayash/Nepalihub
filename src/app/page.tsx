@@ -192,7 +192,7 @@ export default function Home() {
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && scrollToGrid()}
-                className="w-full py-3.5 pl-11 pr-4 text-sm font-medium rounded-2xl border border-line-strong bg-surface-raised text-ink shadow-[0_2px_12px_rgba(28,25,23,0.06)] placeholder:text-ink-faint focus:outline-none focus:border-simrik/60 focus:ring-3 focus:ring-simrik/10 transition-all"
+                className="w-full py-3.5 pl-11 pr-4 text-sm font-medium rounded-2xl border border-line-strong bg-surface-raised text-ink shadow-[0_2px_12px_rgba(28,25,23,0.06)] placeholder:text-ink-faint focus-visible:outline-none focus-visible:border-simrik/60 focus-visible:ring-3 focus-visible:ring-simrik/10 transition-all"
               />
               {query && (
                 <button

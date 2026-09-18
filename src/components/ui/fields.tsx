@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useId } from 'react';
 
 /* ── Panel ─────────────────────────────────────────────────────── */
 export function Panel({
@@ -50,11 +50,13 @@ export function Field({
   type?: string;
   placeholder?: string;
 }) {
+  const id = useId();
+  const hintId = useId();
   return (
     <div className="space-y-1.5">
-      <label className="flex items-baseline justify-between gap-2">
+      <label htmlFor={id} className="flex items-baseline justify-between gap-2">
         <span className="text-[13px] font-medium text-ink-soft">{label}</span>
-        {hint && <span className="text-[11px] text-ink-faint">{hint}</span>}
+        {hint && <span id={hintId} className="text-[11px] text-ink-faint">{hint}</span>}
       </label>
       <div className="relative">
         {prefix && (
@@ -63,6 +65,7 @@ export function Field({
           </span>
         )}
         <input
+          id={id}
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -70,7 +73,8 @@ export function Field({
           max={max}
           step={step}
           placeholder={placeholder}
-          className={`w-full py-2.5 pr-4 text-sm font-semibold bg-surface-raised border border-line rounded-xl text-ink placeholder:text-ink-faint focus:outline-none focus:border-simrik/60 focus:ring-3 focus:ring-simrik/10 transition-all ${
+          aria-describedby={hint ? hintId : undefined}
+          className={`w-full py-2.5 pr-4 text-sm font-semibold bg-surface-raised border border-line rounded-xl text-ink placeholder:text-ink-faint focus-visible:outline-none focus-visible:border-simrik/60 focus-visible:ring-3 focus-visible:ring-simrik/10 transition-all ${
             prefix ? 'pl-10' : 'pl-4'
           }`}
         />
@@ -106,14 +110,16 @@ export function SliderField({
   suffix?: string;
   prefix?: string;
 }) {
+  const id = useId();
   const display = format ? format(value) : `${prefix ?? ''}${value.toLocaleString()}${suffix ?? ''}`;
   return (
     <div className="space-y-2.5">
-      <div className="flex items-baseline justify-between gap-2">
+      <label htmlFor={id} className="flex items-baseline justify-between gap-2">
         <span className="text-[13px] font-medium text-ink-soft">{label}</span>
         <span className="font-mono text-sm font-bold text-simrik tabular-nums">{display}</span>
-      </div>
+      </label>
       <input
+        id={id}
         type="range"
         min={min}
         max={max}
@@ -136,11 +142,12 @@ export function Segmented<T extends string>({
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="inline-flex flex-wrap p-1 gap-1 bg-paper-deep rounded-xl border border-line">
+    <div role="group" aria-label="Segmented Control" className="inline-flex flex-wrap p-1 gap-1 bg-paper-deep rounded-xl border border-line">
       {options.map((o) => (
         <button
           key={o.value}
           type="button"
+          aria-pressed={value === o.value}
           onClick={() => onChange(o.value)}
           className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
             value === o.value

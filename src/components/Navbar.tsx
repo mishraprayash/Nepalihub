@@ -122,6 +122,8 @@ export default function Navbar() {
                 <div className="relative" ref={toolsRef}>
                   <button
                     onClick={() => setToolsMenuOpen(v => !v)}
+                    aria-expanded={toolsMenuOpen}
+                    aria-haspopup="true"
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
                       toolsMenuOpen ? 'text-ink bg-paper-deep' : 'text-ink-soft hover:text-ink hover:bg-paper-deep'
                     }`}
@@ -133,7 +135,7 @@ export default function Navbar() {
                   </button>
 
                   {toolsMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-[30rem] bg-surface-raised border border-line rounded-2xl shadow-xl shadow-black/5 p-4 grid grid-cols-2 gap-x-6 gap-y-0.5 max-h-[70vh] overflow-y-auto">
+                    <div className="absolute right-0 top-full mt-2 w-screen max-w-lg bg-surface-raised border border-line rounded-2xl shadow-xl shadow-black/5 p-4 grid grid-cols-2 gap-x-6 gap-y-0.5 max-h-[65vh] overflow-y-auto">
                       {Object.entries(
                         calculators.reduce((acc, c) => {
                           (acc[c.category] ??= []).push(c);
@@ -141,7 +143,7 @@ export default function Navbar() {
                         }, {} as Record<string, typeof calculators>)
                       ).map(([cat, tools]) => (
                         <div key={cat} className="py-2">
-                          <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-ink-faint px-3 pb-1.5">
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-ink-faint px-3 pb-1.5">
                             {CATEGORY_LABELS[cat] ?? cat}
                           </p>
                           {tools.map(t => (
@@ -177,6 +179,7 @@ export default function Navbar() {
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={() => setSearchOpen(true)}
+                  aria-label="Open search"
                   className="flex items-center gap-2 h-9 pl-3 pr-2 rounded-full border border-line bg-surface text-ink-faint hover:border-line-strong hover:text-ink-soft transition-all"
                 >
                   <Search className="h-3.5 w-3.5" />
@@ -196,6 +199,7 @@ export default function Navbar() {
 
                 <button
                   onClick={() => setMobileMenuOpen(v => !v)}
+                  aria-expanded={mobileMenuOpen}
                   className="md:hidden h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft transition-all"
                   aria-label="Toggle menu"
                 >
@@ -231,6 +235,9 @@ export default function Navbar() {
           onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
         >
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Search"
             className="w-full max-w-lg bg-surface-raised border border-line rounded-2xl shadow-2xl overflow-hidden flex flex-col"
             style={{ maxHeight: '65vh' }}
             onClick={e => e.stopPropagation()}
@@ -241,7 +248,7 @@ export default function Navbar() {
                 ref={inputRef}
                 type="text"
                 placeholder="Search tools… try “tax”, “land”, “gold”"
-                className="flex-1 bg-transparent border-0 outline-none text-sm font-medium text-ink placeholder:text-ink-faint"
+                className="flex-1 bg-transparent border-0 focus-visible:outline-none text-sm font-medium text-ink placeholder:text-ink-faint"
                 value={searchQuery}
                 onChange={e => { setSearchQuery(e.target.value); setActiveIndex(0); }}
                 onKeyDown={onKeyDown}
@@ -252,7 +259,7 @@ export default function Navbar() {
             </div>
 
             <div className="overflow-y-auto flex-1 p-2">
-              <p className="text-[10px] font-bold text-ink-faint uppercase tracking-[0.15em] px-3 py-2">
+              <p className="text-[10px] font-bold text-ink-faint uppercase tracking-widest px-3 py-2">
                 {searchQuery.trim() ? `${results.length} result${results.length !== 1 ? 's' : ''}` : 'Popular tools'}
               </p>
               {results.length > 0 ? (
