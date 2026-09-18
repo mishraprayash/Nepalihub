@@ -127,7 +127,7 @@ export default function RootLayout({
               description:
                 "Free Nepal-specific calculators and digital utilities platform.",
               areaServed: "NP",
-            }),
+            }).replace(/</g, '\\u003c'),
           }}
         />
         {/* Structured Data: WebSite */}
@@ -147,7 +147,7 @@ export default function RootLayout({
                 },
                 "query-input": "required name=search_term_string",
               },
-            }),
+            }).replace(/</g, '\\u003c'),
           }}
         />
       </head>

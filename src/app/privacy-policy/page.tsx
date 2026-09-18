@@ -23,7 +23,7 @@ export default function PrivacyPage() {
             description: 'Privacy Policy for NepalHub — data handling, cookies, and your rights.',
             url: 'https://nepalihub-omega.vercel.app/privacy-policy',
             isPartOf: { '@id': 'https://nepalihub-omega.vercel.app/#website' },
-          }),
+          }).replace(/</g, '\\u003c'),
         }}
       />
 
