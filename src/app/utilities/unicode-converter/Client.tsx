@@ -59,14 +59,19 @@ const postRules: [string, string][] = [
   ["ाै", "ौ"]
 ];
 
+const compiledPostRules: [RegExp, string][] = postRules.map(([pattern, replacement]) => [
+  new RegExp(pattern, 'g'),
+  replacement,
+]);
+
 function convertPreetiToUnicode(text: string): string {
   let output = '';
   for (let i = 0; i < text.length; i++) {
     const letter = text[i];
     output += charMap[letter] || letter;
   }
-  for (let r = 0; r < postRules.length; r++) {
-    output = output.replace(new RegExp(postRules[r][0], 'g'), postRules[r][1]);
+  for (let r = 0; r < compiledPostRules.length; r++) {
+    output = output.replace(compiledPostRules[r][0], compiledPostRules[r][1]);
   }
   return output;
 }
