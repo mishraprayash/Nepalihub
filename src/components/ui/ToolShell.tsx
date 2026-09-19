@@ -44,14 +44,14 @@ export default function ToolShell({
       {/* Editorial header */}
       <header className="mb-8 pb-8 border-b border-line">
         {badge && (
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-simrik mb-3">
+          <p className="text-xs font-bold uppercase tracking-widest text-simrik mb-3">
             {badge}
           </p>
         )}
-        <h1 className="font-display text-3xl md:text-[2.75rem] leading-[1.1] font-semibold tracking-tight text-ink max-w-2xl">
+        <h1 className="font-display text-3xl md:text-5xl leading-[1.1] font-semibold tracking-tight text-ink max-w-2xl">
           {title}
         </h1>
-        <p className="mt-3 text-sm md:text-[15px] leading-relaxed text-ink-soft max-w-xl">
+        <p className="mt-3 text-sm md:text-base leading-relaxed text-ink-soft max-w-xl">
           {description}
         </p>
       </header>

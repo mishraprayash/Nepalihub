@@ -43,14 +43,14 @@ export default function Footer() {
             <Link href="/" className="inline-block font-display text-xl font-semibold tracking-tight text-ink">
               Nepal<span className="text-simrik">Hub</span>
             </Link>
-            <p className="text-[13px] leading-relaxed text-ink-soft max-w-[230px]">
+            <p className="text-sm leading-relaxed text-ink-soft max-w-xs">
               Free, private, Nepal-specific calculators and converters — built for the way things actually work here.
             </p>
             <div className="flex flex-wrap gap-2">
-              <span className="px-2.5 py-1 rounded-full border border-line bg-surface text-[11px] font-semibold text-ink-soft">
+              <span className="px-2.5 py-1 rounded-full border border-line bg-surface text-xs font-semibold text-ink-soft">
                 FY 2083/84 rates
               </span>
-              <span className="px-2.5 py-1 rounded-full border border-line bg-surface text-[11px] font-semibold text-ink-soft">
+              <span className="px-2.5 py-1 rounded-full border border-line bg-surface text-xs font-semibold text-ink-soft">
                 Runs in your browser
               </span>
             </div>
@@ -70,7 +70,7 @@ export default function Footer() {
           {/* Link columns */}
           {FOOTER_LINKS.map(col => (
             <div key={col.heading}>
-              <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-ink mb-4">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-ink mb-4">
                 {col.heading}
               </h3>
               <ul className="space-y-2.5">
@@ -78,7 +78,7 @@ export default function Footer() {
                   <li key={l.href}>
                     <Link
                       href={l.href}
-                      className="text-[13px] text-ink-soft hover:text-simrik transition-colors"
+                      className="text-sm text-ink-soft hover:text-simrik transition-colors"
                     >
                       {l.label}
                     </Link>

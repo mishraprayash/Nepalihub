@@ -160,7 +160,7 @@ export default function TaxInvoiceTemplate({
       <div className="flex justify-between items-center pt-16 text-center text-[10px] break-inside-avoid">
         <div className="w-36 border-t border-dashed border-gray-300 pt-1.5 text-gray-400 font-bold uppercase tracking-wider">
           बुझिलिनेको दस्तखत
-          <span className="block text-[8px] font-normal lowercase mt-0.5">(Buyer's Signature)</span>
+          <span className="block text-[8px] font-normal lowercase mt-0.5">(Buyer&apos;s Signature)</span>
         </div>
         
         <div className="w-40 border-t border-dashed border-gray-300 pt-1.5 text-gray-400 font-bold uppercase tracking-wider">
