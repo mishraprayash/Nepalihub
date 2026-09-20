@@ -44,7 +44,7 @@ export default function ToolShell({
       {/* Editorial header */}
       <header className="mb-8 pb-8 border-b border-line">
         {badge && (
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-simrik mb-3">
+          <p className="text-[11px] font-bold uppercase tracking-widest text-simrik mb-3">
             {badge}
           </p>
         )}
