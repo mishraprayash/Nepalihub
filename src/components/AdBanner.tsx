@@ -66,11 +66,11 @@ export default function AdBanner({ slot, format = 'auto', className = '' }: AdBa
 
   if (!isProd) {
     return (
-      <div className={`my-4 bg-gray-50 dark:bg-gray-800/40 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl flex flex-col items-center justify-center text-center transition-colors ${containerStyles} ${className}`}>
-        <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">
+      <div className={`my-4 bg-paper-deep border border-dashed border-line-strong rounded-2xl flex flex-col items-center justify-center text-center transition-colors ${containerStyles} ${className}`}>
+        <span className="text-[10px] font-bold text-ink-faint uppercase mb-1">
           Advertisement
         </span>
-        <div className="text-xs text-gray-400 dark:text-gray-500">
+        <div className="text-xs text-ink-faint">
           AdSense Slot ({format})
         </div>
       </div>
