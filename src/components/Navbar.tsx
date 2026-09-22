@@ -122,7 +122,7 @@ export default function Navbar() {
                 <div className="relative" ref={toolsRef}>
                   <button
                     onClick={() => setToolsMenuOpen(v => !v)}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60 ${
                       toolsMenuOpen ? 'text-ink bg-paper-deep' : 'text-ink-soft hover:text-ink hover:bg-paper-deep'
                     }`}
                   >
@@ -176,8 +176,9 @@ export default function Navbar() {
               {/* Right controls */}
               <div className="flex items-center gap-2 shrink-0">
                 <button
+                  aria-label="Search tools"
                   onClick={() => setSearchOpen(true)}
-                  className="flex items-center gap-2 h-9 pl-3 pr-2 rounded-full border border-line bg-surface text-ink-faint hover:border-line-strong hover:text-ink-soft transition-all"
+                  className="flex items-center gap-2 h-9 pl-3 pr-2 rounded-full border border-line bg-surface text-ink-faint hover:border-line-strong hover:text-ink-soft transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
                 >
                   <Search className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline text-xs font-medium">Search</span>
@@ -188,7 +189,7 @@ export default function Navbar() {
 
                 <button
                   onClick={toggleTheme}
-                  className="h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft hover:text-ink hover:border-line-strong transition-all"
+                  className="h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft hover:text-ink hover:border-line-strong transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
                   aria-label="Toggle theme"
                 >
                   {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -196,7 +197,7 @@ export default function Navbar() {
 
                 <button
                   onClick={() => setMobileMenuOpen(v => !v)}
-                  className="md:hidden h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft transition-all"
+                  className="md:hidden h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
                   aria-label="Toggle menu"
                 >
                   {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -262,7 +263,7 @@ export default function Navbar() {
                       key={calc.id}
                       onClick={() => navigateTo(calc.path)}
                       onMouseEnter={() => setActiveIndex(i)}
-                      className={`w-full text-left flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl group transition-colors ${
+                      className={`w-full text-left flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl group transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60 ${
                         i === activeIndex ? 'bg-paper-deep' : ''
                       }`}
                     >
