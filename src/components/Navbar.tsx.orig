@@ -133,7 +133,7 @@ export default function Navbar() {
                   </button>
 
                   {toolsMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-full max-w-lg bg-surface-raised border border-line rounded-2xl shadow-xl shadow-black/5 p-4 grid grid-cols-2 gap-x-6 gap-y-0.5 max-h-[70vh] overflow-y-auto">
+                    <div className="absolute right-0 top-full mt-2 w-full max-w-lg md:w-[30rem] bg-surface-raised border border-line rounded-2xl shadow-xl shadow-black/5 p-4 grid grid-cols-2 gap-x-6 gap-y-0.5 max-h-[70vh] overflow-y-auto">
                       {Object.entries(
                         calculators.reduce((acc, c) => {
                           (acc[c.category] ??= []).push(c);
@@ -181,7 +181,7 @@ export default function Navbar() {
                 >
                   <Search className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline text-xs font-medium">Search</span>
-                  <kbd className="hidden sm:inline-flex px-1.5 py-0.5 rounded-md bg-paper-deep border border-line font-mono text-xs text-ink-faint">
+                  <kbd className="hidden sm:inline-flex px-1.5 py-0.5 rounded-md bg-paper-deep border border-line font-mono text-[10px] text-ink-faint">
                     ⌘K
                   </kbd>
                 </button>
@@ -246,13 +246,13 @@ export default function Navbar() {
                 onChange={e => { setSearchQuery(e.target.value); setActiveIndex(0); }}
                 onKeyDown={onKeyDown}
               />
-              <kbd className="text-xs font-bold text-ink-faint border border-line rounded px-1.5 py-0.5 font-mono">
+              <kbd className="text-[10px] font-bold text-ink-faint border border-line rounded px-1.5 py-0.5 font-mono">
                 ESC
               </kbd>
             </div>
 
             <div className="overflow-y-auto flex-1 p-2">
-              <p className="text-xs font-bold text-ink-faint uppercase tracking-widest px-3 py-2">
+              <p className="text-[10px] font-bold text-ink-faint uppercase tracking-[0.15em] px-3 py-2">
                 {searchQuery.trim() ? `${results.length} result${results.length !== 1 ? 's' : ''}` : 'Popular tools'}
               </p>
               {results.length > 0 ? (
