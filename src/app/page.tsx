@@ -196,8 +196,9 @@ export default function Home() {
               />
               {query && (
                 <button
+                  aria-label="Clear search"
                   onClick={() => setQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-ink-faint hover:text-simrik px-1.5" aria-label="Clear search"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-ink-faint hover:text-simrik px-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
                 >
                   Clear
                 </button>
@@ -209,7 +210,7 @@ export default function Home() {
               {searching ? (
                 <button
                   onClick={scrollToGrid}
-                  className="w-full text-left px-4 py-3 rounded-xl border border-dashed border-line-strong bg-surface hover:border-simrik/40 transition-colors"
+                  className="w-full text-left px-4 py-3 rounded-xl border border-dashed border-line-strong bg-surface hover:border-simrik/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
                 >
                   <span className="text-sm font-semibold text-ink">
                     {matches.length} tool{matches.length !== 1 ? 's' : ''} match{matches.length === 1 ? 'es' : ''}
@@ -222,7 +223,7 @@ export default function Home() {
                     <button
                       key={t}
                       onClick={() => { setQuery(t); scrollToGrid(); }}
-                      className="px-3 py-1.5 rounded-full border border-line bg-surface text-xs font-medium text-ink-soft hover:border-simrik/40 hover:text-simrik transition-colors"
+                      className="px-3 py-1.5 rounded-full border border-line bg-surface text-xs font-medium text-ink-soft hover:border-simrik/40 hover:text-simrik transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
                     >
                       {t}
                     </button>
