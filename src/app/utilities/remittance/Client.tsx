@@ -150,7 +150,7 @@ export default function RemittanceCalculator() {
   const currencyName = getName(selectedCurrency);
 
   const inputClass = (active: boolean, readOnly: boolean) =>
-    `w-full py-3 px-4 text-sm font-semibold bg-surface-raised border rounded-xl text-ink tabular-nums focus:outline-none focus:border-simrik/60 focus:ring-3 focus:ring-simrik/10 transition-all ${
+    `w-full py-3 px-4 text-sm font-semibold bg-surface-raised border rounded-xl text-ink tabular-nums focus-visible:outline-none focus-visible:border-simrik/60 focus-visible:ring-3 focus-visible:ring-simrik/10 transition-all ${
       active ? 'border-simrik/40' : readOnly ? 'border-line bg-paper-deep/50 text-ink-soft' : 'border-line'
     }`;
 
@@ -240,7 +240,7 @@ export default function RemittanceCalculator() {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder={`Search ${availableCodes.length} currencies…`}
-                className="w-full py-2.5 pl-10 pr-4 text-sm bg-surface-raised border border-line rounded-xl text-ink placeholder:text-ink-faint focus:outline-none focus:border-simrik/60 focus:ring-3 focus:ring-simrik/10 transition-all"
+                className="w-full py-2.5 pl-10 pr-4 text-sm bg-surface-raised border border-line rounded-xl text-ink placeholder:text-ink-faint focus-visible:outline-none focus-visible:border-simrik/60 focus-visible:ring-3 focus-visible:ring-simrik/10 transition-all"
               />
             </div>
             <div className="max-h-28 overflow-y-auto flex flex-wrap gap-1.5 pb-1">

@@ -103,7 +103,7 @@ export default function Navbar() {
     <>
       <header className="sticky top-0 z-40 w-full print:hidden">
         <div className="w-full bg-paper/90 dark:bg-paper/95 backdrop-blur-lg border-b border-line">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
             <div className="flex h-16 items-center justify-between gap-6">
 
               {/* Wordmark */}

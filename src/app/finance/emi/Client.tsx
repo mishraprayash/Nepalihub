@@ -205,7 +205,7 @@ export default function EMICalculator() {
                 type="number"
                 value={loanTenure || ''}
                 onChange={(e) => setLoanTenure(Number(e.target.value))}
-                className="w-24 py-2 px-3.5 text-sm font-semibold bg-surface-raised border border-line rounded-xl text-ink focus:outline-none focus:border-simrik/60 focus:ring-3 focus:ring-simrik/10 transition-all"
+                className="w-24 py-2 px-3.5 text-sm font-semibold bg-surface-raised border border-line rounded-xl text-ink focus-visible:outline-none focus-visible:border-simrik/60 focus-visible:ring-3 focus-visible:ring-simrik/10 transition-all"
               />
               <Segmented
                 options={[
