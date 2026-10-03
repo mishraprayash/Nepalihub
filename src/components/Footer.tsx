@@ -35,7 +35,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full border-t border-line bg-paper-deep mt-auto print:hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
 
           {/* Brand column */}

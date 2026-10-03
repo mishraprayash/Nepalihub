@@ -85,7 +85,7 @@ function FeaturedCard({ calc }: { calc: CalculatorInfo }) {
             {icon}
           </span>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-simrik">Most used</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-simrik">Most used</p>
             <h3 className="text-base font-semibold text-ink">{calc.name}</h3>
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function Home() {
 
           {/* Search — the primary action */}
           <div className="md:col-span-5">
-            <label className="block text-xs font-bold uppercase tracking-[0.15em] text-ink-faint mb-3">
+            <label className="block text-xs font-bold uppercase tracking-widest text-ink-faint mb-3">
               Find a tool
             </label>
             <div className="relative">
@@ -192,7 +192,7 @@ export default function Home() {
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && scrollToGrid()}
-                className="w-full py-3.5 pl-11 pr-4 text-sm font-medium rounded-2xl border border-line-strong bg-surface-raised text-ink shadow-[0_2px_12px_rgba(28,25,23,0.06)] placeholder:text-ink-faint focus:outline-none focus:border-simrik/60 focus:ring-3 focus:ring-simrik/10 transition-all"
+                className="w-full py-3.5 pl-11 pr-4 text-sm font-medium rounded-2xl border border-line-strong bg-surface-raised text-ink shadow-[0_2px_12px_rgba(28,25,23,0.06)] placeholder:text-ink-faint focus-visible:outline-none focus-visible:border-simrik/60 focus-visible:ring-3 focus-visible:ring-simrik/10 transition-all"
               />
               {query && (
                 <button
@@ -306,7 +306,7 @@ export default function Home() {
             {/* Rail */}
             <aside className="hidden lg:block col-span-3">
               <div className="sticky top-24 py-2">
-                <p className="text-xs font-bold uppercase tracking-[0.15em] text-ink-faint mb-4 px-3">
+                <p className="text-xs font-bold uppercase tracking-widest text-ink-faint mb-4 px-3">
                   Browse
                 </p>
                 <nav className="space-y-0.5">
