@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main className="max-w-3xl mx-auto px-4 sm:px-8 py-12 text-gray-700 dark:text-gray-300 text-sm leading-relaxed space-y-8">
+    <main className="max-w-3xl mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-12 text-ink-soft text-sm leading-relaxed space-y-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -23,14 +23,14 @@ export default function PrivacyPage() {
             description: 'Privacy Policy for NepalHub — data handling, cookies, and your rights.',
             url: 'https://nepalihub-omega.vercel.app/privacy-policy',
             isPartOf: { '@id': 'https://nepalihub-omega.vercel.app/#website' },
-          }),
+          }).replace(/</g, '\\u003c'),
         }}
       />
 
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Privacy Policy</h1>
-        <p className="text-xs text-gray-400 dark:text-gray-500">Last updated: June 2025</p>
+        <h1 className="font-display text-3xl font-bold text-ink mb-2">Privacy Policy</h1>
+        <p className="text-xs text-ink-faint">Last updated: June 2025</p>
       </div>
 
       <p>
@@ -41,8 +41,8 @@ export default function PrivacyPage() {
 
       {/* 1. Information We Collect */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">1. Information We Collect</h2>
-        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mt-4 mb-1">a. Automatically Collected Information</h3>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">1. Information We Collect</h2>
+        <h3 className="font-semibold text-ink mt-4 mb-1">a. Automatically Collected Information</h3>
         <p>
           When you visit the Site, we may automatically collect certain information, including:
         </p>
@@ -55,7 +55,7 @@ export default function PrivacyPage() {
           This data is collected via <strong>Google Analytics</strong> and <strong>Google AdSense</strong> (if enabled).
         </p>
 
-        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mt-4 mb-1">b. Information You Provide</h3>
+        <h3 className="font-semibold text-ink mt-4 mb-1">b. Information You Provide</h3>
         <p>
           All calculators and tools on NepalHub run entirely in your browser. Any data you enter
           (income figures, dates, stock trades, etc.) <strong>never leaves your device</strong> and is
@@ -65,7 +65,7 @@ export default function PrivacyPage() {
 
       {/* 2. How We Use Your Information */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">2. How We Use Your Information</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">2. How We Use Your Information</h2>
         <ul className="list-disc pl-6 space-y-1">
           <li>To operate, maintain, and improve the Site</li>
           <li>To serve relevant advertisements (if AdSense is active)</li>
@@ -76,7 +76,7 @@ export default function PrivacyPage() {
 
       {/* 3. Cookies & Tracking */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">3. Cookies &amp; Tracking Technologies</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">3. Cookies &amp; Tracking Technologies</h2>
         <p>
           We use cookies and similar technologies to enhance your experience. These include:
         </p>
@@ -86,7 +86,7 @@ export default function PrivacyPage() {
             <strong>Analytics cookies:</strong> Google Analytics helps us understand how visitors use the Site
           </li>
           <li>
-            <strong>Advertising cookies:</strong> Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to our website or other websites. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our site and/or other sites on the Internet. Users may opt out of personalized advertising by visiting Ads Settings.
+            <strong>Advertising cookies:</strong> Third-party vendors, including Google, use cookies to serve ads based on a user&apos;s prior visits to our website or other websites. Google&apos;s use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our site and/or other sites on the Internet. Users may opt out of personalized advertising by visiting Ads Settings.
           </li>
         </ul>
         <p className="mt-2">
@@ -96,29 +96,29 @@ export default function PrivacyPage() {
 
       {/* 4. Third-Party Services */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">4. Third-Party Services</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">4. Third-Party Services</h2>
         <p>We use the following third-party services:</p>
         <div className="overflow-x-auto mt-3">
           <table className="w-full text-xs border-collapse">
             <thead>
-              <tr className="border-b border-gray-200 dark:border-gray-700">
-                <th className="text-left py-2 pr-4 font-semibold">Service</th>
-                <th className="text-left py-2 pr-4 font-semibold">Purpose</th>
-                <th className="text-left py-2 font-semibold">Data Shared</th>
+              <tr className="border-b border-line-strong">
+                <th className="text-left py-2 pr-4 font-semibold text-ink">Service</th>
+                <th className="text-left py-2 pr-4 font-semibold text-ink">Purpose</th>
+                <th className="text-left py-2 font-semibold text-ink">Data Shared</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-gray-100 dark:border-gray-800">
+              <tr className="border-b border-line">
                 <td className="py-2 pr-4">Google AdSense</td>
                 <td className="py-2 pr-4">Advertising</td>
                 <td className="py-2">Cookies, IP, browsing data</td>
               </tr>
-              <tr className="border-b border-gray-100 dark:border-gray-800">
+              <tr className="border-b border-line">
                 <td className="py-2 pr-4">Google Analytics</td>
                 <td className="py-2 pr-4">Analytics</td>
                 <td className="py-2">Anonymized usage data</td>
               </tr>
-              <tr className="border-b border-gray-100 dark:border-gray-800">
+              <tr className="border-b border-line">
                 <td className="py-2 pr-4">CoinGecko API</td>
                 <td className="py-2 pr-4">Gold/silver prices</td>
                 <td className="py-2">None (anonymous API call)</td>
@@ -138,7 +138,7 @@ export default function PrivacyPage() {
 
       {/* 5. Data Retention */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">5. Data Retention</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">5. Data Retention</h2>
         <p>
           We retain aggregated analytics data indefinitely for trend analysis. No personal user data
           is stored on our servers. Any data you enter in tools remains in your browser until you
@@ -148,7 +148,7 @@ export default function PrivacyPage() {
 
       {/* 6. Your Rights (GDPR) */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">6. Your Rights (GDPR)</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">6. Your Rights (GDPR)</h2>
         <p>If you are a resident of the European Economic Area (EEA), you have the right to:</p>
         <ul className="list-disc pl-6 space-y-1 mt-2">
           <li>Request access to your personal data</li>
@@ -159,13 +159,13 @@ export default function PrivacyPage() {
         </ul>
         <p className="mt-2">
           To exercise these rights, contact us at{' '}
-          <a href="mailto:privacy@nepalihub.com" className="text-blue-600 dark:text-blue-400 underline">privacy@nepalihub.com</a>.
+          <a href="mailto:privacy@nepalihub.com" className="text-simrik hover:text-simrik-deep underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60 rounded">privacy@nepalihub.com</a>.
         </p>
       </section>
 
       {/* 7. Children's Privacy */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">7. Children&apos;s Privacy</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">7. Children&apos;s Privacy</h2>
         <p>
           The Site is not directed to children under 13. We do not knowingly collect personal information
           from children. If we become aware of such data, we will delete it promptly.
@@ -174,7 +174,7 @@ export default function PrivacyPage() {
 
       {/* 8. Changes */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">8. Changes to This Policy</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">8. Changes to This Policy</h2>
         <p>
           We may update this Privacy Policy from time to time. Changes will be posted on this page
           with an updated &quot;Last updated&quot; date. Continued use of the Site after changes
@@ -184,10 +184,10 @@ export default function PrivacyPage() {
 
       {/* 9. Contact */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">9. Contact Us</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">9. Contact Us</h2>
         <p>
           If you have questions about this Privacy Policy, please contact us at{' '}
-          <a href="mailto:privacy@nepalihub.com" className="text-blue-600 dark:text-blue-400 underline">privacy@nepalihub.com</a>.
+          <a href="mailto:privacy@nepalihub.com" className="text-simrik hover:text-simrik-deep underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60 rounded">privacy@nepalihub.com</a>.
         </p>
       </section>
     </main>

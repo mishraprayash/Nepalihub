@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <main className="max-w-3xl mx-auto px-4 sm:px-8 py-12 text-gray-700 dark:text-gray-300 text-sm leading-relaxed space-y-8">
+    <main className="max-w-3xl mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-12 text-ink-soft text-sm leading-relaxed space-y-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -23,14 +23,14 @@ export default function TermsPage() {
             description: 'Terms of Service for NepalHub.',
             url: 'https://nepalihub-omega.vercel.app/terms-of-service',
             isPartOf: { '@id': 'https://nepalihub-omega.vercel.app/#website' },
-          }),
+          }).replace(/</g, '\\u003c'),
         }}
       />
 
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Terms of Service</h1>
-        <p className="text-xs text-gray-400 dark:text-gray-500">Last updated: June 2025</p>
+        <h1 className="font-display text-3xl font-bold text-ink mb-2">Terms of Service</h1>
+        <p className="text-xs text-ink-faint">Last updated: June 2025</p>
       </div>
 
       <p>
@@ -41,7 +41,7 @@ export default function TermsPage() {
 
       {/* 1. Acceptance */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">1. Acceptance of Terms</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">1. Acceptance of Terms</h2>
         <p>
           By using the Site, you confirm that you have read, understood, and agree to these Terms.
           We reserve the right to update these Terms at any time. Continued use constitutes acceptance
@@ -51,7 +51,7 @@ export default function TermsPage() {
 
       {/* 2. Description */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">2. Description of Service</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">2. Description of Service</h2>
         <p>
           NepalHub provides free online calculators, converters, and digital utilities specifically
           designed for Nepal. All tools run entirely <strong>client-side</strong> in your browser —
@@ -61,10 +61,10 @@ export default function TermsPage() {
 
       {/* 3. Disclaimer */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">3. Disclaimer — Not Financial Advice</h2>
-        <div className="bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-400 dark:border-amber-600 p-4 rounded-r-lg -mx-1">
-          <p className="font-semibold text-amber-800 dark:text-amber-300 mb-1">⚠ Important Disclaimer</p>
-          <p className="text-amber-700 dark:text-amber-400">
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">3. Disclaimer — Not Financial Advice</h2>
+        <div className="bg-simrik/10 border-l-4 border-simrik p-4 rounded-r-lg -mx-1">
+          <p className="font-semibold text-simrik-deep mb-1">⚠ Important Disclaimer</p>
+          <p className="text-simrik-deep/90">
             All calculators and tools on NepalHub are for <strong>educational and estimation purposes only</strong>.
             They do not constitute professional financial, legal, tax, or investment advice. Always consult
             a qualified professional (CA, tax consultant, financial advisor) before making decisions based
@@ -80,7 +80,7 @@ export default function TermsPage() {
 
       {/* 4. Intellectual Property */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">4. Intellectual Property</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">4. Intellectual Property</h2>
         <p>
           All content on the Site — including text, code, designs, logos, and tools — is the property of
           NepalHub unless otherwise attributed. You may not reproduce, distribute, modify, or create
@@ -94,7 +94,7 @@ export default function TermsPage() {
 
       {/* 5. User Conduct */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">5. User Conduct</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">5. User Conduct</h2>
         <p>You agree not to:</p>
         <ul className="list-disc pl-6 space-y-1 mt-2">
           <li>Use the Site for any unlawful purpose</li>
@@ -106,7 +106,7 @@ export default function TermsPage() {
 
       {/* 6. Limitation of Liability */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">6. Limitation of Liability</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">6. Limitation of Liability</h2>
         <p>
           To the fullest extent permitted by law, NepalHub shall not be liable for any direct, indirect,
           incidental, consequential, or punitive damages arising from your use of or inability to use
@@ -116,7 +116,7 @@ export default function TermsPage() {
 
       {/* 7. Third-Party Links */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">7. Third-Party Links</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">7. Third-Party Links</h2>
         <p>
           The Site may contain links to third-party websites (e.g., NRB, NEPSE, IRD). We are not
           responsible for the content, privacy practices, or accuracy of external sites.
@@ -125,7 +125,7 @@ export default function TermsPage() {
 
       {/* 8. Governing Law */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">8. Governing Law</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">8. Governing Law</h2>
         <p>
           These Terms are governed by the laws of Nepal. Any disputes shall be resolved in the courts
           of Kathmandu, Nepal.
@@ -134,10 +134,10 @@ export default function TermsPage() {
 
       {/* 9. Contact */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">9. Contact Us</h2>
+        <h2 className="font-display text-xl font-semibold text-ink mb-3">9. Contact Us</h2>
         <p>
           For questions about these Terms, please reach out at{' '}
-          <a href="mailto:legal@nepalihub.com" className="text-blue-600 dark:text-blue-400 underline">legal@nepalihub.com</a>.
+          <a href="mailto:legal@nepalihub.com" className="text-simrik hover:text-simrik-deep underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60 rounded">legal@nepalihub.com</a>.
         </p>
       </section>
     </main>
