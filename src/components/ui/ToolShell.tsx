@@ -48,7 +48,7 @@ export default function ToolShell({
             {badge}
           </p>
         )}
-        <h1 className="font-display text-3xl md:text-4xl leading-[1.1] font-semibold tracking-tight text-ink max-w-2xl">
+        <h1 className="font-display text-3xl md:text-5xl leading-[1.1] font-semibold tracking-tight text-ink max-w-2xl">
           {title}
         </h1>
         <p className="mt-3 text-sm md:text-base leading-relaxed text-ink-soft max-w-xl">

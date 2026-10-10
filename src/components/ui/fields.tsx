@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useId } from 'react';
 
 /* ── Panel ─────────────────────────────────────────────────────── */
 export function Panel({
@@ -50,9 +50,10 @@ export function Field({
   type?: string;
   placeholder?: string;
 }) {
+  const id = useId();
   return (
     <div className="space-y-1.5">
-      <label className="flex items-baseline justify-between gap-2">
+      <label htmlFor={id} className="flex items-baseline justify-between gap-2">
         <span className="text-sm font-medium text-ink-soft">{label}</span>
         {hint && <span className="text-xs text-ink-faint">{hint}</span>}
       </label>
@@ -63,6 +64,7 @@ export function Field({
           </span>
         )}
         <input
+          id={id}
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -70,7 +72,7 @@ export function Field({
           max={max}
           step={step}
           placeholder={placeholder}
-          className={`w-full py-2.5 pr-4 text-sm font-semibold bg-surface-raised border border-line rounded-xl text-ink placeholder:text-ink-faint focus-visible:outline-none focus-visible:border-simrik/60 focus-visible:ring-3 focus-visible:ring-simrik/10 transition-all ${
+          className={`w-full py-2.5 pr-4 text-sm font-semibold bg-surface-raised border border-line rounded-xl text-ink placeholder:text-ink-faint outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/50 transition-all ${
             prefix ? 'pl-10' : 'pl-4'
           }`}
         />
@@ -106,14 +108,16 @@ export function SliderField({
   suffix?: string;
   prefix?: string;
 }) {
+  const id = useId();
   const display = format ? format(value) : `${prefix ?? ''}${value.toLocaleString()}${suffix ?? ''}`;
   return (
     <div className="space-y-2.5">
-      <div className="flex items-baseline justify-between gap-2">
+      <label htmlFor={id} className="flex items-baseline justify-between gap-2">
         <span className="text-sm font-medium text-ink-soft">{label}</span>
         <span className="font-mono text-sm font-bold text-simrik tabular-nums">{display}</span>
-      </div>
+      </label>
       <input
+        id={id}
         type="range"
         min={min}
         max={max}
@@ -142,7 +146,7 @@ export function Segmented<T extends string>({
           key={o.value}
           type="button"
           onClick={() => onChange(o.value)}
-          className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60 ${
+          className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/50 ${
             value === o.value
               ? 'bg-surface-raised text-ink shadow-sm'
               : 'text-ink-faint hover:text-ink-soft'

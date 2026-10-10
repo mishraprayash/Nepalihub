@@ -121,8 +121,10 @@ export default function Navbar() {
                 {/* Tools dropdown */}
                 <div className="relative" ref={toolsRef}>
                   <button
+                    aria-expanded={toolsMenuOpen}
+                    aria-haspopup="true"
                     onClick={() => setToolsMenuOpen(v => !v)}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60 ${
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/50 ${
                       toolsMenuOpen ? 'text-ink bg-paper-deep' : 'text-ink-soft hover:text-ink hover:bg-paper-deep'
                     }`}
                   >
@@ -133,7 +135,7 @@ export default function Navbar() {
                   </button>
 
                   {toolsMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-full max-w-lg bg-surface-raised border border-line rounded-2xl shadow-xl shadow-black/5 p-4 grid grid-cols-2 gap-x-6 gap-y-0.5 max-h-[70vh] overflow-y-auto">
+                    <div className="absolute right-0 top-full mt-2 w-full max-w-md bg-surface-raised border border-line rounded-2xl shadow-xl shadow-black/5 p-4 grid grid-cols-2 gap-x-6 gap-y-0.5 max-h-[70vh] overflow-y-auto">
                       {Object.entries(
                         calculators.reduce((acc, c) => {
                           (acc[c.category] ??= []).push(c);
@@ -148,7 +150,7 @@ export default function Navbar() {
                             <button
                               key={t.id}
                               onClick={() => navigateTo(t.path)}
-                              className="w-full text-left px-3 py-1.5 rounded-lg text-[13px] font-medium text-ink-soft hover:text-ink hover:bg-paper-deep transition-colors truncate"
+                              className="w-full text-left px-3 py-1.5 rounded-lg text-sm font-medium text-ink-soft hover:text-ink hover:bg-paper-deep transition-colors truncate"
                             >
                               {t.name}
                             </button>
@@ -166,7 +168,7 @@ export default function Navbar() {
                   <Link
                     key={l.href}
                     href={l.href}
-                    className="px-3 py-2 rounded-lg text-sm font-medium text-ink-soft hover:text-ink hover:bg-paper-deep transition-colors"
+                    className="px-3 py-2 rounded-lg text-sm font-medium text-ink-soft hover:text-ink hover:bg-paper-deep transition-colors outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/50"
                   >
                     {l.label}
                   </Link>
@@ -178,7 +180,7 @@ export default function Navbar() {
                 <button
                   aria-label="Search tools"
                   onClick={() => setSearchOpen(true)}
-                  className="flex items-center gap-2 h-9 pl-3 pr-2 rounded-full border border-line bg-surface text-ink-faint hover:border-line-strong hover:text-ink-soft transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
+                  className="flex items-center gap-2 h-9 pl-3 pr-2 rounded-full border border-line bg-surface text-ink-faint hover:border-line-strong hover:text-ink-soft transition-all outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/50"
                 >
                   <Search className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline text-xs font-medium">Search</span>
@@ -189,15 +191,17 @@ export default function Navbar() {
 
                 <button
                   onClick={toggleTheme}
-                  className="h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft hover:text-ink hover:border-line-strong transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
+                  className="h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft hover:text-ink hover:border-line-strong transition-all outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/50"
                   aria-label="Toggle theme"
                 >
                   {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                 </button>
 
                 <button
+                  aria-expanded={mobileMenuOpen}
+                  aria-controls="mobile-menu"
                   onClick={() => setMobileMenuOpen(v => !v)}
-                  className="md:hidden h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
+                  className="md:hidden h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft transition-all outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/50"
                   aria-label="Toggle menu"
                 >
                   {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -208,13 +212,13 @@ export default function Navbar() {
 
           {/* Mobile drawer */}
           {mobileMenuOpen && (
-            <div className="md:hidden border-t border-line bg-paper px-4 py-3 max-h-[calc(100dvh-4rem)] overflow-y-auto space-y-0.5">
+            <div id="mobile-menu" className="md:hidden border-t border-line bg-paper px-4 py-3 max-h-[calc(100dvh-4rem)] overflow-y-auto space-y-0.5">
               {calculators.map(item => (
                 <Link
                   key={item.path}
                   href={item.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-ink-soft hover:bg-paper-deep hover:text-ink transition-colors"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-ink-soft hover:bg-paper-deep hover:text-ink transition-colors outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/50"
                 >
                   {item.name}
                   <ChevronRight className="h-3.5 w-3.5 text-ink-faint" />
@@ -228,7 +232,7 @@ export default function Navbar() {
       {/* Search palette */}
       {searchOpen && (
         <div
-          className="fixed inset-0 z-50 flex justify-center items-start pt-[12vh] px-4 bg-black/40 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex justify-center items-start pt-24 px-4 bg-black/40 backdrop-blur-sm"
           onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
         >
           <div
@@ -242,7 +246,7 @@ export default function Navbar() {
                 ref={inputRef}
                 type="text"
                 placeholder="Search tools… try “tax”, “land”, “gold”"
-                className="flex-1 bg-transparent border-0 outline-none text-sm font-medium text-ink placeholder:text-ink-faint"
+                className="flex-1 bg-transparent border-0 outline-none focus-visible:outline-none text-sm font-medium text-ink placeholder:text-ink-faint"
                 value={searchQuery}
                 onChange={e => { setSearchQuery(e.target.value); setActiveIndex(0); }}
                 onKeyDown={onKeyDown}
@@ -263,7 +267,7 @@ export default function Navbar() {
                       key={calc.id}
                       onClick={() => navigateTo(calc.path)}
                       onMouseEnter={() => setActiveIndex(i)}
-                      className={`w-full text-left flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl group transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60 ${
+                      className={`w-full text-left flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl group transition-colors outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/50 ${
                         i === activeIndex ? 'bg-paper-deep' : ''
                       }`}
                     >
