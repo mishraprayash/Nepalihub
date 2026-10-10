@@ -141,7 +141,7 @@ export default function IncomeTaxClient() {
                 >
                   <span className="text-xs text-ink-soft">{calc.slab}</span>
                   <span className="text-right shrink-0">
-                    <span className="inline-block min-w-9 text-[11px] font-bold text-simrik mr-2">{calc.rate}%</span>
+                    <span className="inline-block min-w-9 text-xs font-bold text-simrik mr-2">{calc.rate}%</span>
                     <span className={`text-xs font-semibold tabular-nums ${calc.reached ? 'text-ink' : 'text-ink-faint'}`}>
                       {calc.reached && calc.taxAmount > 0 ? fmt(calc.taxAmount) : '—'}
                     </span>
@@ -215,7 +215,7 @@ export default function IncomeTaxClient() {
                 <button
                   type="button"
                   onClick={() => { setSsfContribution(Math.round(basicSalary * 0.31)); setSsfPeriod('monthly'); }}
-                  className="text-[11px] font-bold text-simrik bg-simrik/10 px-2 py-0.5 rounded-md hover:bg-simrik/15 transition-colors"
+                  className="text-xs font-bold text-simrik bg-simrik/10 px-2 py-0.5 rounded-md hover:bg-simrik/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
                 >
                   Use 31% of basic
                 </button>
@@ -276,9 +276,9 @@ export default function IncomeTaxClient() {
         </div>
 
         <div className="overflow-x-auto -mx-2 px-2">
-          <table className="min-w-full text-left text-[13px]">
+          <table className="min-w-full text-left text-sm">
             <thead>
-              <tr className="text-[11px] uppercase tracking-wider text-ink-faint border-b border-line">
+              <tr className="text-xs uppercase tracking-wider text-ink-faint border-b border-line">
                 <th className="py-3 pr-4 font-semibold">Single</th>
                 <th className="py-3 pr-4 font-semibold">Married</th>
                 <th className="py-3 font-semibold text-right">Rate</th>
