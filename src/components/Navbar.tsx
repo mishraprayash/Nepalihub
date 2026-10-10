@@ -122,7 +122,10 @@ export default function Navbar() {
                 <div className="relative" ref={toolsRef}>
                   <button
                     onClick={() => setToolsMenuOpen(v => !v)}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60 ${
+                    aria-expanded={toolsMenuOpen}
+                    aria-controls="tools-menu"
+                    aria-haspopup="true"
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
                       toolsMenuOpen ? 'text-ink bg-paper-deep' : 'text-ink-soft hover:text-ink hover:bg-paper-deep'
                     }`}
                   >
@@ -133,7 +136,7 @@ export default function Navbar() {
                   </button>
 
                   {toolsMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-full max-w-lg bg-surface-raised border border-line rounded-2xl shadow-xl shadow-black/5 p-4 grid grid-cols-2 gap-x-6 gap-y-0.5 max-h-[70vh] overflow-y-auto">
+                    <div id="tools-menu" className="absolute right-0 top-full mt-2 w-full max-w-lg min-w-96 bg-surface-raised border border-line rounded-2xl shadow-xl shadow-black/5 p-4 grid grid-cols-2 gap-x-6 gap-y-0.5 max-h-96 overflow-y-auto">
                       {Object.entries(
                         calculators.reduce((acc, c) => {
                           (acc[c.category] ??= []).push(c);
@@ -141,14 +144,14 @@ export default function Navbar() {
                         }, {} as Record<string, typeof calculators>)
                       ).map(([cat, tools]) => (
                         <div key={cat} className="py-2">
-                          <p className="text-xs font-bold uppercase tracking-widest text-ink-faint px-3 pb-1.5">
+                          <p className="text-xs font-bold uppercase tracking-[0.15em] text-ink-faint px-3 pb-1.5">
                             {CATEGORY_LABELS[cat] ?? cat}
                           </p>
                           {tools.map(t => (
                             <button
                               key={t.id}
                               onClick={() => navigateTo(t.path)}
-                              className="w-full text-left px-3 py-1.5 rounded-lg text-[13px] font-medium text-ink-soft hover:text-ink hover:bg-paper-deep transition-colors truncate"
+                              className="w-full text-left px-3 py-1.5 rounded-lg text-sm font-medium text-ink-soft hover:text-ink hover:bg-paper-deep transition-colors truncate"
                             >
                               {t.name}
                             </button>
@@ -178,7 +181,8 @@ export default function Navbar() {
                 <button
                   aria-label="Search tools"
                   onClick={() => setSearchOpen(true)}
-                  className="flex items-center gap-2 h-9 pl-3 pr-2 rounded-full border border-line bg-surface text-ink-faint hover:border-line-strong hover:text-ink-soft transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
+                  aria-label="Open Search"
+                  className="flex items-center gap-2 h-9 pl-3 pr-2 rounded-full border border-line bg-surface text-ink-faint hover:border-line-strong hover:text-ink-soft transition-all"
                 >
                   <Search className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline text-xs font-medium">Search</span>
@@ -197,7 +201,9 @@ export default function Navbar() {
 
                 <button
                   onClick={() => setMobileMenuOpen(v => !v)}
-                  className="md:hidden h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60"
+                  aria-expanded={mobileMenuOpen}
+                  aria-controls="mobile-menu"
+                  className="md:hidden h-9 w-9 flex items-center justify-center rounded-full border border-line bg-surface text-ink-soft transition-all"
                   aria-label="Toggle menu"
                 >
                   {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -208,7 +214,7 @@ export default function Navbar() {
 
           {/* Mobile drawer */}
           {mobileMenuOpen && (
-            <div className="md:hidden border-t border-line bg-paper px-4 py-3 max-h-[calc(100dvh-4rem)] overflow-y-auto space-y-0.5">
+            <div id="mobile-menu" className="md:hidden border-t border-line bg-paper px-4 py-3 max-h-[calc(100dvh-4rem)] overflow-y-auto space-y-0.5">
               {calculators.map(item => (
                 <Link
                   key={item.path}
@@ -228,12 +234,11 @@ export default function Navbar() {
       {/* Search palette */}
       {searchOpen && (
         <div
-          className="fixed inset-0 z-50 flex justify-center items-start pt-[12vh] px-4 bg-black/40 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex justify-center items-start pt-24 px-4 bg-black/40 backdrop-blur-sm"
           onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
         >
           <div
-            className="w-full max-w-lg bg-surface-raised border border-line rounded-2xl shadow-2xl overflow-hidden flex flex-col"
-            style={{ maxHeight: '65vh' }}
+            className="w-full max-w-lg bg-surface-raised border border-line rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[65vh]"
             onClick={e => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 px-5 py-4 border-b border-line">
@@ -253,7 +258,7 @@ export default function Navbar() {
             </div>
 
             <div className="overflow-y-auto flex-1 p-2">
-              <p className="text-xs font-bold text-ink-faint uppercase tracking-widest px-3 py-2">
+              <p className="text-xs font-bold text-ink-faint uppercase tracking-[0.15em] px-3 py-2">
                 {searchQuery.trim() ? `${results.length} result${results.length !== 1 ? 's' : ''}` : 'Popular tools'}
               </p>
               {results.length > 0 ? (

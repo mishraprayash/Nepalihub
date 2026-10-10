@@ -61,16 +61,16 @@ export default function AdBanner({ slot, format = 'auto', className = '' }: AdBa
 
   const containerStyles = format === 'horizontal' ? 'min-h-24 w-full max-w-full' :
                           format === 'rectangle' ? 'min-h-64 w-full max-w-xs' :
-                          format === 'vertical' ? 'min-h-fit w-40' :
-                          'min-h-28 w-full max-w-full';
+                          format === 'vertical' ? 'min-h-[37.5rem] w-40' :
+                          'min-h-[100px] w-full max-w-full';
 
   if (!isProd) {
     return (
       <div className={`my-4 bg-gray-50 dark:bg-gray-800/40 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl flex flex-col items-center justify-center text-center transition-colors ${containerStyles} ${className}`}>
-        <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">
+        <span className="text-xs font-bold text-ink-faint uppercase tracking-widest mb-1">
           Advertisement
         </span>
-        <div className="text-xs text-gray-400 dark:text-gray-500">
+        <div className="text-xs text-ink-faint">
           AdSense Slot ({format})
         </div>
       </div>
