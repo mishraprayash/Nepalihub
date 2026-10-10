@@ -99,9 +99,9 @@ export default function EMICalculator() {
               Amortization schedule · first 12 months
             </h2>
             <div className="overflow-x-auto -mx-2 px-2">
-              <table className="min-w-full text-left text-[13px]">
+              <table className="min-w-full text-left text-sm">
                 <thead>
-                  <tr className="text-[11px] uppercase tracking-wider text-ink-faint border-b border-line">
+                  <tr className="text-xs uppercase tracking-wider text-ink-faint border-b border-line">
                     <th className="py-3 pr-4 font-semibold">Month</th>
                     <th className="py-3 pr-4 font-semibold">EMI</th>
                     <th className="py-3 pr-4 font-semibold">Principal</th>
