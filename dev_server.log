@@ -1,0 +1,14 @@
+
+> nepalihub@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+✓ Ready in 514ms
+
+○ Compiling /about ...
+ GET /about 200 in 4.7s (next.js: 4.1s, application-code: 650ms)
+ GET /contact 200 in 659ms (next.js: 479ms, application-code: 180ms)
+ GET /privacy-policy 200 in 643ms (next.js: 457ms, application-code: 187ms)
+ GET /documents/invoice-generator 200 in 772ms (next.js: 626ms, application-code: 146ms)
