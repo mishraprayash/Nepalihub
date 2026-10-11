@@ -14,7 +14,7 @@ export default function ReceiptTemplate({
       <div className="flex flex-col sm:flex-row justify-between items-start border-b border-line pb-6 gap-6 pt-2">
         <div className="space-y-3">
           {logoSrc ? (
-            <img src={logoSrc} alt="Brand Logo" className="max-h-[55px] object-contain" />
+            <img /* eslint-disable-line @next/next/no-img-element */ src={logoSrc} alt="Brand Logo" className="max-h-[55px] object-contain" />
           ) : (
             <h2 className="text-xl font-black tracking-tight" style={{ color: themeColor }}>
               {sellerName}

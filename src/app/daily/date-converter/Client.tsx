@@ -50,7 +50,7 @@ export default function DateConverter() {
   };
 
   const selectClass =
-    'w-full py-2.5 px-3 text-sm font-semibold bg-surface-raised border border-line rounded-xl text-ink focus:outline-none focus:border-simrik/60 focus:ring-3 focus:ring-simrik/10 transition-all';
+    'w-full py-2.5 px-3 text-sm font-semibold bg-surface-raised border border-line rounded-xl text-ink focus-visible:outline-none focus-visible:border-simrik/60 focus-visible:ring-3 focus-visible:ring-simrik/10 transition-all';
 
   return (
     <ToolShell

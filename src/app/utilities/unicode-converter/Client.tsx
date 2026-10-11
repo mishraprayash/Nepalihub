@@ -153,14 +153,14 @@ export default function UnicodeConverter() {
               value={preetiInput}
               onChange={(e) => setPreetiInput(e.target.value)}
               placeholder="Paste Preeti text here…"
-              className="flex-1 min-h-[240px] p-4 text-sm font-mono bg-surface-raised border border-line rounded-xl text-ink placeholder:text-ink-faint focus:outline-none focus:border-simrik/60 focus:ring-3 focus:ring-simrik/10 resize-y transition-all"
+              className="flex-1 min-h-[240px] p-4 text-sm font-mono bg-surface-raised border border-line rounded-xl text-ink placeholder:text-ink-faint focus-visible:outline-none focus-visible:border-simrik/60 focus-visible:ring-3 focus-visible:ring-simrik/10 resize-y transition-all"
             />
           ) : (
             <textarea
               value={romanizedInput}
               onChange={(e) => setRomanizedInput(e.target.value)}
               placeholder="nepal mero desh ho…"
-              className="flex-1 min-h-[240px] p-4 text-base bg-surface-raised border border-line rounded-xl text-ink placeholder:text-ink-faint focus:outline-none focus:border-simrik/60 focus:ring-3 focus:ring-simrik/10 resize-y transition-all"
+              className="flex-1 min-h-[240px] p-4 text-base bg-surface-raised border border-line rounded-xl text-ink placeholder:text-ink-faint focus-visible:outline-none focus-visible:border-simrik/60 focus-visible:ring-3 focus-visible:ring-simrik/10 resize-y transition-all"
             />
           )}
         </section>
@@ -188,7 +188,7 @@ export default function UnicodeConverter() {
             readOnly
             value={unicodeOutput}
             placeholder="नेपाली यहाँ देखिनेछ…"
-            className="flex-1 min-h-[240px] p-4 text-base bg-paper-deep/40 border border-line rounded-xl text-ink placeholder:text-ink-faint focus:outline-none resize-y"
+            className="flex-1 min-h-[240px] p-4 text-base bg-paper-deep/40 border border-line rounded-xl text-ink placeholder:text-ink-faint focus-visible:outline-none resize-y"
           />
         </section>
       </div>
