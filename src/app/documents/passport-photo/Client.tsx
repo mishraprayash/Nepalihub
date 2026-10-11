@@ -224,7 +224,7 @@ export default function PassportPhotoCropper() {
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleMouseUp}
               >
-                <img
+                <img /* eslint-disable-line @next/next/no-img-element */
                   ref={imgRef}
                   src={imageSrc}
                   alt="Source photo"

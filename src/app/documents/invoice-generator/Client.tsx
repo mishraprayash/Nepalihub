@@ -121,8 +121,8 @@ export default function InvoiceGenerator() {
     { name: 'Teal', value: '#0f766e' }
   ];
 
-  const inputClass = "w-full py-1.5 px-3 rounded-lg border border-line bg-surface-raised text-ink text-xs font-semibold placeholder:text-ink-faint focus:outline-none focus:border-simrik/60 transition-colors";
-  const selectClass = "w-full py-1.5 px-3 rounded-lg border border-line bg-surface-raised text-ink text-xs font-semibold focus:outline-none focus:border-simrik/60 transition-colors";
+  const inputClass = "w-full py-1.5 px-3 rounded-lg border border-line bg-surface-raised text-ink text-xs font-semibold placeholder:text-ink-faint focus-visible:outline-none focus-visible:border-simrik/60 transition-colors";
+  const selectClass = "w-full py-1.5 px-3 rounded-lg border border-line bg-surface-raised text-ink text-xs font-semibold focus-visible:outline-none focus-visible:border-simrik/60 transition-colors";
 
   const templateProps = {
     themeColor, logoSrc, sellerName, sellerAddress, sellerPhone, sellerEmail, sellerPan,
@@ -212,14 +212,14 @@ export default function InvoiceGenerator() {
                 <div className="space-y-1.5">
                   <label className="text-xs font-medium text-ink-soft block">Brand logo</label>
                   <div className="flex gap-2">
-                    <button
+                    <button aria-label="Upload Logo"
                       onClick={() => fileInputRef.current?.click()}
                       className="py-1.5 px-3 rounded-lg border border-line hover:border-line-strong text-xs font-semibold text-ink-soft inline-flex items-center gap-1.5 transition-colors"
                     >
                       <Upload className="h-3.5 w-3.5" /> Upload
                     </button>
                     {logoSrc && (
-                      <button
+                      <button aria-label="Remove Logo"
                         onClick={() => setLogoSrc(null)}
                         className="py-1.5 px-3 rounded-lg border border-simrik/30 text-simrik hover:bg-simrik/[0.06] text-xs font-semibold transition-colors"
                       >
@@ -265,7 +265,7 @@ export default function InvoiceGenerator() {
                           {item.quantity} {item.unit} @ Rs. {item.rate.toLocaleString()} · {item.isVatable ? '13% VAT' : 'Exempt'}
                         </p>
                       </div>
-                      <button
+                      <button aria-label="Remove item"
                         onClick={() => removeItem(item.id)}
                         className="p-1.5 text-ink-faint hover:text-simrik rounded transition-colors"
                         title="Remove item"
