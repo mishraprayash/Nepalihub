@@ -123,7 +123,7 @@ export default function PassportPhotoCropper() {
   };
 
   const tabClass = (active: boolean) =>
-    `px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+    `px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-simrik/60 ${
       active ? 'bg-surface-raised text-ink shadow-sm' : 'text-ink-faint hover:text-ink-soft'
     }`;
 

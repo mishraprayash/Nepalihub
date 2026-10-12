@@ -121,8 +121,8 @@ export default function InvoiceGenerator() {
     { name: 'Teal', value: '#0f766e' }
   ];
 
-  const inputClass = "w-full py-1.5 px-3 rounded-lg border border-line bg-surface-raised text-ink text-xs font-semibold placeholder:text-ink-faint focus:outline-none focus:border-simrik/60 transition-colors";
-  const selectClass = "w-full py-1.5 px-3 rounded-lg border border-line bg-surface-raised text-ink text-xs font-semibold focus:outline-none focus:border-simrik/60 transition-colors";
+  const inputClass = "w-full py-1.5 px-3 rounded-lg border border-line bg-surface-raised text-ink text-xs font-semibold placeholder:text-ink-faint focus-visible:outline-none focus-visible:border-simrik/60 transition-colors";
+  const selectClass = "w-full py-1.5 px-3 rounded-lg border border-line bg-surface-raised text-ink text-xs font-semibold focus-visible:outline-none focus-visible:border-simrik/60 transition-colors";
 
   const templateProps = {
     themeColor, logoSrc, sellerName, sellerAddress, sellerPhone, sellerEmail, sellerPan,
@@ -160,7 +160,7 @@ export default function InvoiceGenerator() {
           <span>›</span>
           <span className="text-ink-soft font-medium">Invoice Generator</span>
         </nav>        <header className="mb-8 pb-8 border-b border-line">
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-simrik mb-3">Documents</p>
+          <p className="text-[11px] font-bold uppercase tracking-widest text-simrik mb-3">Documents</p>
           <h1 className="font-display text-3xl md:text-[2.75rem] leading-[1.1] font-semibold tracking-tight text-ink max-w-2xl">
             Invoice &amp; Receipt Generator
           </h1>
@@ -236,7 +236,7 @@ export default function InvoiceGenerator() {
               <SectionTitle n={2} title="Seller & buyer" />
               <div className="grid grid-cols-2 gap-4 mt-4">
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold text-ink-faint uppercase tracking-[0.15em] block">From</span>
+                  <span className="text-[10px] font-bold text-ink-faint uppercase tracking-widest block">From</span>
                   <input type="text" placeholder="Company name" value={sellerName} onChange={(e) => setSellerName(e.target.value)} className={inputClass} />
                   <input type="text" placeholder="PAN/VAT no." value={sellerPan} onChange={(e) => setSellerPan(e.target.value)} className={`${inputClass} font-mono`} />
                   <input type="text" placeholder="Address" value={sellerAddress} onChange={(e) => setSellerAddress(e.target.value)} className={inputClass} />
@@ -244,7 +244,7 @@ export default function InvoiceGenerator() {
                   <input type="text" placeholder="Email" value={sellerEmail} onChange={(e) => setSellerEmail(e.target.value)} className={inputClass} />
                 </div>
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold text-ink-faint uppercase tracking-[0.15em] block">To</span>
+                  <span className="text-[10px] font-bold text-ink-faint uppercase tracking-widest block">To</span>
                   <input type="text" placeholder="Buyer name" value={buyerName} onChange={(e) => setBuyerName(e.target.value)} className={inputClass} />
                   <input type="text" placeholder="Buyer PAN" value={buyerPan} onChange={(e) => setBuyerPan(e.target.value)} className={`${inputClass} font-mono`} />
                   <input type="text" placeholder="Address" value={buyerAddress} onChange={(e) => setBuyerAddress(e.target.value)} className={inputClass} />
